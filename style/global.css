@@ -1,0 +1,33 @@
+body {}
+
+.pixel {
+    position: absolute;
+    z-index: 10;
+
+}
+
+.prePicnicPatch {
+    width: 5px;
+    height: 5px;
+    cursor: pointer;
+    background: deeppink;
+    -webkit-transition: width 15s, height 15s;
+    -webkit-transition-timing-function: ease;
+    transition: width 15s, height 15s;
+    transition-timing-function: ease;
+}
+
+.prePicnicPatch:hover {
+    width: 600px;
+    height: 600px;
+}
+
+
+.colorBox {
+    z-index: 12;
+    position: absolute;
+    margin: 0;
+    padding: 1em;
+    top: 0;
+
+}

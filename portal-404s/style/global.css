@@ -1,0 +1,436 @@
+body {
+    /* background-color: lightslategray;
+    background-image: url('../../gifverse/404_glitch2.gif'); */
+    font-family: 'Open Sans', sans-serif;
+    --entrypatch-color: #ff1493;
+    padding: 0em;
+    margin: 0em;
+    top: 0;
+
+}
+
+#palette1 {
+    cursor: crosshair;
+    width: 20vw;
+    height: 100vh;
+    --h: 63;
+    --s: 48%;
+    --l: 50%;
+    --hsl: hsl(var(--h), var(--s), var(--l));
+    background-color: var(--hsl);
+    -webkit-transition: width 3s;
+    -moz-transition: width 3s;
+    -ms-transition: width 3s;
+    -o-transition: width 3s;
+    transition: width 3s;
+
+}
+
+.palette1 {
+    width: 100vw;
+    height: 100vh;
+    /* --h: 150;
+    --s: 78%;
+    --l: 50%;
+    --hsl: hsl(var(--h), var(--s), var(--l));
+    background-color: var(--hsl);
+    -webkit-transition: width 3s;
+    -moz-transition: width 3s;
+    -ms-transition: width 3s;
+    -o-transition: width 3s;
+    transition: width 3s; */
+    animation: palette1 500s;
+
+}
+
+@keyframes palette1 {
+    0% {
+        background-color: white
+    }
+
+    25% {
+        background-color: turquoise
+    }
+
+    50% {
+        background-color: cornflowerblue
+    }
+
+    75% {
+        background-color: darkslateblue;
+    }
+
+    100% {
+        background-color: white;
+    }
+
+}
+
+
+.glitch {
+    background-color: lightslategray;
+    background-image: url('../../gifverse/404_glitch2.gif');
+    width: 100vw;
+    height: 100vh;
+}
+
+.aura {
+    background-image: url('../../gifverse/tumblr_pdwnnbjho91uzwgsuo1_400.gif');
+    width: 100vw;
+    height: 100vh;
+    background-size: 100%;
+}
+
+.glitch {
+    background-color: lightslategray;
+    background-image: url('../../gifverse/404_glitch2.gif');
+    width: 100vw;
+    height: 100vh;
+}
+
+
+main>.container {
+    padding: 1em;
+}
+
+main>h3 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+}
+
+.textBox {
+    cursor: pointer;
+    color: rgb(236, 236, 236);
+    font-family: 'Quicksand', sans-serif;
+    font-size: 15px;
+    padding: 1em;
+
+}
+
+
+.hidden {
+    display: none;
+}
+
+.imgmenuContainer {
+    position: absolute;
+
+    z-index: 12;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+}
+
+.imgmenuPatch {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    background-color: var(--entrypatch-color);
+    /* later, this color will be tied to the first color the user selected at the beginning*/
+    -webkit-transition: width 0.5s, height 0.5s;
+    -webkit-transition-timing-function: ease;
+    transition: width 0.5s, height 0.5s;
+    transition-timing-function: ease;
+}
+
+.imgmenuPatch:hover,
+.imgmenuPatch:focus {
+    cursor: pointer;
+    width: 100px;
+    /* height: 100px; */
+    /* background-color: hsla(0, 0%, 100%, 0) */
+}
+
+.imgmenuColor {
+    width: 5px;
+    height: 5px;
+    background: deeppink;
+}
+
+.pixelContainer {
+    position: fixed;
+    z-index: 12;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+}
+
+.anchorPixel {
+    width: 14px;
+    height: 7px;
+    cursor: pointer;
+    background: var(--entrypatch-color);
+    /* later, this color will be tied to the first color the user selected at the beginning*/
+    -webkit-transition: width 0.5s, height 0.5s;
+    -webkit-transition-timing-function: ease;
+    transition: width 0.5s, height 0.5s;
+    transition-timing-function: ease;
+}
+
+.anchorPixel:hover,
+.anchorPixel:focus {
+    cursor: pointer;
+    width: 100px;
+    height: 100px;
+}
+
+.pixelPatch {
+    width: 7px;
+    height: 7px;
+    cursor: pointer;
+    background: var(--entrypatch-color);
+    /* later, this color will be tied to the first color the user selected at the beginning*/
+    -webkit-transition: width 0.5s, height 0.5s;
+    -webkit-transition-timing-function: ease;
+    transition: width 0.5s, height 0.5s;
+    transition-timing-function: ease;
+}
+
+.pixelPatch:hover,
+.pixelPatch:focus {
+    cursor: pointer;
+    width: 100px;
+    height: 100px;
+    background-color: hsla(0, 0%, 100%, 0)
+}
+
+.pixelColor {
+    width: 5px;
+    height: 5px;
+    background: var(--entrypatch-color);
+}
+
+.visible {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.5s 1s ease-in;
+}
+
+
+.hide {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 1s, opacity 1s ease-out;
+}
+
+
+.gif404 {
+    width: inherit;
+    height: inherit;
+    background-image: url("../../gifverse/404_glitch2.gif");
+    background-repeat: no-repeat;
+}
+
+.gifmeowmix {
+    width: inherit;
+    height: inherit;
+    background-image: url("../../gifverse/izsafe.gif");
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+
+.gifpipecleaners {
+    width: inherit;
+    height: inherit;
+    background-image: url("../../gifverse/pipecleanerzz.gif");
+    background-size: 150px;
+    background-repeat: no-repeat;
+}
+
+.gifbreeze {
+    width: inherit;
+    height: inherit;
+    background-image: url("../../gifverse/breeze.gif");
+    background-size: 150px;
+    background-repeat: no-repeat;
+}
+
+
+.gifsponge {
+    width: inherit;
+    height: inherit;
+    background-image: url("../../gifverse/sponge.gif");
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+
+
+.gifpinkwave {
+    width: inherit;
+    height: inherit;
+    background-image: url('../../gifverse/circleswvae.gif');
+    background-size: 200px;
+    background-repeat: no-repeat;
+}
+
+.giffold {
+    width: inherit;
+    height: inherit;
+    background-image: url('../../gifverse/fold.gif');
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+
+.gifshadows {
+    width: inherit;
+    height: inherit;
+    background-image: url('../../gifverse/shadows.gif');
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+
+.gifsplash {
+    background-image: url('../../gifverse/splashopt.gif');
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+
+
+.gifsplat {
+    background-image: url('../../gifverse/splat.gif');
+    background-size: 150px;
+    background-repeat: no-repeat;
+}
+
+.gifumbrella {
+    background-image: url('../../gifverse/umbrella.gif');
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+
+.gifpoke {
+    background-image: url('../../gifverse/poke.gif');
+    background-size: 120px;
+    background-repeat: no-repeat;
+}
+
+.gifsquee {
+    background-image: url('../../gifverse/squeeeeeeee.gif');
+    background-size: 150px;
+    background-repeat: no-repeat;
+}
+
+.gifspash {
+    background-image: url('../../gifverse/splashopt.gif');
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+
+.gifcompost {
+    background-image: url('../../gifverse/leftovers.gif');
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+
+.gifplanttrap {
+    background-image: url('../../gifverse/venusflytrap.gif');
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+
+
+.gifthreshold {
+    width: inherit;
+    height: inherit;
+    background-image: url('../../gifverse/tumblr_pdwnnbjho91uzwgsuo1_400.gif');
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+
+.gifwave {
+    width: inherit;
+    height: inherit;
+    background-image: url('../../gifverse/wave.gif');
+    background-size: 100px;
+    background-repeat: no-repeat;
+
+}
+
+.gifjoy {
+    width: inherit;
+    height: inherit;
+    background-image: url('../../gifverse/howto.gif');
+    background-size: 150px;
+    background-repeat: no-repeat;
+}
+
+.gifducky {
+    width: inherit;
+    height: inherit;
+    background-image: url('../../gifverse/duck.gif');
+    background-size: 100px;
+    background-repeat: no-repeat;
+
+}
+
+.staticSponge {
+    width: inherit;
+    height: inherit;
+    background-image: url("../../gifverse/sponge-4.gif");
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+
+.staticSponge2 {
+    width: inherit;
+    height: inherit;
+    background-image: url("../../gifverse/sponges.png");
+    background-size: 100px;
+
+}
+
+.staticBlueChair {
+    width: inherit;
+    height: inherit;
+    background-image: url('../../gifverse/tinybluechair.gif');
+    background-size: 60px;
+    background-repeat: no-repeat;
+}
+
+
+
+.staticPingPong {
+    width: inherit;
+    height: inherit;
+    background-image: url("../../gifverse/pingpong.gif");
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+
+.staticCompost {
+    width: inherit;
+    height: inherit;
+    background-image: url('../../gifverse/compost.gif');
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+
+.staticFishy {
+    width: inherit;
+    height: inherit;
+    background-image: url('../../gifverse/fishy.gif');
+    background-size: 120px;
+    background-repeat: no-repeat;
+}
+
+.staticBlueBowl {
+    width: inherit;
+    height: inherit;
+    background-image: url('../../gifverse/bluebowlplant.png');
+    background-size: 80px;
+    background-repeat: no-repeat;
+}
+
+
+.magicTape {
+    height: 0.52em;
+    width: 200%;
+    top: -100px;
+    left: -5em;
+    position: relative;
+    transform: rotate(-15deg);
+    background: deeppink;
+    background-size: 100%;
+}

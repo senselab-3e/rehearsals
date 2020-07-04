@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>mondayfiles</title>
+    <meta charset="utf-8" />
+</head>
+<link rel="stylesheet" href="style/global.css" />
+
+<style>
+    body {
+        background-color: cornflowerblue;
+    }
+
+    p {
+        color: moccasin;
+        margin-left: 200px;
+        font-size: 11px;
+        align-content: left;
+    }
+
+    a {
+        color: lightyellow;
+        text-decoration: none;
+        outline: none;
+    }
+
+    a:hover {
+        color: lightblue;
+        outline: none;
+    }
+
+    a:active {
+        outline: none;
+    }
+
+    .imgcontainer {
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+
+        border: 0;
+    }
+
+    a img {
+        outline: none;
+    }
+
+    img {
+        border: 0;
+    }
+
+    #file {
+        border: 0;
+        width: 500px;
+        height: 550px;
+        border: 0px;
+        background-repeat: no-repeat;
+        outline: 0px;
+        background: url("https://cdn.glitch.com/bc831c14-9a50-45a0-88b2-b8e94aa5b4f0%2Fmonday-file-swap1.gif?v=1575683890167");
+    }
+
+    #file:hover {
+        cursor: pointer;
+        background-repeat: no-repeat;
+        background: url("https://cdn.glitch.com/bc831c14-9a50-45a0-88b2-b8e94aa5b4f0%2Fmonday-file-swap2.gif?v=1575683894292");
+    }
+
+    #photo {
+        width: 100px;
+    }
+
+    body {
+        margin: 0;
+        overflow: hidden;
+    }
+
+    #file {
+        width: 500px;
+        height: 500px;
+        z-index: 100;
+        background-color: rgb(255, 123, 0);
+    }
+
+    #container {
+        position: absolute;
+        top: 0;
+        right: 10;
+        z-index: 0;
+    }
+</style>
+
+<body>
+    <p>
+        <br> <br> <br> question of how the somatic is in the world / o hello there / what's somatic?
+        <br>
+        what what what what. just practicing some text in here. ok. end of practice.
+    </p>
+
+
+
+    <div class="imgcontainer">
+        <a href="mailto:spaze_c909@sendtodropbox.com">
+            <div id="file"></div>
+        </a>
+
+    </div>
+    <p>monday files
+        a page or two every Monday on the concepts lurking thought in the making. some of these pages may be in process,
+        they may still be in the phase of the four projectile lines for a text to come, they may be a drawing or a
+        morning sound. the lure of the folder is to be operative, not what it becomes but how it pulls the writing to
+        come!
+        some of the questions that accompany mondayfiles are: what moves the writing as in what moves the walk to the
+        park or to the grocery? how to turn on and funneled a writing machine of sorts? how to get it and keep it going?
+        how to enter into its weaving? how to create life by writing that does not necessarily take more space in the
+        world but opens up instead, elbow room for other wayzto pop? can this persist as a collective writing machine?
+        can we share our thoughts in the making? our writing processes? tend to the processes as schizoanalytic
+        techniques?
+        the tune of mondayfiles or everyday can be monday, moves at the rhythm of: feel the pedagogies of the appetites
+        of the questions that ask themselves in wonder and take you by surprise by sticking to your thinking-making
+        environment as a tape on the sidewalk sticks to the bottom of your shoe sole as a walk takes you to a diagram
+        for a morelife, all of this and moreofthis in onebreath.
+        the popup link makes a quick slide delivery to a mystery repository, whose clouding creates capacities for
+        future reorientations sand box playing, but it also just sends into the world!</p>
+
+    <div id="container"></div>
+
+    <script type="x-shader/x-vertex" id="vertexShader">
+        // delay and duration are used to calculate animation progress (0-1) for each vertex
+    attribute vec2 aAnimation;
+    // movement delta
+    attribute vec3 aTranslation;
+    // first control point for cubic bezier path
+    attribute vec3 aControlPoint0;
+    // second control point for cubic bezier path
+    attribute vec3 aControlPoint1;
+    // arbitrary normalized axis (x, y, z) and rotation (w) for quaternian rotation
+    attribute vec4 aAxisAngle;
+    // front vertex color
+    attribute vec3 aFrontColor;
+    // back vertex color
+    attribute vec3 aBackColor;
+
+    // time passed from the cpu
+    uniform float uTime;
+
+    varying vec3 vFrontColor;
+    varying vec3 vBackColor;
+
+    vec3 rotateVector(vec4 q, vec3 v)
+    {
+        return v + 2.0 * cross(q.xyz, cross(q.xyz, v) + q.w * v);
+    }
+
+    vec4 quatFromAxisAngle(vec3 axis, float angle)
+    {
+        float halfAngle = angle * 0.5;
+
+        return vec4(axis.xyz * sin(halfAngle), cos(halfAngle));
+    }
+
+    vec3 cubicBezier(vec3 p0, vec3 p1, vec3 c0, vec3 c1, float t)
+    {
+        vec3 tp;
+        float tn = 1.0 - t;
+
+        tp.xyz = tn * tn * tn * p0.xyz + 3.0 * tn * tn * t * c0.xyz + 3.0 * tn * t * t * c1.xyz + t * t * t * p1.xyz;
+
+        return tp;
+    }
+
+    // t = time, b = begin value, c = change in value, d = duration
+    float easeOutCubic(float t, float b, float c, float d) {
+        return c * ((t = t / d - 1.0) * t * t + 1.0) + b;
+    }
+    float easeOutQuart(float t, float b, float c, float d) {
+        return -c * ((t = t / d - 1.0) * t * t * t - 1.0) + b;
+    }
+    float easeOutQuint(float t, float b, float c, float d) {
+        return c * ((t = t / d - 1.0) * t * t * t * t + 1.0) + b;
+    }
+
+    void main()
+    {
+        // determine progress based on time, duration and delay
+        float tDelay = aAnimation.x;
+        float tDuration = aAnimation.y;
+        float tTime = clamp(uTime - tDelay, 0.0, tDuration);
+        float tProgress = easeOutQuart(tTime, 0.0, 1.0, tDuration);
+
+        vec3 tPosition = position;
+        vec4 tQuat = quatFromAxisAngle(aAxisAngle.xyz, aAxisAngle.w * tProgress);
+
+        // calculate rotation (before translation)
+        tPosition = rotateVector(tQuat, tPosition);
+
+        // calculate position on bezier curve
+        vec3 tp0 = tPosition;
+        vec3 tp1 = tPosition + aTranslation;
+        vec3 tc0 = tPosition + aControlPoint0;
+        vec3 tc1 = tPosition + aControlPoint1;
+        tPosition = cubicBezier(tp0, tp1, tc0, tc1, tProgress);
+
+        // pass colors to fragment shader
+        vFrontColor = aFrontColor;
+        vBackColor = aBackColor;
+
+        // determine screen position
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(tPosition, 1.0);
+    }
+</script>
+
+    <script type="x-shader/x-fragment" id="fragmentShader">
+        varying vec3 vFrontColor;
+    varying vec3 vBackColor;
+
+    void main()
+    {
+        if (gl_FrontFacing)
+        {
+            gl_FragColor = vec4(vFrontColor, 1.0);
+        }
+        else
+        {
+            gl_FragColor = vec4(vBackColor, 1.0);
+        }
+
+    }
+</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"></script>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/175711/OrbitControls.js"></script>
+
+    <script src="scripts/menu.js"></script>
+
+    <script src="scripts/mondayfiles-confetti.js"></script>
+
+
+
+
+</body>
+<script>
+
+
+</script>
+
+</html>
