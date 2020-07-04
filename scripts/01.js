@@ -83,29 +83,49 @@ const resetColorPixel = (el, target) => {
     target.style.setProperty('background', updateColor);
 }
 
-let textAdded = false // this is an imperfect way of checking if text panels have already been added, upon the pixelpatch click.
+let textAdded = false; // this is an imperfect way of checking if text panels have already been added, upon the pixelpatch click.
 
 
 
 
 const nudgePixels = () => {
     const pixelContainer = document.querySelector('.pixelContainer');
+    const picnicPatch = document.querySelectorAll('.picnicPatch');
     const pixelPatches = document.querySelectorAll('.pixelPatch');
-    pixelPatches[1].addEventListener("mouseover", function (event) {
+    pixelPatches[pixelPatches.length - 1].addEventListener("mouseover", function (event) {
         let currentX = window.getComputedStyle(pixelContainer, null).getPropertyValue(
             "left");
         const newNum = parseInt(currentX.replace(/[^0-9.]+/, ''));
         newNum - 5 < 1 ? pixelContainer.style.setProperty('left', window.innerWidth - 15 + 'px') : pixelContainer.style.setProperty('left', newNum - 5 + 'px');
     });
     //NOTE: REFACTOR: split up into a separate function. 
+    picnicPatch[0].addEventListener("click", function (event) {
+        replaceClassName()
+        if (textAdded) {
+            creatSliderPalettes(false, true)
+        } else {
+            textAdded = true
+            //createPixel()
+            createEntryPixel()
+            anarchiveDef.forEach(def => {
+                creatSliderPalettes(true, false) // true is for text content. false indicates a need for colors to be randomly generated. colors are not yet available in relation. 
+
+            });
+        }
+    });
+
+
+
     pixelPatches[0].addEventListener("click", function (event) {
+        //this is the link hidden text added after clicking
         replaceClassName()
         if (textAdded) { // textAdded is a Boolean -- to see if AnararchiveDef text content and palettes for them, has already loaded. 
             creatSliderPalettes(false, true)
 
         } else {
             textAdded = true
-
+            //createPixel()
+            createEntryPixel()
             anarchiveDef.forEach(def => {
                 creatSliderPalettes(true, false) // true is for text content. false indicates a need for colors to be randomly generated. colors are not yet available in relation. 
 
@@ -162,8 +182,10 @@ const addListener = (patch) => {
 
 window.onload = () => {
     createPixelPatch()
-    createPixel()
-    createPixel('10px', 'true') // creating two pixels // because of the css, unlike in 00.html, each new pixel will be in the same row under flexbox rules
+    createEntryPatch()
+    createPixel('pixelPatch')
+    createPixel('picnicPatch');
+    createPixel('pixelPatch', '15px', true) // creating two pixels // because of the css, unlike in 00.html, each new pixel will be in the same row under flexbox rules
     colorPicker() //initializizes color picker - which changes coloring of palette 1 and pixel 2
     nudgePixels()
     addPaletteListener()
@@ -182,11 +204,42 @@ const createPixelPatch = () => {
     document.body.appendChild(pxlContainer);
 }
 
-const createPixel = (size, hidden) => {
+const createEntryPatch = () => {
+    var entryContainer = document.createElement('div');
+    entryContainer.className = 'entryContainer';
+    document.body.appendChild(entryContainer);
+}
+
+
+const createEntryPixel = () => {
+    let sample = document.body.querySelector('#palette1');
+
+    let container = document.querySelector('.entryContainer')
+    // const pixelContainer = document.querySelector('.pixelContainer');
+    //console.log(pixelContainer);
+    const linkWrapper = document.createElement('a');
+    linkWrapper.href = '02.html';
+    var patch = document.createElement('div');
+    patch.className = 'rehersal3Portal';
+    patch.style.border = "1px inset white";
+    container.style.left = '300px'
+    container.style.top = '300px'
+    patch.style.backgroundColor = window.getComputedStyle(sample, null).getPropertyValue(
+        "--hsl");
+    // patch.style.opacity = 0.6;
+    linkWrapper.appendChild(patch);
+    // pixelContainer.appendChild(linkWrapper);
+    container.appendChild(linkWrapper);
+    // entryContainer.appendChild(linkWrapper);
+
+}
+
+
+const createPixel = (className, size, hidden) => {
     const pixelContainer = document.querySelector('.pixelContainer')
     // it doesn't seem like it's possible to grab the value of the colors being calculated from that css animation.... so i can't color the block with it, unfortunately
     var patch = document.createElement('div');
-    patch.className = 'pixelPatch';
+    patch.className = className;
     size ? patch.style.width = size : console.log('no resizing requested');
     size ? patch.style.height = size : console.log('no resizing requested');
     hidden ? patch.style.opacity = 0 : console.log('hide nothing')
@@ -194,7 +247,6 @@ const createPixel = (size, hidden) => {
     pixelContainer.style.left = Math.random(window.innerWidth) * (window.innerWidth / 4 * 3) + 'px';
     pixelContainer.style.top = Math.random(window.innerHeight) * window.innerHeight / 2 + 'px';
     addListener(pixelContainer)
-
 }
 
 const replaceClassName = () => {

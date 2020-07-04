@@ -348,10 +348,88 @@ main>h3 {
 
 }
 
+.gifCreature {
+    width: inherit;
+    height: inherit;
+    background-image: url('../../gifverse/lizard.gif');
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+
+.gifOz {
+    width: inherit;
+    height: inherit;
+    background-image: url('../../gifverse/pingpongroll.gif');
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+
+.gifPot {
+    width: inherit;
+    height: inherit;
+    background-image: url('../../gifverse/pinata2.gif');
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+
+.gifOrange {
+    width: inherit;
+    height: inherit;
+    background-image: url('../../gifverse/gradients/tumblr_pduu51oGdY1uzwgsuo1_400.gif');
+    background-size: 100px;
+    background-repeat: no-repeat;
+
+}
+
+.gifPlob {
+    width: inherit;
+    height: inherit;
+    background-image: url('../../gifverse/plob.gif');
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+
 .gifjoy {
     width: inherit;
     height: inherit;
     background-image: url('../../gifverse/howto.gif');
+    background-size: 150px;
+    background-repeat: no-repeat;
+}
+
+.gifDance {
+
+    width: inherit;
+    height: inherit;
+    background-image: url('../../gifverse/soundbutton.gif');
+    background-size: 150px;
+    background-repeat: no-repeat;
+
+
+}
+
+.gifOops {
+    width: inherit;
+    height: inherit;
+    background-image: url('../../gifverse/leafwave.gif');
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+
+
+.gifEscape {
+    width: inherit;
+    height: inherit;
+    background-image: url('../../gifverse/shakeshake.gif');
+    background-size: 100px;
+    background-repeat: no-repeat;
+
+}
+
+.gifSpze {
+    width: inherit;
+    height: inherit;
+    background-image: url('../../gifverse/frog.gif');
     background-size: 150px;
     background-repeat: no-repeat;
 }
@@ -364,6 +442,24 @@ main>h3 {
     background-repeat: no-repeat;
 
 }
+
+.gifSheets {
+
+    width: inherit;
+    height: inherit;
+    background-image: url('../../gifverse/bouncesheet.gif');
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+
+.gifRainbow {
+    width: inherit;
+    height: inherit;
+    background-image: url('../../gifverse/compost.gif');
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+
 
 .staticSponge {
     width: inherit;

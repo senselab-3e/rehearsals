@@ -172,12 +172,19 @@
 
         }
 
+        .entryContainer {
+            position: absolute;
+            z-index: 12;
+
+        }
+
         .pixelPatch {
             width: 10px;
             height: 10px;
             cursor: pointer;
+            z-index: 12;
             background: deeppink;
-
+            /* margin-right: 0.2em; */
             /* later, this color will be tied to the first color the user selected at the beginning*/
             -webkit-transition: width 7s, height 7s;
             -webkit-transition-timing-function: ease;
@@ -188,6 +195,50 @@
         .pixelPatch:hover {
             width: 20em;
             height: 20em;
+        }
+
+
+        .rehersal3Portal {
+            width: 10px;
+            height: 10px;
+            background: deeppink;
+            /* border: 1px inset white; */
+            cursor: pointer;
+            -webkit-transition: height 1s ease-in-out 0.1ms, width 1s ease-in 1s;
+            -moz-transition: height 1s ease-in-out 0.1ms, width 1s ease-in 1s;
+            -ms-transition: height 1s ease-in-out 0.1ms, width 1s ease-in 1s;
+            -o-transition: height 1s ease-in-out 0.1ms, width 1s ease-in 1s;
+            transition: height 1s ease-in-out 0.1ms, width 1s ease-in 1s;
+        }
+
+        .rehersal3Portal:hover {
+            width: 25vw;
+            height: 25vw;
+            cursor: pointer;
+            /* animation: line 5s forwards; */
+            /* decided not to use this method */
+        }
+
+
+        .picnicPatch {
+            width: 10px;
+            height: 10px;
+            background: deeppink;
+            /* border: 1px inset white; */
+            cursor: pointer;
+            -webkit-transition: width 1s ease-in-out 0.1ms, height 1s ease-in 1s;
+            -moz-transition: width 1s ease-in-out 0.1ms, height 1s ease-in 1s;
+            -ms-transition: width 1s ease-in-out 0.1ms, height 1s ease-in 1s;
+            -o-transition: width 1s ease-in-out 0.1ms, height 1s ease-in 1s;
+            transition: width 1s ease-in-out 0.1ms, height 1s ease-in 1s;
+        }
+
+        .picnicPatch:hover {
+            width: 25vw;
+            height: 25vw;
+            cursor: pointer;
+            /* animation: line 5s forwards; */
+            /* decided not to use this method */
         }
 
         .pseudoCode {
@@ -232,14 +283,15 @@
 </head>
 
 <body>
+
     <div class="paletteContainer">
         <div id="palette1"></div>
         <div id="palette2"></div>
     </div>
-    <div class="pseudoCode hide"><a href="02.html" class="link-special">*---></a></div>
+    <div class="pseudoCode hide">rehersals begin in the marginscapes---></div>
     <div class="colorBox">
-        <label>Shift color Relation:</label>
         <input type="color" value="#4842bd">
+        <label>Shift color Relation</label>
     </div>
 
 </body>
