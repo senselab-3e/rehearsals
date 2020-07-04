@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="style/global.css" />
+    <style>
+        body {
+            background-image:
+                linear-gradient(to right,
+                    rgb(231, 230, 221),
+                    #818172);
+        }
+
+
+
+        .item {
+            display: flex;
+            flex-wrap: flex-start;
+            /* default 1 */
+
+        }
+
+        .left {
+            display: flex;
+            flex-direction: row-reverse;
+
+            /* default 1 */
+
+        }
+
+        .chairContainer {
+            display: flex;
+            /* or inline-flex */
+            flex-direction: row-reverse;
+            flex-wrap: nowrap;
+            /* align-items: flex-end; */
+
+        }
+
+        .chairNudge {
+            top: 0em;
+            position: relative;
+            /* i need position relative for the hover to be move the thingy */
+            -webkit-transition: top 0.5s;
+            -moz-transition: top 0.5s;
+            -ms-transition: top 0.5s;
+            -o-transition: top 0.5s;
+            transition: top 0.5s;
+            transition-timing-function: ease;
+            transition-timing-function: ease;
+        }
+
+        .chairNudge:hover {
+            top: 0.7em;
+            cursor: pointer;
+        }
+
+        .alignleft {
+            text-align: right;
+        }
+
+        .laundry {
+            margin-top: 10em;
+
+            display: flex;
+            flex-direction: row-reverse;
+
+        }
+
+        .top {
+            margin-top: 10em;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <img class="item" src="../gifverse/fanspin.gif">
+    </div>
+    <div class="chairContainer ">
+        <p>
+            <img class="chairNudge" src="./img/stool.gif">
+            <img class="chairNudge" height="300px" src="./img/tinybluechair.gif">
+            <img class="chairNudge" src="./img/yellowchair.gif">
+            <img class="chairNudge" src="./img/chairpink.gif">
+
+        </p>
+    </div>
+    <div class="laundry"><img src="../gifverse/laundryspin.gif"></div>
+
+
+
+    <div class="top"></div><img src="../gifverse/spinning-top.gif"></div>
+
+    <div class="chairContainer ">
+        <p>
+            <img class="chairNudge" src="./img/sharkchair.gif" alt="">
+            <img class="chairNudge" src="./img/woodchair.gif">
+
+        </p>
+    </div>
+
+    <img class="chairNudge" src="./img/bluechair.gif">
+    <img class="item" src="../gifverse/spinning-vinyl.gif">
+
+    <img class="left" src="../gifverse/spinningrock.gif">
+</body>
+
+<script src="scripts/menu.js"></script>
+
+</html>

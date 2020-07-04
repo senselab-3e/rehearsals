@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600|Roboto:400,400i,700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style/global.css">
+
+</head>
+<style>
+    /* .glitch {
+        background-color: lightslategray;
+        background-image: url('../../gifverse/404_glitch2.gif');
+        padding: 0em;
+        margin: 0em;
+        top: 0;
+    } */
+    body {
+        -webkit-animation: colorScroll 100s infinite;
+        animation: colorScroll 100s infinite;
+    }
+
+
+    @keyframes colorScroll {
+        0% {
+            background-color: white;
+        }
+
+        30% {
+            background-color: lightskyblue;
+        }
+
+        45% {
+            background-color: rgb(155, 154, 248);
+        }
+
+        60% {
+            background-color: lightseagreen;
+        }
+
+        75% {
+            background-color: lightskyblue;
+        }
+
+        90% {
+            background-color: lightgreen;
+        }
+    }
+
+    p {
+        font-family: 'Open Sans', sans-serif;
+        /* font-weight: 500; */
+        font-size: 12px;
+    }
+
+    .tileContainer {
+
+        /* /border: 10px solid black; */
+        display: inline-block;
+        position: relative;
+        width: 100%;
+        height: 600px;
+        overflow: hidden;
+        box-sizing: border-box;
+    }
+
+    /* this set height value might be what is giving me trouble investigate mixins that can detect the element height being imported by the image in the javascript
+ */
+
+    .tile {
+        position: relative;
+        vertical-align: top;
+        display: inline-block;
+        cursor: pointer;
+        border-right: 1px solid rgba(0, 0, 0, 0.5);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+        box-sizing: border-box;
+    }
+
+    .tile:after {
+        cursor: pointer;
+        content: "";
+        background-color: #cc1c32;
+        width: 6px;
+        height: 6px;
+        position: absolute;
+        top: 100%;
+        right: 0px;
+        transform: translate(50%, -50%);
+        z-index: 2;
+        line-height: 1;
+    }
+
+    /*-- no grid --*/
+
+    .noGrid .tile {
+        border-right: 0px solid rgba(0, 0, 0, 0.5);
+        border-bottom: 0px solid rgba(0, 0, 0, 0.5);
+    }
+
+    .noGrid .tile:after {
+        content: none;
+    }
+
+    .img1 {
+        background-image: url('bt1.png');
+        background-size: 25px;
+    }
+
+
+    .img2 {
+        background-image: url('b2.png');
+        background-size: 25px;
+    }
+
+    .img3 {
+        background-image: url('b3.png');
+        background-size: 25px;
+    }
+
+
+    .img4 {
+        background-image: url('b4.png');
+        background-size: 25px;
+    }
+
+
+    .img5 {
+        background-image: url('b5.png');
+        background-size: 25px;
+    }
+</style>
+
+<body>
+
+    <main role="main" class="flex-shrink-0">
+
+        <div class="container">
+            <div class="menu"></div>
+
+
+            <br />
+            <div class="tileSlider">
+                <p>Adjust tile size</p>
+                <input type="range" min="25" max="200" step="5" id="inputWidth">
+                <input type="range" min="25" max="200" step="5" id="inputHeight" class="hidden">
+            </div>
+            <div class='tileContainer img-fluid'></div>
+        </div>
+
+    </main>
+    </div>
+</body>
+<script src='./scripts/TweenMax.min.js'></script>
+<script src="./scripts/sss.js"></script>
+<script src="./scripts/menu.js"></script>
+<script src="./scripts/imagePicker.js"></script>
+
+</html>
