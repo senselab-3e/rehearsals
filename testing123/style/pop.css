@@ -1,0 +1,27 @@
+body {
+  background-color: pink;
+}
+
+.pixel-1 {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  transition: width 0.75s, height 0.75s;
+}
+
+.pixel-1:hover{
+  width: 10px;
+  height: 10px;
+  transition: width 0.25s, height 0.25s;
+}
+
+.pixel-init {
+  animation-name: example;
+  animation-duration: 0.4s;
+}
+
+@keyframes example {
+  0% {width: 2px; height: 2px;}
+  90% {width: 25px; height: 25px;}
+  100% {width: 5px; height: 5px;}
+}
