@@ -25,3 +25,32 @@ body {
   90% {width: 25px; height: 25px;}
   100% {width: 5px; height: 5px;}
 }
+
+#startContext{
+  width: 100px;
+  height: 100px;
+  border: none;
+  outline: none;
+  position: absolute;
+}
+
+.hide-canvas {
+  visibility: hidden;
+}
+
+.show-canvas {
+  visibility: visible;
+  position: absolute;
+}
+
+.show-rec {
+  animation-name: okiee;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes okiee {
+  0% {left: 1%; top: 1%;}
+  50% {left: 85%; top: 50%;}
+  100%{left: 1%; top: 1%;}
+}
