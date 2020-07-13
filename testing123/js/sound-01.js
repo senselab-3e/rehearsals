@@ -114,6 +114,8 @@ function draw() {
         translate(width / 2, height / 2);
 
         rotate(j / 50);
+
+        //this will never function accurately -- the whole element needs to be reconstructed using classnames that can be targeted for swapping textcontent and mouseover through regular js
         if (pmouseX < 100 && pmouseY < 100) {
             text('stop recording', 0, 0);
         } else {
