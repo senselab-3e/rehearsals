@@ -61,6 +61,10 @@
     outline: none;
     position: absolute;
     border-radius: 0%;
+    -webkit-transition: border-radius 0.50s, background-color 0.5s;
+    -moz-transition: border-radius 0.50s, background-color 0.5s;
+    -ms-transition: border-radius 0.50s, background-color 0.5s;
+    -o-transition: border-radius 0.50s, background-color 0.5s;
     transition: border-radius 0.50s, background-color 0.5s;
 }
 

@@ -119,7 +119,7 @@ function draw() {
         if (pmouseX < 100 && pmouseY < 100) {
             text('stop recording', 0, 0);
         } else {
-            text('recording!', 0, 0);
+            // text('recording!', 0, 0);
 
         }
         j++;
