@@ -12,6 +12,12 @@
     transition: width 0.75s, height 0.75s;
 }
 
+/* needs to be refactored for media device @media(hover: hover) and (pointer: fine) {
+    nav a:hover {
+        background: yellow;
+    }
+} */
+
 .pixel-1:hover {
     width: 30px;
     height: 30px;
