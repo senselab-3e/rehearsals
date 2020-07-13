@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>bom dia</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/addons/p5.sound.js"></script>
+  <link rel="stylesheet" type="text/css" href="style/pop.css">
+</head>
+
+<body>
+  <div id="container">
+    <button id="startContext" onclick="audioInitP5()">start</button>
+  </div>
+</body>
+
+<script>
+  var timer;
+  var levels = [];
+
+  const getRandomColors = () => {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  function popSound(ind) {
+    var ctn = document.getElementById('container');
+    var pop = document.createElement("div");
+    ctn.appendChild(pop);
+    pop.classList.add("pixel-1", "pixel-init");
+    pop.style.left = Math.random() * window.innerWidth + "px";
+    pop.style.top = Math.random() * window.innerHeight + "px";
+    pop.style.backgroundColor = getRandomColors();
+    pop.setAttribute("data-bufnum", ind);
+    pop.setAttribute("onmouseenter", "peekSound(this)");
+    pop.setAttribute("onmouseleave", "hideSound(this)");
+    levels[ind] = 0.1;
+  }
+
+  function peekSound(element) {
+    clearTimeout(timer);
+    var bufnum = element.dataset.bufnum;
+    soundfiles[bufnum].setVolume(levels[bufnum], 0.01);
+    soundfiles[bufnum].play();
+    var scale = levels[bufnum];
+    element.style.width = 80 * scale + "px";
+    element.style.height = 80 * scale + "px";
+    console.log(scale);
+    levels[bufnum] = Math.min(1.0, levels[bufnum] + 0.2);
+  }
+
+  function hideSound(element) {
+    timer = setTimeout(function () {
+      levels[element.dataset.bufnum] = 0.1;
+      element.style.width = "2px";
+      element.style.height = "2px";
+    }, 1000);
+  }
+</script>
+
+<script src="js/sound-00.js"></script>
+
+</html>
