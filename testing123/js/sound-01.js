@@ -10,9 +10,6 @@ function setup() {
     cnv.parent('container');
     cnv.class('hide-canvas');
     /// needs https://p5js.org/reference/#/p5/touches
-
-
-
     cnv.mousePressed(canvasPressed);
     //background(232); // wherever possible, applying color styling through the class css, if you are already assigning and using one anyways. 
     textAlign(CENTER, CENTER);
@@ -38,7 +35,7 @@ function audioInitP5() {
     text('record?', width / 2, height / 2);
     cnv.removeClass('hide-canvas');
     cnv.addClass('show-canvas');
-    //why are elements stacked on top of each other after the first click to record? some refactoring for how to add and remove classes for hidding things, needs to be rethought
+    //why are elements stacked on top of each other after the first click to record? why not just use the same element, relying on css to restyle via swapping classnames? some refactoring for how to add and remove classes for hidding things, needs to be rethought
     document.getElementById('startContext').classList.add('hide-canvas');
 }
 
@@ -85,41 +82,58 @@ function canvasPressed() {
     }
 }
 
-// function mouseButton(){
+//this is compensating for large limitations in p5js aka no mouseover so you have to calculate the position within the grid
+const mouseButton = () => {
 
-//     const buttonArea = document.querySelector('.buttonAnchor');
-//     if (pmouseX < 100 && pmouseY < 100 && pmouseX > 10 && pmouseY > 10) {
-//         console.log('button area')
-//         //const styleCircle = document.querySelector('.show-canvas')
-//         buttonArea.style.background = 'yellow'
-//     }
-//     else {
-//         buttonArea.style.background = 'yellow'
-//     }
-// }
+    const buttonArea = document.querySelector('.show-canvas');
+
+    if (buttonArea) {
+        if (pmouseX < 100 && pmouseY < 100 && pmouseX > 10 && pmouseY > 10) {
+            console.log('button area')
+            //const styleCircle = document.querySelector('.show-canvas')
+            buttonArea.style.background = 'deeppink'
+
+        } else {
+            buttonArea.style.background = '#333'
+        }
+    }
+}
 
 function draw() {
 
-    //mouseButton()
+    mouseButton()
 
 
     if (state) {
         let time = millis();
         clear();
         noStroke();
-        fill(255, 0, 0); // red inner circle
+        fill('deeppink'); // red inner circle
         ellipse(width / 2, height / 2, 50 * sin(millis() / 1000), 50 * sin(millis() / 1000));
         fill(255);
         translate(width / 2, height / 2);
 
         rotate(j / 50);
-        text('recording!', 0, 0);
+        if (pmouseX < 100 && pmouseY < 100) {
+            text('stop recording', 0, 0);
+        } else {
+            text('recording!', 0, 0);
+
+        }
         j++;
     } else {
         /// all of this is easier managed by adding and removing class names. then you can have more sophisticaled ontouch on hover actions....it's also much more legible 
-        background(232); // as soon as i remove this, to try and rely on the css alone, there are two elements stacked on each other, visually. this reveals what's actually happening below the hood redundencies. it shouldn't even be there.'
-
+        //background(232); // as soon as i remove this, to try and rely on the css alone, there are two elements stacked on each other, visually. this reveals what's actually happening below the hood, in js redundencies. this could all be refactors handing just one'
         fill(0); // 
+
+
+        if (pmouseX < 100 && pmouseY < 100) {
+            background('deeppink')
+        } else {
+            background('lightgrey')
+
+        }
+
         text('record?', width / 2, height / 2);
         j = 0;
     }

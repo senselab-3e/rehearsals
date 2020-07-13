@@ -11,9 +11,40 @@
     <link rel="stylesheet" type="text/css" href="style/01.css">
 </head>
 
+<style>
+    body {
+        background-color: #fff;
+        -webkit-animation: colorScroll 100s infinite;
+        animation: colorScroll 100s infinite;
+        --entrypatch-color: #5f5f5f;
+
+
+
+    }
+
+
+    @keyframes colorScroll {
+        15% {
+            background-color: var(--entrypatch-color);
+        }
+
+        50% {
+            background-color: #ffffff;
+        }
+
+
+
+        95% {
+            background-color: var(--entrypatch-color);
+        }
+    }
+</style>
+
 <body>
     <div id="container">
-        <button class="buttonAnchor" id="startContext" onclick="audioInitP5()">start</button>
+        <button class="buttonAnchor" id="startContext" onclick="audioInitP5()">
+
+        </button>
     </div>
 </body>
 
@@ -30,6 +61,20 @@
         return color;
     }
 
+    //this is being added so the circles don't go in the play button area or an edge out of the window hard to see
+
+    const calculatePosition = (widthheight) => {
+        const value = Math.random() * widthheight
+        if (value > 50 && value < widthheight - 100) {
+            // console.log(value + "px")
+            return value + "px"
+        } else {
+            console.log('out of bounds')
+            return Math.random() * 100 + "px";
+
+        }
+    }
+
     function popSound(ind) {
         var ctn = document.getElementById('container');
         var pop = document.createElement("div");
@@ -37,8 +82,8 @@
         pop.classList.add(
             "pixel-1"
         ); // pixel-1 was being overrided by all the js assigned css properties, making it pointless. but css transitions give a much better user-response so i've removed the styling being assigned here so that it only effects transform/scale, and not the width/height. this means that then the js scale data you're trying to use can still be applied somehow to the visuals -- but without taking away from the (in my opinion) more user-response sensitive transitions only possible in the css. the pixel-init was using animation. it keeps things always at a stepedness that is jarring and can come off as a glitch. obv there are cases where it's useful, fishies.html for example, but using an animation instead of a transition - i couldn't see what it was doing that was better or added more to the experience. i reverted things back to using css transitions because also then it keeps a conversation with the pixels of the other rehersals. given the sounds are always going to be dissonant with the rollover animations, having them be smoother transition planes, helps make it a calmer experience. you dont' need 2 things jumping simultaneously. it can look like something is loading poorly or broken. 
-        pop.style.left = Math.random() * window.innerWidth + "px";
-        pop.style.top = Math.random() * window.innerHeight + "px";
+        pop.style.left = calculatePosition(window.innerWidth) //Math.random() * window.innerWidth - 10 + "px";
+        pop.style.top = calculatePosition(window.innerHeight) //Math.random() * window.innerHeight + "px";
         pop.style.backgroundColor = getRandomColors();
         pop.setAttribute("data-bufnum", ind);
         pop.setAttribute("onmouseenter",

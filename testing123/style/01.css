@@ -1,10 +1,11 @@
-body {
-    background-color: pink;
-}
-
 /* all of this class was being overriding by the js styling being assigned in the javascript. please consider what is gained or lost, each time you use js to assign style. it can be powerful but the second that happened, all the nice smooth transitions were lost. visual feedback is important..as is looking at how the assume 'mouse enter' in javascript completely fails to work for mobile devices.... i have many examples in portals and prior rehersals that work through this...particularly the color slices. that's why i added extra things like white border and excessive visual jumps on the color slices -- based on how things would be on a mobile device. in css there is touch script, but in js, it's more tricky  */
 .pixel-1 {
+    color: white;
+    font-weight: 400;
+    font-size: 14px;
+
     position: absolute;
+    cursor: cell;
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -42,18 +43,21 @@ body {
 } */
 
 #startContext {
+    background-color: #999;
+    cursor: pointer;
     width: 100px;
     height: 100px;
     border: none;
     outline: none;
     position: absolute;
     border-radius: 0%;
-    transition: border-radius 0.50s;
+    transition: border-radius 0.50s, background-color 0.5s;
 }
 
 
 #startContext:hover {
     border-radius: 50%;
+    background-color: deeppink;
 }
 
 .hide-canvas {
@@ -64,12 +68,14 @@ body {
 }
 
 .show-canvas {
+    cursor: cell;
     /* width: 100px;
     height: 100px; unfortunately this is being set in the js limiting some effects*/
     visibility: visible;
     border-radius: 50%;
     position: absolute;
-    background-color: rgb(148, 110, 110);
+    /* background-color: rgb(148, 110, 110); js assigned styling overrides this. refactoring needed
+} */
 }
 
 .show-rec {
