@@ -1,9 +1,9 @@
 /* all of this class was being overriding by the js styling being assigned in the javascript. please consider what is gained or lost, each time you use js to assign style. it can be powerful but the second that happened, all the nice smooth transitions were lost. visual feedback is important..as is looking at how the assume 'mouse enter' in javascript completely fails to work for mobile devices.... i have many examples in portals and prior rehersals that work through this...particularly the color slices. that's why i added extra things like white border and excessive visual jumps on the color slices -- based on how things would be on a mobile device. in css there is touch script, but in js, it's more tricky  */
 .pixel-1 {
     color: white;
-    font-weight: 400;
-    font-size: 14px;
-
+    /* font-weight: 400; */
+    font-size: 11px;
+    text-align: center;
     position: absolute;
     cursor: cell;
     width: 20px;

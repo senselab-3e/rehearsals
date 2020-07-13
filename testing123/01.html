@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/addons/p5.sound.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600|Roboto:400,400i,700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style/01.css">
 </head>
 
@@ -17,8 +19,7 @@
         -webkit-animation: colorScroll 100s infinite;
         animation: colorScroll 100s infinite;
         --entrypatch-color: #5f5f5f;
-
-
+        font-family: 'OpenSans', sans-serif;
 
     }
 
@@ -113,8 +114,9 @@
         element.style.msTransform = transformString;
         element.style.OTransform = transformString;
         element.style.transform = transformString;
+        // element.textContent = Math.ceil(levels[
+        //     bufnum] * 10);
 
-        console.log(scale);
         levels[bufnum] = Math.min(1.0, levels[bufnum] + 0.2);
     }
 
