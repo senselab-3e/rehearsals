@@ -1,0 +1,96 @@
+body {
+    background-color: pink;
+}
+
+/* all of this class was being overriding by the js styling being assigned in the javascript. please consider what is gained or lost, each time you use js to assign style. it can be powerful but the second that happened, all the nice smooth transitions were lost. visual feedback is important..as is looking at how the assume 'mouse enter' in javascript completely fails to work for mobile devices.... i have many examples in portals and prior rehersals that work through this...particularly the color slices. that's why i added extra things like white border and excessive visual jumps on the color slices -- based on how things would be on a mobile device. in css there is touch script, but in js, it's more tricky  */
+.pixel-1 {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    transition: width 0.75s, height 0.75s;
+}
+
+.pixel-1:hover {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    /* transition: width 0.25s, height 0.25s;  please read up on css transitions vs animations to understand their contrast benefits and uses*/
+}
+
+/* i had no idea why this was being used - the stepedness of it, and the jarring of having to repeatedly rollover the element - there's not enough thinking with how people might move through the space...or i just can't make any UI logic sense for it. i changed thing in the javascript. see notes there.  */
+/* .pixel-init {
+    animation-name: example;
+    animation-duration: 0.4s;
+}
+
+@keyframes example {
+    0% {
+        width: 2px;
+        height: 2px;
+    }
+
+    90% {
+        width: 25px;
+        height: 25px;
+    }
+
+    100% {
+        width: 5px;
+        height: 5px;
+    }
+} */
+
+#startContext {
+    width: 100px;
+    height: 100px;
+    border: none;
+    outline: none;
+    position: absolute;
+    border-radius: 0%;
+    transition: border-radius 0.50s;
+}
+
+
+#startContext:hover {
+    border-radius: 50%;
+}
+
+.hide-canvas {
+    /* visibility: hidden; */
+    display: none;
+    /* background-color: rgb(148, 110, 110); */
+
+}
+
+.show-canvas {
+    /* width: 100px;
+    height: 100px; unfortunately this is being set in the js limiting some effects*/
+    visibility: visible;
+    border-radius: 50%;
+    position: absolute;
+    background-color: rgb(148, 110, 110);
+}
+
+.show-rec {
+    animation-name: okiee;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes okiee {
+    0% {
+        left: 1%;
+        top: 1%;
+    }
+
+    50% {
+        left: 85%;
+        top: 50%;
+    }
+
+    100% {
+        left: 1%;
+        top: 1%;
+    }
+}
