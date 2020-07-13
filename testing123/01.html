@@ -25,7 +25,12 @@
 
 
     @keyframes colorScroll {
-        15% {
+
+        0% {
+            background-color: #ffffff;
+        }
+
+        25% {
             background-color: var(--entrypatch-color);
         }
 
@@ -33,10 +38,13 @@
             background-color: #ffffff;
         }
 
-
-
-        95% {
+        75% {
             background-color: var(--entrypatch-color);
+        }
+
+
+        100% {
+            background-color: #ffffff;
         }
     }
 </style>
@@ -121,7 +129,7 @@
     }
 
     /// maybe rethink how things move between.... 
-
+    //why...... there needs to be a more elegant way to transition to this instead of a harsh visual jump
     function hideSound(element) {
         timer = setTimeout(function () {
             levels[element.dataset.bufnum] = 0.1;
