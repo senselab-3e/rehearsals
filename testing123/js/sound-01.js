@@ -108,7 +108,7 @@ function draw() {
         let time = millis();
         clear();
         noStroke();
-        fill('deeppink'); // red inner circle
+        fill('red'); // red inner circle
         ellipse(width / 2, height / 2, 50 * sin(millis() / 1000), 50 * sin(millis() / 1000));
         fill(255);
         translate(width / 2, height / 2);
@@ -128,7 +128,7 @@ function draw() {
 
 
         if (pmouseX < 100 && pmouseY < 100) {
-            background('deeppink')
+            background('red')
         } else {
             background('lightgrey')
 
