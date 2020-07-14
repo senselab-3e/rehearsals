@@ -3,13 +3,28 @@ var notes;
 //on each click i could add a thingy.... 
 
 
-//NOTE --- i'm citing an array of texts called cosmic digest, that is in another js file called cosmic digest. this is because potentially i want all that file information to be accessible to there sketch spaces. 
+//NOTE --- i'm citing an array of texts for the emails called emailThreads from the cosmic digest js file, that is in another js file called cosmic digest. this is because potentially i want all that file information to be accessible to there sketch spaces. 
 const gifVerse = ['gif404', 'gifmeowmix', 'gifpipecleaners', 'gifsponge', 'gifbreeze', 'giffold', 'gifshadows', 'gifsplash', 'gifsquee', 'gifsplat', 'gifumbrella', 'gifpoke', 'gifcompost', 'gifplanttrap', 'gif404', 'gifpinkwave', 'gifwave', 'gifducky'] // for each of these instances, a single pixel element will be created. 
 const thingyVerse = ['staticSponge2', 'staticPingPong', 'staticBlueChair', 'staticPingPong', 'staticCompost', 'staticFishy', 'staticBlueBowl', 'staticSponge'] // for each of these instances, a single pixel element will be created. 
 const linkVerse = ['portal-404s/rrr.html', 'portal-404s/fishy.html', 'portal-404s/sss.html', 'portal-404s/fff.html', 'portal-404s/aeo.html', 'portal-404s/vvv.html', 'portal-404s/kite.html', 'portal-404s/mmm.html', 'portal-404s/llli.html', 'portal-404s/eee.html', 'portal-404s/uuu.html', 'portal-404s/shsh.html', 'portal-404s/zzz.html', 'portal-404s/jardin.html', 'portal-404s/mondayfiles.html', 'portal-404s/bichos.html', 'portal-404s/gggrog.html', 'portal-404s/joy.html'] //creature.html
 
 
 const paletteTexts = ['When you ask DD, what kind of psychology this can be/come, this seems really key. What is a psychology without interiority? What is a psychology that is curious about the conditions of existence as they morph? What is a psychology that can move at the pace of a world making and remaking itself? For those of us familiar with Guattari, we would say “schizoanalysis” - the practice of activating techniques for the living-out (rather than the living-in) of experience.', 'oiajdsfojasdofoasdfo', 'oaisdfonaosdfnasdf', 'idafsojoadisjf']
+
+//this function randomizing the original array --- 
+// function shuffleArray(array) {
+//     for (var i = array.length - 1; i > 0; i--) {
+//         var j = Math.floor(Math.random() * (i + 1));
+//         var temp = array[i];
+//         array[i] = array[j];
+//         array[j] = temp;
+//     }
+// }
+//shuffleArray(emailThread)
+//const newOrder = shuffleArray(paletteTexts);
+// console.log(emailThread)
+
+// shuffleArray(emailThread)
 
 //PALETTE OBJ CONSTRuCTOR
 function Palette(className, textStatus, imageStatus) {
@@ -83,6 +98,7 @@ function Palette(className, textStatus, imageStatus) {
     this.textContent = function (target) {
         let text = ''
         const currentPalNum = document.body.querySelectorAll('.palette').length
+        //validates that an array number of that index does exist
         emailThread[currentPalNum] ? text = emailThread[currentPalNum] : text = text;
         var textBox = document.createElement('div');
         textBox.className = 'textBox'; //this isn't entirely needed but could be use to specificy text styling
@@ -327,11 +343,12 @@ const setNewColorVal = (target) => {
     target.style.setProperty('--hsl', updatedHSL);
 }
 
+//currently disabled the color shifts on palette1
 const updateColors = () => {
     const palette1 = document.querySelector('#palette1'); //NOTES: need to keep these here, rather then passing a variable through the function
-    const palette2 = document.querySelector('#palette2'); // i need to keep this function anonymous so that it can be used in a callback with setInterval, below
+    //const palette2 = document.querySelector('#palette2'); // i need to keep this function anonymous so that it can be used in a callback with setInterval, below
     setNewColorVal(palette1);
-    setNewColorVal(palette2);
+    //setNewColorVal(palette2);
 }
 
 var intervalChng = window.setInterval(updateColors, 1000); //continually changes color of palette2 element, using callback function 
@@ -344,16 +361,36 @@ const colorPicker = () => {
         const palette2 = document.querySelector('#palette2');
         let pixel = document.querySelectorAll('.pixelPatch');
         let convertedVal = HEXtoHSL(input.value) //NOTES: this now returning a  hsl information in an object with key values for each hsl
+        // let currentH = window.getComputedStyle(target, null).getPropertyValue(
+        //     "--h");
+        // let currentS = window.getComputedStyle(target, null).getPropertyValue(
+        //     "--s");
+        // let currentL = window.getComputedStyle(target, null).getPropertyValue(
+        //     "--l");
+
+
+        const contrastH = window.getComputedStyle(palette1, null).getPropertyValue(
+            "--h");
+        const contrastS = window.getComputedStyle(palette1, null).getPropertyValue(
+            "--s");
+        const contrastL = window.getComputedStyle(palette1, null).getPropertyValue(
+            "--l");
+        //this passes whatever color palette 1 was, before a new color is applied from the picker, to palette 2. 
+        palette2.style.setProperty('--h', contrastH);
+        palette2.style.setProperty('--s', contrastS);
+        palette2.style.setProperty('--l', contrastL);
+
         palette1.style.setProperty('--h', convertedVal.h);
         palette1.style.setProperty('--s', convertedVal.s);
         palette1.style.setProperty('--l', convertedVal.l);
-        palette2.style.setProperty('--h', convertedVal.h);
-        palette2.style.setProperty('--s', convertedVal.s);
+        // palette2.style.setProperty('--h', convertedVal.h);
+        // palette2.style.setProperty('--s', convertedVal.s);
 
-        const pixel2L = convertedVal.l.replace(/[^\w\d]/, '') - 10 + '%'; // this is a little overly complicated but i'm matching the second palette to the first palette, but just 10 degrees less light. becaue the object returned by the HEX conver t function includes the '%' symbol i have to remove it before subtracting. 
-        palette2.style.setProperty('--l', pixel2L);
+        // const pixel2L = convertedVal.l.replace(/[^\w\d]/, '') - 10 + '%'; // this is a little overly complicated but i'm matching the second palette to the first palette, but just 10 degrees less light. becaue the object returned by the HEX conver t function includes the '%' symbol i have to remove it before subtracting. 
+        // palette2.style.setProperty('--l', pixel2L);
         const hslString = 'hsl(' + convertedVal.h + ', ' + convertedVal.s + ', ' + convertedVal.l + ')';
-        const hslString2 = 'hsl(' + convertedVal.h + ', ' + convertedVal.s + ', ' + pixel2L + ')';
+        //const hslString2 = 'hsl(' + convertedVal.h + ', ' + convertedVal.s + ', ' + pixel2L + ')';
+        const hslString2 = 'hsl(' + contrastH + ', ' + contrastS + ', ' + contrastL + ')';
 
         palette1.style.setProperty('--hsl', hslString);
         palette2.style.setProperty('--hsl', hslString2);
@@ -397,6 +434,9 @@ function HEXtoHSL(hex) {
     l = l * 100;
     l = Math.round(l);
     h = Math.round(360 * h);
+
+    //this is so that if a color is picked that is too dark for the black text to be read against, it goes a it lighter
+    l < 50 ? l = 51 : l = l;
 
     let colorHSL = {
         h: h,

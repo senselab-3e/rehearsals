@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
-    <script src="./scripts/04.js"></script>
-    <script src="./scripts/cosmicdigest.js"></script>
 
     <!-- style sheets are wayZ --- a way, not 'the' way -->
 
@@ -512,11 +510,93 @@
 
         .colorBox {
             z-index: 12;
-            position: absolute;
+            /* vertical-align: top; */
+            /* text-transform: uppercase; */
+            /* position: absolute;
+            margin: 0;
+            padding: 1em;
+            top: 0; */
+        }
+
+        .menuContainer {
             margin: 0;
             padding: 1em;
             top: 0;
+            position: absolute;
+            z-index: 12;
+            display: flex;
+            flex-wrap: wrap;
 
+        }
+
+        .btShuffle {
+
+            padding-left: 1em;
+            /* padding-top: 1em; */
+        }
+
+        button,
+        button::after {
+            -webkit-transition: all 0.3s;
+            -moz-transition: all 0.3s;
+            -o-transition: all 0.3s;
+            transition: all 0.3s;
+        }
+
+        /* input {
+            width: 10em;
+            height: 3.5em;
+
+
+        } */
+
+        input[type="color"] {
+            -webkit-appearance: none;
+            border: none;
+            width: 38px;
+            height: 38px;
+        }
+
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 1;
+            background-color: white;
+            /* to make it invisible put padding at 0 */
+        }
+
+        input[type="color"]::-webkit-color-swatch {
+            border: none;
+        }
+
+        label {
+            /* vertical-align: 0.7em; */
+            vertical-align: baseline;
+            padding: 0.7em 0.5em;
+        }
+
+        button {
+            background: none;
+            border: 2px solid white;
+            border-radius: 5px;
+            color: #333;
+            display: block;
+            /* font-size: 1.6em; */
+            font-weight: bold;
+            /* margin: 1px auto; */
+            padding: 1em 1em;
+            position: relative;
+            text-transform: uppercase;
+        }
+
+        button::before,
+        button::after {
+            background: deeppink;
+            content: '';
+            position: absolute;
+            z-index: -1;
+        }
+
+        button:hover {
+            color: white;
         }
 
         .textBox {
@@ -526,6 +606,17 @@
             font-size: 15px;
             padding: 1em;
 
+        }
+
+        .button2::after {
+            height: 100%;
+            left: 0;
+            top: 0;
+            width: 0;
+        }
+
+        .button2:hover:after {
+            width: 100%;
         }
     </style>
 
@@ -541,13 +632,20 @@
 
     </div>
     <div class="pseudoCode hide">relational shifts</div>
-    <div class="colorBox">
-        <input type="color" value="#4842bd">
-        <label>Click space to reveal conversation:</label>
+    <div class="menuContainer">
+        <div class="colorBox">
+            <input type="color" value="#4842bd">
 
+        </div>
+        <div class="btShuffle"><button type="button" class="button2" onclick="shuffleArray(emailThread)">shuffle
+                text</button></div>
+        <label>Click space to reveal conversation</label>
     </div>
+
 
 </body>
 <!-- <script src="./scripts/menu.js"></script> -->
+<script src="./scripts/05.js"></script>
+<script src="./scripts/cosmicdigest.js"></script>
 
 </html>

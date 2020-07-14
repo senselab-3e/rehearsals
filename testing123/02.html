@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>bom dia</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/addons/p5.sound.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600|Roboto:400,400i,700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style/02.css">
+</head>
+
+<style>
+    body {
+        background-color: #fff;
+        -webkit-animation: colorScroll 100s infinite;
+        animation: colorScroll 100s infinite;
+        --entrypatch-color: #5f5f5f;
+        font-family: 'OpenSans', sans-serif;
+
+    }
+
+
+    @keyframes colorScroll {
+
+        0% {
+            background-color: #ffffff;
+        }
+
+        25% {
+            background-color: var(--entrypatch-color);
+        }
+
+        50% {
+            background-color: #ffffff;
+        }
+
+        75% {
+            background-color: var(--entrypatch-color);
+        }
+
+
+        100% {
+            background-color: #ffffff;
+        }
+    }
+</style>
+
+<body>
+    <div id="container">
+        <button class="buttonAnchor" id="startContext" onclick="audioInitP5()">
+
+        </button>
+    </div>
+</body>
+
+<script>
+    var timer;
+    var levels = [];
+
+    const getRandomColors = () => {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+    //this is being added so the circles don't go in the play button area or an edge out of the window hard to see
+
+    const calculatePosition = (widthheight) => {
+        const value = Math.random() * widthheight
+        if (value > 50 && value < widthheight - 100) {
+            // console.log(value + "px")
+            return value + "px"
+        } else {
+            //console.log('out of bounds')
+            return Math.random() * 100 + "px";
+
+        }
+    }
+
+    //I want to refactor all of this, to rely more on css classes -- which will make it easier to manage UI interactions. you don't need p5 to manage that. i can be used exclusively for the sound. 
+    function popSound(ind) {
+        var ctn = document.getElementById('container');
+        var pop = document.createElement("div");
+        ctn.appendChild(pop);
+        pop.classList.add(
+            "pixel-1"
+        ); // pixel-1 was being overrided by all the js assigned css properties, making it pointless. but css transitions give a much better user-response so i've removed the styling being assigned here so that it only effects transform/scale, and not the width/height. this means that then the js scale data you're trying to use can still be applied somehow to the visuals -- but without taking away from the (in my opinion) more user-response sensitive transitions only possible in the css. the pixel-init was using animation. it keeps things always at a stepedness that is jarring and can come off as a glitch. obv there are cases where it's useful, fishies.html for example, but using an animation instead of a transition - i couldn't see what it was doing that was better or added more to the experience. i reverted things back to using css transitions because also then it keeps a conversation with the pixels of the other rehersals. given the sounds are always going to be dissonant with the rollover animations, having them be smoother transition planes, helps make it a calmer experience. you dont' need 2 things jumping simultaneously. it can look like something is loading poorly or broken. 
+        pop.style.left = calculatePosition(window.innerWidth) //Math.random() * window.innerWidth - 10 + "px";
+        pop.style.top = calculatePosition(window.innerHeight) //Math.random() * window.innerHeight + "px";
+        pop.style.backgroundColor = getRandomColors();
+        pop.setAttribute("data-bufnum", ind);
+        pop.setAttribute("onmouseenter",
+            "peekSound(this)"
+        ); // 
+        pop.setAttribute("onmouseleave",
+            "hideSound(this)"
+        ); /// this needs to be completely refactored - attempting use css hover to allow for visual feed back on the faux button rollover, which is just a canvas in P5. relying in P5 alone, which is not meant or good at creating UI for interactions, limits what you can change/modify and allow for, in different user interactions/browser. instead of leaning so heavily on js to do everything - build only sound actions in the p5, and all the styling can just as easily be allocated and writting in the css, and then that class can just be added and removed based on certain conditions. because of the messy way in which after first pressing record, and then returning to show-canvas class, elements are just being stacked on top each other .
+        levels[ind] = 0.1;
+    }
+
+    function peekSound(element) {
+        clearTimeout(timer);
+        var bufnum = element.dataset.bufnum;
+        soundfiles[bufnum].setVolume(levels[bufnum], 0.01);
+        soundfiles[bufnum].play();
+        var scale = 20 * levels[
+            bufnum]; // or if you want to keep the 80, just apply it here for clarity 80 * levels[bufnum];
+        //element.style.transform = ("scale(" + scale + ")");
+        var transformString = ("scale(" +
+            scale + ")");
+        //not using this any more so the css transitions aren't effected
+        // element.style.width = 80 * scale + "px"; //ok. please read up on css transitions vs animation. transitions are a much better way to go for visual responses for users. secondly, as soon as you assign styling in javascript it ovverrides anything in the css // which means it complete undoes any hover or animation or transition css you might want to apply. by applying js to only the scale i was able to retain height/width responses within the css alone, and still try to keep whatever effect was being pursued by applying the scale sizing. but. unless this scale sizing is moving with the rhythm of the sound or something? i don't really feel the relation. but i tried to work with it.... It is much much better to work through css appending and removing classes, when changing styling where possible, and only use it when handling the sound. 
+        // element.style.height = 80 * scale + "px";
+        element.style.webkitTransform = transformString;
+        element.style.MozTransform = transformString;
+        element.style.msTransform = transformString;
+        element.style.OTransform = transformString;
+        element.style.transform = transformString;
+        element.textContent = Math.ceil(levels[
+            bufnum] * 10);
+
+        levels[bufnum] = Math.min(1.0, levels[bufnum] + 0.2);
+    }
+
+
+    //why...... there needs to be a more elegant way to transition to this instead of a harsh visual jump
+    function hideSound(element) {
+        timer = setTimeout(function () {
+            levels[element.dataset.bufnum] = 0.1;
+            // element.style.width = "20px";
+            // element.style.height = "20px";
+        }, 1000);
+    }
+</script>
+
+<script src="js/sound-02.js"></script>
+
+</html>
