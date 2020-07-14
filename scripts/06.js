@@ -52,7 +52,7 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
         palette.style.top = 0;
         // palette.style.width = Math.ceil(Math.random() * 20) + 'vw';
         // console.log(this.color())
-        palette.style.background = this.color();
+        // palette.style.background = this.color();
         // palette.style.cursor = 'pointer'; //doesn't seem to have made a difference
         this.txtRq === true ? this.textContent(palette) : console.log('no text requested');
         this.imgRq === true ? this.imageContent(palette) : console.log('no image requested');
@@ -79,23 +79,16 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
     }
 
 
-    // document.querySelectorAll( '.palette' ).forEach(
-    //     function( palettePanel ) {
-    //         palettePanel.style.cssText = "--palette-height: " + palettePanel.scrollHeight + "px";
-    //     }
-    //   );
-
-
     this.textContent = function (target) {
         let text = ''
         const currentPalNum = document.body.querySelectorAll('.palette').length
         //validates that an array number of that index does exist
         emailThread[currentPalNum] ? text = emailThread[currentPalNum] : text = text;
-        // var textBox = document.createElement('div');
-        // textBox.className = 'textBox'; //this isn't entirely needed but could be use to specificy text styling
-        // textBox.textContent = text
-        // target.appendChild(textBox)
-        target.textContent = text;
+        var textBox = document.createElement('div');
+        textBox.className = 'textBox'; //this isn't entirely needed but could be use to specificy text styling
+        textBox.textContent = text
+        target.appendChild(textBox)
+        // target.textContent = text; // if i want to load the text straight into the palette div.... which was an attempt to have its background color and size match overflow text size -- but no.
     }
     this.imageContent = function (target) {
         // console.log('images requested')

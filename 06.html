@@ -74,15 +74,17 @@
         .palette {
             /* overflow: scroll;  */
             /* if i take away overflow, then you see all the text edges */
+            /* display: inline-block; NOt the solution i'm after */
             color: #333;
             font-family: 'Quicksand', sans-serif;
             font-size: 15px;
-            padding-left: 0.5em;
-
             cursor: pointer;
+            overflow: scroll;
+            /* white-space: break-spaces; */
+            /*investigate uses for later. right now its not doing anything because i don't have unique white spaces in my text arrays*/
             z-index: 10;
-            width: 0.3vw;
-            /* height: 100vh; */
+            width: 2vw;
+            height: 100%;
             -webkit-transition: width 3s;
             -moz-transition: width 3s;
             -ms-transition: width 3s;
@@ -110,9 +112,9 @@
         #palette1 {
             width: 80vw;
             height: 100vh;
-            --h: 150;
-            --s: 78%;
-            --l: 50%;
+            --h: 0;
+            --s: 0%;
+            --l: 100%;
             --hsl: hsl(var(--h), var(--s), var(--l));
             background-color: var(--hsl);
             -webkit-transition: width 3s;
@@ -129,9 +131,9 @@
             /* z-index: 11; */
             /* --h2: 243;
             --hsl2: hsl(var(--h2), 48%, 50%); */
-            --h: 150;
-            --s: 78%;
-            --l: 40%;
+            --h: 0;
+            --s: 0%;
+            --l: 100%;
             --hsl: hsl(var(--h), var(--s), var(--l));
             background-color: var(--hsl);
             -webkit-transition: width 3s;
@@ -606,8 +608,6 @@
         }
 
         .textBox {
-            /* word-wrap: break-all; */
-            /* overflow-wrap: break-word; */
             cursor: pointer;
             color: #333;
             font-family: 'Quicksand', sans-serif;
@@ -659,7 +659,7 @@
 
 </body>
 <!-- <script src="./scripts/menu.js"></script> -->
-<script src="./scripts/05.js"></script>
+<script src="./scripts/06.js"></script>
 <script src="./scripts/cosmicdigest.js"></script>
 
 </html>
