@@ -33,7 +33,7 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
     //this.height = height;
     this.txtRq = textStatus; // checks for true of false for adding text within palette
     this.imgRq = imageStatus;
-    this.colorReq = randomColorNeeded;
+    this.colorReq = randomColorNeeded; //checks if this palette needs a random color assigned to it
     //NOTE: remember this currentHue thing in the future. right now the color for the palette is being decided by whatever is in palette Id palette1. for re-usability this will need to happen differently
     this.currentHue = function () {
         let sample = document.body.querySelector('#palette1') // just for testing purposes.
@@ -66,6 +66,7 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
         //this.height ? palette.style.height = this.height : console.log('no height specified');
         palette.style.left = 0;
         palette.style.top = 0;
+        // palette.style.width = Math.ceil(Math.random() * 20) + 'vw';
         console.log(this.color())
         palette.style.background = this.color();
         // palette.style.cursor = 'pointer'; //doesn't seem to have made a difference
@@ -73,7 +74,7 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
         this.imgRq === true ? this.imageContent(palette) : console.log('no image requested');
 
         palette.addEventListener("click", function (event) {
-            palette.classList.contains('paletteClick') ? palette.classList.remove('paletteClick') : palette.classList.add('paletteClick')
+            palette.classList.contains('paletteOpen') ? palette.classList.remove('paletteOpen') : palette.classList.add('paletteOpen')
 
         })
         sliderContainer.appendChild(palette);
@@ -92,24 +93,7 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
 
 
     }
-    //     this.contentType(type){
-    // switch(type){
-    //     case 
-    // }
-    //     }
 
-
-    // this.textContent = function (target) {
-    //     let text = ''
-    //     const currentPalNum = document.body.querySelectorAll('.palette').length
-    //     anarchivingPropositions[currentPalNum] ? text = anarchivingPropositions[currentPalNum] : text = text;
-    //     var textBox = document.createElement('div');
-    //     textBox.className = 'textBox';
-    //     textBox.textContent = text
-    //     target.appendChild(textBox)
-    // }
-
-    //console.log(typeof emailThread[3])
 
     this.textContent = function (target) {
         let text = ''

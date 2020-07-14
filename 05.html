@@ -72,7 +72,8 @@
         }
 
         .palette {
-            overflow: scroll;
+            /* overflow: scroll;  */
+            /* if i take away overflow, then you see all the text edges */
             cursor: pointer;
             z-index: 10;
             width: 0.3vw;
@@ -95,7 +96,7 @@
             width: 25vw;
         } */
 
-        .paletteClick {
+        .paletteOpen {
 
             cursor: pointer;
             width: 25vw;
@@ -120,7 +121,7 @@
         #palette2 {
             width: 20vw;
             height: 100vh;
-            z-index: 11;
+            /* z-index: 11; */
             /* --h2: 243;
             --hsl2: hsl(var(--h2), 48%, 50%); */
             --h: 150;
