@@ -9,7 +9,6 @@ const thingyVerse = ['staticSponge2', 'staticPingPong', 'staticBlueChair', 'stat
 const linkVerse = ['portal-404s/rrr.html', 'portal-404s/fishy.html', 'portal-404s/sss.html', 'portal-404s/fff.html', 'portal-404s/aeo.html', 'portal-404s/vvv.html', 'portal-404s/kite.html', 'portal-404s/mmm.html', 'portal-404s/llli.html', 'portal-404s/eee.html', 'portal-404s/uuu.html', 'portal-404s/shsh.html', 'portal-404s/zzz.html', 'portal-404s/jardin.html', 'portal-404s/mondayfiles.html', 'portal-404s/bichos.html', 'portal-404s/gggrog.html', 'portal-404s/joy.html'] //creature.html
 
 
-const paletteTexts = ['When you ask DD, what kind of psychology this can be/come, this seems really key. What is a psychology without interiority? What is a psychology that is curious about the conditions of existence as they morph? What is a psychology that can move at the pace of a world making and remaking itself? For those of us familiar with Guattari, we would say “schizoanalysis” - the practice of activating techniques for the living-out (rather than the living-in) of experience.', 'oiajdsfojasdofoasdfo', 'oaisdfonaosdfnasdf', 'idafsojoadisjf']
 
 //this function randomizing the original array --- 
 // function shuffleArray(array) {
@@ -67,7 +66,7 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
         palette.style.left = 0;
         palette.style.top = 0;
         // palette.style.width = Math.ceil(Math.random() * 20) + 'vw';
-        console.log(this.color())
+        // console.log(this.color())
         palette.style.background = this.color();
         // palette.style.cursor = 'pointer'; //doesn't seem to have made a difference
         this.txtRq === true ? this.textContent(palette) : console.log('no text requested');
@@ -106,7 +105,7 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
         target.appendChild(textBox)
     }
     this.imageContent = function (target) {
-        console.log('images requested')
+        // console.log('images requested')
         var imageBox = document.createElement('div');
         imageBox.className = 'imagethingies';
         // const imageClassOptions = []
@@ -114,12 +113,27 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
         //     imageClassOptions.push(gifVerseObj[key].className)
         // }
         const currentPalNum = document.body.querySelectorAll('.palette').length
-        console.log(currentPalNum)
+        // console.log(currentPalNum)
         imageBox.className = thingyVerse[currentPalNum];
         target.appendChild(imageBox);
     }
 
 }
+
+
+// const grabPaletteText = (target) => {
+//     const list = document.body.querySelectorAll('.textBox');
+//     console.log(list)
+//     list.forEach(element => {
+//         console.log(element.textContent, 'hello')
+//     });
+
+// }
+
+
+// grabPaletteText('.textBox');
+
+
 
 //NOTE: this is working in combination with flexbox. i can't rely on flexbox entirely for the effect i'm after but if it aint broke, don't fix it.
 const resetPaletteWidth = (newWidth) => {
@@ -457,4 +471,37 @@ const colorShiftDif = (newVal) => {
     const contrastVal = window.getComputedStyle(palette2, null).getPropertyValue(
         "--h");
     //console.log(Math.abs(contrastVal - newVal))
+}
+
+
+
+
+function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+    console.log(array)
+}
+
+const checkList = () => {
+
+    const list = document.querySelector('.sliderContainer')
+    const textList = list.querySelectorAll('.textBox')
+    console.log(textList.length)
+
+    // textList.forEach(element => {
+    //     console.log(element)
+    // });
+
+    shuffleArray(emailThread)
+
+    for (let i = 0; i < textList.length; i++) {
+        //const element = emailThread[i];
+        if (emailThread[i]) {
+            textList[i].textContent = emailThread[i]
+        }
+    }
 }

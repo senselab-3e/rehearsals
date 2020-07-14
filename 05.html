@@ -628,7 +628,12 @@
 
     <div class="paletteContainer">
         <div id="palette1"></div>
-        <div class="sliderContainer"></div>
+        <div class="sliderContainer">
+            <!-- <div class="palette">
+                <div class="textBox"></div>
+            </div> -->
+
+        </div>
         <div id="palette2"></div>
 
     </div>
@@ -638,7 +643,8 @@
             <input type="color" value="#4842bd">
 
         </div>
-        <div class="btShuffle"><button type="button" class="button2" onclick="shuffleArray(emailThread)">shuffle
+        <div class="btShuffle"><button type="button" class="button2"
+                onclick="shuffleArray(emailThread), checkList()">shuffle
                 text</button></div>
         <!-- <label>Click space to reveal conversation</label> -->
     </div>
