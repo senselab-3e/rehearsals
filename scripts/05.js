@@ -27,12 +27,13 @@ const paletteTexts = ['When you ask DD, what kind of psychology this can be/come
 // shuffleArray(emailThread)
 
 //PALETTE OBJ CONSTRuCTOR
-function Palette(className, textStatus, imageStatus) {
+function Palette(className, textStatus, imageStatus, randomColorNeeded) {
     this.className = className;
     //this.width = width;  //NOTE:seeabove. if assigned the css styling heirarchies will cause the :hover transitions in the sizing to not be applied. so it's necesary to leave them blank.
     //this.height = height;
     this.txtRq = textStatus; // checks for true of false for adding text within palette
     this.imgRq = imageStatus;
+    this.colorReq = randomColorNeeded;
     //NOTE: remember this currentHue thing in the future. right now the color for the palette is being decided by whatever is in palette Id palette1. for re-usability this will need to happen differently
     this.currentHue = function () {
         let sample = document.body.querySelector('#palette1') // just for testing purposes.
@@ -41,7 +42,21 @@ function Palette(className, textStatus, imageStatus) {
             "--hsl");
         return hsl
     }
-    this.color = this.currentHue()
+    this.color = function () {
+        if (this.colorReq) {
+            let ranHexColor = getRandomColor();
+            //this is awkward - but only in hsl mode can i check the lightness - so i'm first calling a random hex number, then converting to hsl. investigate a random HSL from the start, later
+            let newhexColor = HEXtoHSL(ranHexColor);
+            return 'hsl(' + newhexColor.h + ', ' + newhexColor.s + ', ' + newhexColor.l + ')';
+        } else {
+            return this.currentHue()
+        }
+
+    }
+
+
+    // this.colorReq ? getRandomColor() : this.currentHue()
+    // this.hslcolor = HEXtoHSL(this.color)
     this.createDiv = function () {
         //var paletteContainer = document.querySelector('.paletteContainer');
         var sliderContainer = document.querySelector('.sliderContainer');
@@ -51,7 +66,8 @@ function Palette(className, textStatus, imageStatus) {
         //this.height ? palette.style.height = this.height : console.log('no height specified');
         palette.style.left = 0;
         palette.style.top = 0;
-        palette.style.background = this.color;
+        console.log(this.color())
+        palette.style.background = this.color();
         // palette.style.cursor = 'pointer'; //doesn't seem to have made a difference
         this.txtRq === true ? this.textContent(palette) : console.log('no text requested');
         this.imgRq === true ? this.imageContent(palette) : console.log('no image requested');
@@ -265,9 +281,13 @@ window.onload = () => {
     //     //console.log(gifVerseObj[key].className)
     // }
     //console.log(numVerses.length)
+
+    for (text in emailThread) {
+        creatSliderPalettes(true)
+    }
 }
 
-const creatSliderPalettes = () => {
+const creatSliderPalettes = (colorcheck) => {
 
     const sliderContainer = document.querySelector('.sliderContainer');
     //this checks if the number of palettes being requested exceeds the number needed for text that needs placing within them.
@@ -277,7 +297,7 @@ const creatSliderPalettes = () => {
     // } else {
     //     console.log('all thingies have a slider')
     // }
-    var newPalletes = new Palette('palette', true, true);
+    var newPalletes = new Palette('palette', true, true, colorcheck);
     newPalletes.createDiv();
 }
 
