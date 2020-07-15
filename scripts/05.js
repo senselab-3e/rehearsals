@@ -53,9 +53,26 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
         // palette.style.width = Math.ceil(Math.random() * 20) + 'vw';
         // console.log(this.color())
         palette.style.background = this.color();
+        const colorPal = this.color();
+        //console.log(palette, 'apple')
         // palette.style.cursor = 'pointer'; //doesn't seem to have made a difference
-        this.txtRq === true ? this.textContent(palette) : console.log('no text requested');
+        this.txtRq === true ? this.textContent(palette, colorPal) : console.log('no text requested');
         this.imgRq === true ? this.imageContent(palette) : console.log('no image requested');
+
+
+        //at this moment, palette.scrollHeight has no value or it's 0
+        // palette.style.cssText = "--palette-height: " + palette.scrollHeight + "px";
+
+        // palette.style.setProperty('background', this.color());
+        // target.style.setProperty('height', 'var(--palette-height)')
+        // console.log(target)
+        // const paletteColor = window.getComputedStyle(target, null).getPropertyValue(
+        //     "background");
+        // console.log(target, paletteColor)
+        //target.style.setProperty('background', paletteColor);
+
+
+
 
         palette.addEventListener("click", function (event) {
             palette.classList.contains('paletteOpen') ? palette.classList.remove('paletteOpen') : palette.classList.add('paletteOpen')
@@ -82,7 +99,7 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
 
 
 
-    this.textContent = function (target) {
+    this.textContent = function (target, colorVal) {
         let text = ''
         const currentPalNum = document.body.querySelectorAll('.palette').length
         //validates that an array number of that index does exist
@@ -91,7 +108,10 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
         // textBox.className = 'textBox'; //this isn't entirely needed but could be use to specificy text styling
         // textBox.textContent = text
         // target.appendChild(textBox)
-        target.textContent = text;
+        target.textContent = text; // this is not targeting the palette div directly, instead of the textBox class that was more elegantly being used before...
+
+        //target isn't targetting..... height returning zero\
+
     }
     this.imageContent = function (target) {
         // console.log('images requested')
@@ -124,10 +144,10 @@ const resetPaletteWidth = (newWidth) => {
 }
 
 const retreiveColor = (el) => {
-    //console.log(el)
+    console.log(el)
     let currentColorVal = window.getComputedStyle(el, null).getPropertyValue(
         "background");
-    //console.log(currentColorVal, 'retrieve color');
+    console.log(currentColorVal, 'retrieve color');
     return currentColorVal;
 }
 
@@ -408,35 +428,38 @@ function shuffleArray(array) {
     //console.log(array)
 }
 
+// this runs thorugh the current assembly of text in the palettes and then re-shuffles the array that fills the textcontent of those palettes
+
 const checkList = () => {
 
     const list = document.querySelector('.sliderContainer')
-    //const textList = list.querySelectorAll('.textBox')
     const textList = list.querySelectorAll('.palette')
-    //console.log(textList.length)
-
-    // textList.forEach(element => {
-    //     console.log(element)
-    // });
 
     shuffleArray(emailThread)
 
-    // document.querySelectorAll('.palette').forEach(
-    //     function (palettePanel) {
-    //         palettePanel.style.cssText = "--palette-height: " + palettePanel.scrollHeight + "px";
-    //     }
-    // );
-
-
     for (let i = 0; i < textList.length; i++) {
-        const paletteColor = retreiveColor(textList[i]) //rbg()
+        // const paletteColor = retreiveColor(textList[i]) //rbg()
         //const element = emailThread[i];
         if (emailThread[i]) {
             textList[i].textContent = emailThread[i]
-            console.log(textList[i].scrollHeight);
+            // textList[i].style.cssText = "--palette-height: " + textList[i].scrollHeight + "px";
+            // textList[i].style.setProperty('height', 'var(--palette-height)')
+            // textList[i].style.setProperty('background', paletteColor);
+        }
+    }
+}
+
+const paletteAdjust = () => {
+    const textList = document.body.querySelectorAll('.palette')
+    for (let i = 0; i < textList.length; i++) {
+        const paletteColor = retreiveColor(textList[i])
+        if (emailThread[i]) {
             textList[i].style.cssText = "--palette-height: " + textList[i].scrollHeight + "px";
             textList[i].style.setProperty('height', 'var(--palette-height)')
             textList[i].style.setProperty('background', paletteColor);
         }
     }
 }
+
+window.setTimeout(paletteAdjust, 1); // for some reason - i need to delay calling this -- perhaps because if called on first initialization - the dynamically created palettes don't all exist yet. this timer is an imperfect way of getting that list. 
+// a lot of refactoring should be investigated for this stuff.. but i suspect getting the scroll Height - based on prior tests within the palette Constructor, can't be calculated at that moment of initialization.... the element has to already exist in the space. but this is kind of super messy : P 
