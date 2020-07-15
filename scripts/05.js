@@ -104,11 +104,11 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
         const currentPalNum = document.body.querySelectorAll('.palette').length
         //validates that an array number of that index does exist
         emailThread[currentPalNum] ? text = emailThread[currentPalNum] : text = text;
-        // var textBox = document.createElement('div');
-        // textBox.className = 'textBox'; //this isn't entirely needed but could be use to specificy text styling
-        // textBox.textContent = text
-        // target.appendChild(textBox)
-        target.textContent = text; // this is not targeting the palette div directly, instead of the textBox class that was more elegantly being used before...
+        var textBox = document.createElement('div');
+        textBox.className = 'textBox'; //this isn't entirely needed but could be use to specificy text styling
+        textBox.textContent = text
+        target.appendChild(textBox)
+        //target.textContent = text; // this is not targeting the palette div directly, instead of the textBox class that was more elegantly being used before...
 
         //target isn't targetting..... height returning zero\
 
@@ -396,7 +396,7 @@ function HEXtoHSL(hex) {
     h = Math.round(360 * h);
 
     //this is so that if a color is picked that is too dark for the black text to be read against, it goes a it lighter
-    l < 50 ? l = 51 : l = l;
+    l < 55 ? l = 56 : l = l;
 
     let colorHSL = {
         h: h,
@@ -433,7 +433,7 @@ function shuffleArray(array) {
 const checkList = () => {
 
     const list = document.querySelector('.sliderContainer')
-    const textList = list.querySelectorAll('.palette')
+    const textList = list.querySelectorAll('.textBox')
 
     shuffleArray(emailThread)
 
@@ -447,6 +447,7 @@ const checkList = () => {
             // textList[i].style.setProperty('background', paletteColor);
         }
     }
+    paletteAdjust()
 }
 
 const paletteAdjust = () => {
