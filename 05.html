@@ -72,6 +72,8 @@
         }
 
         .palette {
+
+            --palette-height: 100vh;
             /* overflow: scroll;  */
             /* if i take away overflow, then you see all the text edges */
             color: #333;
@@ -82,7 +84,7 @@
             cursor: pointer;
             z-index: 10;
             width: 0.3vw;
-            /* height: 100vh; */
+            height: var(--palette-height);
             -webkit-transition: width 3s;
             -moz-transition: width 3s;
             -ms-transition: width 3s;

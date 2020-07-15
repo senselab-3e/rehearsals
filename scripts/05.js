@@ -79,11 +79,7 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
     }
 
 
-    // document.querySelectorAll( '.palette' ).forEach(
-    //     function( palettePanel ) {
-    //         palettePanel.style.cssText = "--palette-height: " + palettePanel.scrollHeight + "px";
-    //     }
-    //   );
+
 
 
     this.textContent = function (target) {
@@ -114,17 +110,6 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
 }
 
 
-// const grabPaletteText = (target) => {
-//     const list = document.body.querySelectorAll('.textBox');
-//     console.log(list)
-//     list.forEach(element => {
-//         console.log(element.textContent, 'hello')
-//     });
-
-// }
-
-
-// grabPaletteText('.textBox');
 
 
 
@@ -141,59 +126,12 @@ const resetPaletteWidth = (newWidth) => {
 const retreiveColor = (el) => {
     //console.log(el)
     let currentColorVal = window.getComputedStyle(el, null).getPropertyValue(
-        "--hsl");
+        "background");
     //console.log(currentColorVal, 'retrieve color');
     return currentColorVal;
 }
 
-//I'm no longer using this
-// const resetColorPixel = (el, target) => {
-//     let updateColor = retreiveColor(el)
-//     target.style.setProperty('background', updateColor);
-//     console.log(target.classList)
-//     //window.getComputedStyle(target, null).getPropertyValue(
-//     //"background-color");
-// }
 
-// const nudgePixels = () => {
-//     const pixelContainer = document.querySelector('.pixelContainer');
-//     const pixelPatches = document.querySelectorAll('.pixelPatch');
-//     console.log(pixelPatches.length)
-//     //have this also be mouseclick for touch devices? 
-//     pixelPatches[0].addEventListener("mouseover", function (event) {
-//         let currentX = window.getComputedStyle(pixelContainer, null).getPropertyValue(
-//             "left");
-//         // let currentY = window.getComputedStyle(pixelContainer, null).getPropertyValue(
-//         //     "top");
-//         const newNum = parseInt(currentX.replace(/[^0-9.]+/, ''));
-//         // to make the test that the position doesn't exceed the window size, i need it to remain and inT - leading to the not as elegant passing of a string concatination in the setProperty
-//         newNum + 5 < window.innerWidth ? pixelContainer.style.setProperty('left', newNum + 5 + 'px') : pixelContainer.style.setProperty('left', 5 + 'px');
-//         // pixelContainer.style.setProperty('top', currentY + 'px');
-//     })
-//     pixelPatches[pixelPatches.length - 1].addEventListener("mouseover", function (event) {
-//         let currentX = window.getComputedStyle(pixelContainer, null).getPropertyValue(
-//             "left");
-//         const newNum = parseInt(currentX.replace(/[^0-9.]+/, ''));
-//         newNum - 5 < 1 ? pixelContainer.style.setProperty('left', window.innerWidth - 15 + 'px') : pixelContainer.style.setProperty('left', newNum - 5 + 'px');
-//     })
-//     ///not convinced this is doing what's necessary on mobile devices
-//     pixelPatches[0].addEventListener("click", function (event) {
-//         let currentX = window.getComputedStyle(pixelContainer, null).getPropertyValue(
-//             "left");
-//         // let currentY = window.getComputedStyle(pixelContainer, null).getPropertyValue(
-//         //     "top");
-//         const newNum = parseInt(currentX.replace(/[^0-9.]+/, ''));
-//         // to make the test that the position doesn't exceed the window size, i need it to remain and inT - leading to the not as elegant passing of a string concatination in the setProperty
-//         newNum + 5 < window.innerWidth ? pixelContainer.style.setProperty('left', newNum + 15 + 'px') : pixelContainer.style.setProperty('left', 5 + 'px');
-//         // pixelContainer.style.setProperty('top', currentY + 'px');
-//     })
-//     pixelPatches[pixelPatches.length - 1].addEventListener("click", function (event) {
-//         let currentX = window.getComputedStyle(pixelContainer, null).getPropertyValue(
-//             "left");
-//         const newNum = parseInt(currentX.replace(/[^0-9.]+/, ''));
-//         newNum - 5 < 1 ? pixelContainer.style.setProperty('left', window.innerWidth - 15 + 'px') : pixelContainer.style.setProperty('left', newNum - 15 + 'px');
-//     })
-// }
 const revealPixelPortal = () => {
     //const pixelContainer = document.querySelector('.pixelContainer');
     const pixelPortal = document.querySelectorAll('.pixelPatch'); // this number should be the same as the number of gifVerse
@@ -211,15 +149,6 @@ const revealPixelPortal = () => {
     }
 }
 
-
-
-//NOTES - i find this visuall distracting from the color shifts. have to figure out how it's genuinely useful
-// const resetPixelLoc = (x, y) => {
-//     console.log(x, y)
-//     const pixelContainer = document.querySelector('.pixelContainer');
-//     pixelContainer.style.setProperty('top', y + 'px');
-//     pixelContainer.style.setProperty('left', x + 'px');
-// }
 
 const getClickPosition = (e) => {
     //var parentPosition = getPosition(e.currentTarget);
@@ -476,14 +405,15 @@ function shuffleArray(array) {
         array[i] = array[j];
         array[j] = temp;
     }
-    console.log(array)
+    //console.log(array)
 }
 
 const checkList = () => {
 
     const list = document.querySelector('.sliderContainer')
-    const textList = list.querySelectorAll('.textBox')
-    console.log(textList.length)
+    //const textList = list.querySelectorAll('.textBox')
+    const textList = list.querySelectorAll('.palette')
+    //console.log(textList.length)
 
     // textList.forEach(element => {
     //     console.log(element)
@@ -491,10 +421,22 @@ const checkList = () => {
 
     shuffleArray(emailThread)
 
+    // document.querySelectorAll('.palette').forEach(
+    //     function (palettePanel) {
+    //         palettePanel.style.cssText = "--palette-height: " + palettePanel.scrollHeight + "px";
+    //     }
+    // );
+
+
     for (let i = 0; i < textList.length; i++) {
+        const paletteColor = retreiveColor(textList[i]) //rbg()
         //const element = emailThread[i];
         if (emailThread[i]) {
             textList[i].textContent = emailThread[i]
+            console.log(textList[i].scrollHeight);
+            textList[i].style.cssText = "--palette-height: " + textList[i].scrollHeight + "px";
+            textList[i].style.setProperty('height', 'var(--palette-height)')
+            textList[i].style.setProperty('background', paletteColor);
         }
     }
 }
