@@ -86,7 +86,8 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
         emailThread[currentPalNum] ? text = emailThread[currentPalNum] : text = text;
         var textBox = document.createElement('div');
         textBox.className = 'textBox'; //this isn't entirely needed but could be use to specificy text styling
-        textBox.textContent = text
+        //textBox.textContent = text;
+        textBox.innerText = text
         target.appendChild(textBox)
         // target.textContent = text; // if i want to load the text straight into the palette div.... which was an attempt to have its background color and size match overflow text size -- but no.
     }

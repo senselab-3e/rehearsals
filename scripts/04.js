@@ -86,7 +86,8 @@ function Palette(className, textStatus, imageStatus) {
         emailThread[currentPalNum] ? text = emailThread[currentPalNum] : text = text;
         var textBox = document.createElement('div');
         textBox.className = 'textBox'; //this isn't entirely needed but could be use to specificy text styling
-        textBox.textContent = text
+        // textBox.textContent = text
+        textBox.innerText = text;
         target.appendChild(textBox)
     }
     this.imageContent = function (target) {

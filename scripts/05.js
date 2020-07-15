@@ -106,7 +106,8 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
         emailThread[currentPalNum] ? text = emailThread[currentPalNum] : text = text;
         var textBox = document.createElement('div');
         textBox.className = 'textBox'; //this isn't entirely needed but could be use to specificy text styling
-        textBox.textContent = text
+        // textBox.textContent = text;
+        textBox.innerText = text;
         target.appendChild(textBox)
         //target.textContent = text; // this is not targeting the palette div directly, instead of the textBox class that was more elegantly being used before...
 
@@ -396,7 +397,8 @@ function HEXtoHSL(hex) {
     h = Math.round(360 * h);
 
     //this is so that if a color is picked that is too dark for the black text to be read against, it goes a it lighter
-    l < 55 ? l = 56 : l = l;
+    l < 60 ? l = 61 : l = l;
+    l > 90 ? l = 89 : l = l;
 
     let colorHSL = {
         h: h,
