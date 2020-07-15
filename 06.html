@@ -110,8 +110,37 @@
             width: 25vw;
         }
 
+
+        @media only screen and (max-width: 600px) {
+            .paletteOpen {
+                background: white;
+                cursor: pointer;
+                width: 70vw;
+            }
+        }
+
+        @media only screen and (min-width: 610px) {
+            .paletteOpen {
+                background: white;
+                cursor: pointer;
+                width: 40vw;
+            }
+        }
+
+        /* Large devices (laptops/desktops, 992px and up) */
+        @media only screen and (min-width: 992px) {
+            .paletteOpen {
+                background: white;
+                cursor: pointer;
+                width: 25vw;
+            }
+        }
+
+
+
+
         #palette1 {
-            width: 80vw;
+            width: 10vw;
             height: 100vh;
             --h: 0;
             --s: 0%;
@@ -127,7 +156,7 @@
         }
 
         #palette2 {
-            width: 20vw;
+            width: 90vw;
             height: 100vh;
             /* z-index: 11; */
             /* --h2: 243;

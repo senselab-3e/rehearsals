@@ -59,7 +59,7 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
 
         palette.addEventListener("click", function (event) {
             palette.classList.contains('paletteOpen') ? palette.classList.remove('paletteOpen') : palette.classList.add('paletteOpen')
-
+            paletteAdjust()
         })
         sliderContainer.appendChild(palette);
 
@@ -139,54 +139,7 @@ const retreiveColor = (el) => {
     return currentColorVal;
 }
 
-//I'm no longer using this
-// const resetColorPixel = (el, target) => {
-//     let updateColor = retreiveColor(el)
-//     target.style.setProperty('background', updateColor);
-//     console.log(target.classList)
-//     //window.getComputedStyle(target, null).getPropertyValue(
-//     //"background-color");
-// }
 
-// const nudgePixels = () => {
-//     const pixelContainer = document.querySelector('.pixelContainer');
-//     const pixelPatches = document.querySelectorAll('.pixelPatch');
-//     console.log(pixelPatches.length)
-//     //have this also be mouseclick for touch devices? 
-//     pixelPatches[0].addEventListener("mouseover", function (event) {
-//         let currentX = window.getComputedStyle(pixelContainer, null).getPropertyValue(
-//             "left");
-//         // let currentY = window.getComputedStyle(pixelContainer, null).getPropertyValue(
-//         //     "top");
-//         const newNum = parseInt(currentX.replace(/[^0-9.]+/, ''));
-//         // to make the test that the position doesn't exceed the window size, i need it to remain and inT - leading to the not as elegant passing of a string concatination in the setProperty
-//         newNum + 5 < window.innerWidth ? pixelContainer.style.setProperty('left', newNum + 5 + 'px') : pixelContainer.style.setProperty('left', 5 + 'px');
-//         // pixelContainer.style.setProperty('top', currentY + 'px');
-//     })
-//     pixelPatches[pixelPatches.length - 1].addEventListener("mouseover", function (event) {
-//         let currentX = window.getComputedStyle(pixelContainer, null).getPropertyValue(
-//             "left");
-//         const newNum = parseInt(currentX.replace(/[^0-9.]+/, ''));
-//         newNum - 5 < 1 ? pixelContainer.style.setProperty('left', window.innerWidth - 15 + 'px') : pixelContainer.style.setProperty('left', newNum - 5 + 'px');
-//     })
-//     ///not convinced this is doing what's necessary on mobile devices
-//     pixelPatches[0].addEventListener("click", function (event) {
-//         let currentX = window.getComputedStyle(pixelContainer, null).getPropertyValue(
-//             "left");
-//         // let currentY = window.getComputedStyle(pixelContainer, null).getPropertyValue(
-//         //     "top");
-//         const newNum = parseInt(currentX.replace(/[^0-9.]+/, ''));
-//         // to make the test that the position doesn't exceed the window size, i need it to remain and inT - leading to the not as elegant passing of a string concatination in the setProperty
-//         newNum + 5 < window.innerWidth ? pixelContainer.style.setProperty('left', newNum + 15 + 'px') : pixelContainer.style.setProperty('left', 5 + 'px');
-//         // pixelContainer.style.setProperty('top', currentY + 'px');
-//     })
-//     pixelPatches[pixelPatches.length - 1].addEventListener("click", function (event) {
-//         let currentX = window.getComputedStyle(pixelContainer, null).getPropertyValue(
-//             "left");
-//         const newNum = parseInt(currentX.replace(/[^0-9.]+/, ''));
-//         newNum - 5 < 1 ? pixelContainer.style.setProperty('left', window.innerWidth - 15 + 'px') : pixelContainer.style.setProperty('left', newNum - 15 + 'px');
-//     })
-// }
 const revealPixelPortal = () => {
     //const pixelContainer = document.querySelector('.pixelContainer');
     const pixelPortal = document.querySelectorAll('.pixelPatch'); // this number should be the same as the number of gifVerse
@@ -258,13 +211,6 @@ window.onload = () => {
     addLinks()
     notes = document.querySelector('.pseudoCode'); // this is a global reference
 
-    // const numVerses = []
-
-    // for (const key in gifVerseObj) {
-    //     numVerses.push(key)
-    //     //console.log(gifVerseObj[key].className)
-    // }
-    //console.log(numVerses.length)
 
     for (text in emailThread) {
         creatSliderPalettes(true)
@@ -488,6 +434,18 @@ const checkList = () => {
         //const element = emailThread[i];
         if (emailThread[i]) {
             textList[i].textContent = emailThread[i]
+        }
+    }
+}
+
+const paletteAdjust = () => {
+    const textList = document.body.querySelectorAll('.paletteOpen')
+    for (let i = 0; i < textList.length; i++) {
+        const paletteColor = retreiveColor(textList[i])
+        if (emailThread[i]) {
+            textList[i].style.cssText = "--palette-height: " + textList[i].scrollHeight + "px";
+            textList[i].style.setProperty('height', 'var(--palette-height)')
+            // textList[i].style.setProperty('background', 'white'); // if i ever want a visual trace to be left of which palettes have already been opened, i can bring back this.
         }
     }
 }
