@@ -111,7 +111,7 @@
         }
 
 
-        @media only screen and (max-width: 600px) {
+        @media only screen and (max-width: 609px) {
             .paletteOpen {
                 background: white;
                 cursor: pointer;
@@ -612,8 +612,8 @@
         }
 
         button {
-            background: none;
-            border: 2px solid white;
+            background: rgba(255, 255, 255, 0.644);
+            border: 2px solid #4842bd;
             border-radius: 5px;
             color: #333;
             display: block;
@@ -627,7 +627,7 @@
 
         button::before,
         button::after {
-            background: deeppink;
+            /* background: deeppink; */
             content: '';
             position: absolute;
             z-index: -1;
@@ -635,6 +635,7 @@
 
         button:hover {
             color: white;
+            background: rgb(255, 20, 147);
         }
 
         .textBox {

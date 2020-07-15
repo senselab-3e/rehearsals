@@ -109,8 +109,34 @@
             width: 25vw;
         }
 
+        @media only screen and (max-width: 609px) {
+            .paletteOpen {
+                background: white;
+                cursor: pointer;
+                width: 70vw;
+            }
+        }
+
+        @media only screen and (min-width: 610px) {
+            .paletteOpen {
+                background: white;
+                cursor: pointer;
+                width: 40vw;
+            }
+        }
+
+        /* Large devices (laptops/desktops, 992px and up) */
+        @media only screen and (min-width: 992px) {
+            .paletteOpen {
+                background: white;
+                cursor: pointer;
+                width: 25vw;
+            }
+        }
+
+
         #palette1 {
-            width: 80vw;
+            width: 50vw;
             height: 100vh;
             --h: 0;
             --s: 0%;
@@ -126,7 +152,7 @@
         }
 
         #palette2 {
-            width: 20vw;
+            width: 50vw;
             height: 100vh;
             /* z-index: 11; */
             /* --h2: 243;
@@ -543,13 +569,7 @@
             /* padding-top: 1em; */
         }
 
-        button,
-        button::after {
-            -webkit-transition: all 0.3s;
-            -moz-transition: all 0.3s;
-            -o-transition: all 0.3s;
-            transition: all 0.3s;
-        }
+
 
         /* input {
             width: 10em;
@@ -582,10 +602,18 @@
             padding: 0.7em 0.5em;
         }
 
+        button,
+        button::after {
+            -webkit-transition: all 0.3s;
+            -moz-transition: all 0.3s;
+            -o-transition: all 0.3s;
+            transition: all 0.3s;
+        }
+
         button {
             cursor: pointer;
-            background: none;
-            border: 2px solid white;
+            background: rgba(255, 255, 255, 0.644);
+            border: 2px solid #4842bd;
             border-radius: 5px;
             color: #333;
             display: block;
@@ -599,7 +627,7 @@
 
         button::before,
         button::after {
-            background: deeppink;
+            background: rgb(255, 20, 145);
             content: '';
             position: absolute;
             z-index: -1;
@@ -607,6 +635,7 @@
 
         button:hover {
             color: white;
+            background: rgb(255, 20, 145);
         }
 
         .textBox {

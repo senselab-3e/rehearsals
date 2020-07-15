@@ -52,7 +52,7 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
         palette.style.top = 0;
         // palette.style.width = Math.ceil(Math.random() * 20) + 'vw';
         // console.log(this.color())
-        palette.style.borderTop = 'solid ' + this.color();
+        palette.style.borderTop = 'solid ' + '7px ' + this.color(); //this disappears after a palette is opened - but its potentially interesting because it allows the user to know which ones they've already opened. you could potentially reverse this effect to, to have the pixel border emerge only when its clicked
         // palette.style.cursor = 'pointer'; //doesn't seem to have made a difference
         this.txtRq === true ? this.textContent(palette) : console.log('no text requested');
         this.imgRq === true ? this.imageContent(palette) : this.imgRq = this.imgRq;
@@ -441,11 +441,17 @@ const checkList = () => {
 
 const paletteAdjust = () => {
     const textList = document.body.querySelectorAll('.paletteOpen')
+    const paletteList = document.body.querySelectorAll('.palette')
+    // let currentColorVal = window.getComputedStyle(paletteList[i], null).getPropertyValue(
+    //     "border-top");
     for (let i = 0; i < textList.length; i++) {
-        const paletteColor = retreiveColor(textList[i])
+
+
         if (emailThread[i]) {
             textList[i].style.cssText = "--palette-height: " + textList[i].scrollHeight + "px";
-            textList[i].style.setProperty('height', 'var(--palette-height)')
+            textList[i].style.setProperty('height', 'var(--palette-height)');
+            //if i want the top border color to come back, i can use the code below
+            //textList[i].style.setProperty('border-top', 'solid ' + '8px ' + getRandomColor()); 
             // textList[i].style.setProperty('background', 'white'); // if i ever want a visual trace to be left of which palettes have already been opened, i can bring back this.
         }
     }

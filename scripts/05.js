@@ -39,8 +39,6 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
     }
 
 
-    // this.colorReq ? getRandomColor() : this.currentHue()
-    // this.hslcolor = HEXtoHSL(this.color)
     this.createDiv = function () {
         //var paletteContainer = document.querySelector('.paletteContainer');
         var sliderContainer = document.querySelector('.sliderContainer');
@@ -56,20 +54,10 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
         const colorPal = this.color();
         //console.log(palette, 'apple')
         // palette.style.cursor = 'pointer'; //doesn't seem to have made a difference
-        this.txtRq === true ? this.textContent(palette, colorPal) : console.log('no text requested');
-        this.imgRq === true ? this.imageContent(palette) : console.log('no image requested');
+        this.txtRq === true ? this.textContent(palette, colorPal) : this.txtRq = this.txtRq;
+        this.imgRq === true ? this.imageContent(palette) : this.imgRq = this.imgRq;
 
 
-        //at this moment, palette.scrollHeight has no value or it's 0
-        // palette.style.cssText = "--palette-height: " + palette.scrollHeight + "px";
-
-        // palette.style.setProperty('background', this.color());
-        // target.style.setProperty('height', 'var(--palette-height)')
-        // console.log(target)
-        // const paletteColor = window.getComputedStyle(target, null).getPropertyValue(
-        //     "background");
-        // console.log(target, paletteColor)
-        //target.style.setProperty('background', paletteColor);
 
 
 
@@ -97,8 +85,6 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
 
 
 
-
-
     this.textContent = function (target, colorVal) {
         let text = ''
         const currentPalNum = document.body.querySelectorAll('.palette').length
@@ -109,9 +95,6 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
         // textBox.textContent = text;
         textBox.innerText = text;
         target.appendChild(textBox)
-        //target.textContent = text; // this is not targeting the palette div directly, instead of the textBox class that was more elegantly being used before...
-
-        //target isn't targetting..... height returning zero\
 
     }
     this.imageContent = function (target) {
@@ -145,10 +128,10 @@ const resetPaletteWidth = (newWidth) => {
 }
 
 const retreiveColor = (el) => {
-    console.log(el)
+    // console.log(el)
     let currentColorVal = window.getComputedStyle(el, null).getPropertyValue(
         "background");
-    console.log(currentColorVal, 'retrieve color');
+    // console.log(currentColorVal, 'retrieve color');
     return currentColorVal;
 }
 
