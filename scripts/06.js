@@ -52,10 +52,10 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
         palette.style.top = 0;
         // palette.style.width = Math.ceil(Math.random() * 20) + 'vw';
         // console.log(this.color())
-        // palette.style.background = this.color();
+        palette.style.borderTop = 'solid ' + this.color();
         // palette.style.cursor = 'pointer'; //doesn't seem to have made a difference
         this.txtRq === true ? this.textContent(palette) : console.log('no text requested');
-        this.imgRq === true ? this.imageContent(palette) : console.log('no image requested');
+        this.imgRq === true ? this.imageContent(palette) : this.imgRq = this.imgRq;
 
         palette.addEventListener("click", function (event) {
             palette.classList.contains('paletteOpen') ? palette.classList.remove('paletteOpen') : palette.classList.add('paletteOpen')
@@ -469,7 +469,7 @@ function shuffleArray(array) {
         array[i] = array[j];
         array[j] = temp;
     }
-    console.log(array)
+    // console.log(array)
 }
 
 const checkList = () => {

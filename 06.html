@@ -75,15 +75,16 @@
             /* overflow: scroll;  */
             /* if i take away overflow, then you see all the text edges */
             /* display: inline-block; NOt the solution i'm after */
+            /* border-left: 1px solid orange; */
             color: #333;
             font-family: 'Quicksand', sans-serif;
             font-size: 15px;
             cursor: pointer;
-            overflow: scroll;
+            /* overflow: scroll; */
             /* white-space: break-spaces; */
             /*investigate uses for later. right now its not doing anything because i don't have unique white spaces in my text arrays*/
             z-index: 10;
-            width: 2vw;
+            width: 0.5em;
             height: 100%;
             -webkit-transition: width 3s;
             -moz-transition: width 3s;
@@ -104,7 +105,7 @@
         } */
 
         .paletteOpen {
-
+            background: white;
             cursor: pointer;
             width: 25vw;
         }
@@ -612,7 +613,9 @@
             color: #333;
             font-family: 'Quicksand', sans-serif;
             font-size: 15px;
-            padding: 1em;
+            padding: 0.3em;
+            border-left: 1px solid 'deeppink';
+
 
         }
 
