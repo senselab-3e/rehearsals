@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
-    <script src="./scripts/04.js"></script>
-    <script src="./scripts/cosmicdigest.js"></script>
 
     <!-- style sheets are wayZ --- a way, not 'the' way -->
 
@@ -74,11 +72,20 @@
         }
 
         .palette {
-            overflow: scroll;
+            /* overflow: scroll;  */
+            /* if i take away overflow, then you see all the text edges */
+            /* display: inline-block; NOt the solution i'm after */
+            /* border-left: 1px solid orange; */
+            color: #333;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 15px;
             cursor: pointer;
+            /* overflow: scroll; */
+            /* white-space: break-spaces; */
+            /*investigate uses for later. right now its not doing anything because i don't have unique white spaces in my text arrays*/
             z-index: 10;
-            width: 0.3vw;
-            height: 100vh;
+            width: 0.5em;
+            height: 100%;
             -webkit-transition: width 3s;
             -moz-transition: width 3s;
             -ms-transition: width 3s;
@@ -97,18 +104,47 @@
             width: 25vw;
         } */
 
-        .paletteClick {
-
+        .paletteOpen {
+            background: white;
             cursor: pointer;
             width: 25vw;
         }
 
+
+        @media only screen and (max-width: 609px) {
+            .paletteOpen {
+                background: white;
+                cursor: pointer;
+                width: 70vw;
+            }
+        }
+
+        @media only screen and (min-width: 610px) {
+            .paletteOpen {
+                background: white;
+                cursor: pointer;
+                width: 40vw;
+            }
+        }
+
+        /* Large devices (laptops/desktops, 992px and up) */
+        @media only screen and (min-width: 992px) {
+            .paletteOpen {
+                background: white;
+                cursor: pointer;
+                width: 25vw;
+            }
+        }
+
+
+
+
         #palette1 {
-            width: 80vw;
+            width: 10vw;
             height: 100vh;
-            --h: 150;
-            --s: 78%;
-            --l: 50%;
+            --h: 0;
+            --s: 0%;
+            --l: 100%;
             --hsl: hsl(var(--h), var(--s), var(--l));
             background-color: var(--hsl);
             -webkit-transition: width 3s;
@@ -120,14 +156,14 @@
         }
 
         #palette2 {
-            width: 20vw;
+            width: 90vw;
             height: 100vh;
-            z-index: 11;
+            /* z-index: 11; */
             /* --h2: 243;
             --hsl2: hsl(var(--h2), 48%, 50%); */
-            --h: 150;
-            --s: 78%;
-            --l: 40%;
+            --h: 0;
+            --s: 0%;
+            --l: 100%;
             --hsl: hsl(var(--h), var(--s), var(--l));
             background-color: var(--hsl);
             -webkit-transition: width 3s;
@@ -512,11 +548,94 @@
 
         .colorBox {
             z-index: 12;
-            position: absolute;
+            /* vertical-align: top; */
+            /* text-transform: uppercase; */
+            /* position: absolute;
+            margin: 0;
+            padding: 1em;
+            top: 0; */
+        }
+
+        .menuContainer {
             margin: 0;
             padding: 1em;
             top: 0;
+            position: absolute;
+            z-index: 12;
+            display: flex;
+            flex-wrap: wrap;
 
+        }
+
+        .btShuffle {
+
+            padding-left: 1em;
+            /* padding-top: 1em; */
+        }
+
+        button,
+        button::after {
+            -webkit-transition: all 0.3s;
+            -moz-transition: all 0.3s;
+            -o-transition: all 0.3s;
+            transition: all 0.3s;
+        }
+
+        /* input {
+            width: 10em;
+            height: 3.5em;
+
+
+        } */
+
+        input[type="color"] {
+            -webkit-appearance: none;
+            border: none;
+            width: 38px;
+            height: 38px;
+        }
+
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 1;
+            background-color: white;
+            /* to make it invisible put padding at 0 */
+        }
+
+        input[type="color"]::-webkit-color-swatch {
+            border: none;
+        }
+
+        label {
+            /* vertical-align: 0.7em; */
+            vertical-align: baseline;
+            padding: 0.7em 0.5em;
+        }
+
+        button {
+            background: rgba(255, 255, 255, 0.644);
+            border: 2px solid #4842bd;
+            border-radius: 5px;
+            color: #333;
+            display: block;
+            /* font-size: 1.6em; */
+            font-weight: bold;
+            /* margin: 1px auto; */
+            padding: 1em 1em;
+            position: relative;
+            text-transform: uppercase;
+        }
+
+        button::before,
+        button::after {
+            /* background: deeppink; */
+            content: '';
+            position: absolute;
+            z-index: -1;
+        }
+
+        button:hover {
+            color: white;
+            background: rgb(255, 20, 147);
         }
 
         .textBox {
@@ -524,8 +643,21 @@
             color: #333;
             font-family: 'Quicksand', sans-serif;
             font-size: 15px;
-            padding: 1em;
+            padding: 0.3em;
+            border-left: 1px solid 'deeppink';
 
+
+        }
+
+        .button2::after {
+            height: 100%;
+            left: 0;
+            top: 0;
+            width: 0;
+        }
+
+        .button2:hover:after {
+            width: 100%;
         }
     </style>
 
@@ -536,18 +668,31 @@
 
     <div class="paletteContainer">
         <div id="palette1"></div>
-        <div class="sliderContainer"></div>
+        <div class="sliderContainer">
+            <!-- <div class="palette">
+                <div class="textBox"></div>
+            </div> -->
+
+        </div>
         <div id="palette2"></div>
 
     </div>
     <div class="pseudoCode hide">relational shifts</div>
-    <div class="colorBox">
-        <input type="color" value="#4842bd">
-        <label>Click space to reveal conversation:</label>
+    <div class="menuContainer">
+        <div class="colorBox">
+            <input type="color" value="#4842bd">
 
+        </div>
+        <div class="btShuffle"><button type="button" class="button2"
+                onclick="shuffleArray(emailThread), checkList()">shuffle
+                text</button></div>
+        <!-- <label>Click space to reveal conversation</label> -->
     </div>
+
 
 </body>
 <!-- <script src="./scripts/menu.js"></script> -->
+<script src="./scripts/06.js"></script>
+<script src="./scripts/cosmicdigest.js"></script>
 
 </html>

@@ -3,21 +3,21 @@ var notes;
 //on each click i could add a thingy.... 
 
 
-//NOTE --- i'm citing an array of texts called cosmic digest, that is in another js file called cosmic digest. this is because potentially i want all that file information to be accessible to there sketch spaces. 
+//NOTE --- i'm citing an array of texts for the emails called emailThreads from the cosmic digest js file, that is in another js file called cosmic digest. this is because potentially i want all that file information to be accessible to there sketch spaces. 
 const gifVerse = ['gif404', 'gifmeowmix', 'gifpipecleaners', 'gifsponge', 'gifbreeze', 'giffold', 'gifshadows', 'gifsplash', 'gifsquee', 'gifsplat', 'gifumbrella', 'gifpoke', 'gifcompost', 'gifplanttrap', 'gif404', 'gifpinkwave', 'gifwave', 'gifducky'] // for each of these instances, a single pixel element will be created. 
 const thingyVerse = ['staticSponge2', 'staticPingPong', 'staticBlueChair', 'staticPingPong', 'staticCompost', 'staticFishy', 'staticBlueBowl', 'staticSponge'] // for each of these instances, a single pixel element will be created. 
 const linkVerse = ['portal-404s/rrr.html', 'portal-404s/fishy.html', 'portal-404s/sss.html', 'portal-404s/fff.html', 'portal-404s/aeo.html', 'portal-404s/vvv.html', 'portal-404s/kite.html', 'portal-404s/mmm.html', 'portal-404s/llli.html', 'portal-404s/eee.html', 'portal-404s/uuu.html', 'portal-404s/shsh.html', 'portal-404s/zzz.html', 'portal-404s/jardin.html', 'portal-404s/mondayfiles.html', 'portal-404s/bichos.html', 'portal-404s/gggrog.html', 'portal-404s/joy.html'] //creature.html
 
 
-const paletteTexts = ['When you ask DD, what kind of psychology this can be/come, this seems really key. What is a psychology without interiority? What is a psychology that is curious about the conditions of existence as they morph? What is a psychology that can move at the pace of a world making and remaking itself? For those of us familiar with Guattari, we would say “schizoanalysis” - the practice of activating techniques for the living-out (rather than the living-in) of experience.', 'oiajdsfojasdofoasdfo', 'oaisdfonaosdfnasdf', 'idafsojoadisjf']
 
 //PALETTE OBJ CONSTRuCTOR
-function Palette(className, textStatus, imageStatus) {
+function Palette(className, textStatus, imageStatus, randomColorNeeded) {
     this.className = className;
     //this.width = width;  //NOTE:seeabove. if assigned the css styling heirarchies will cause the :hover transitions in the sizing to not be applied. so it's necesary to leave them blank.
     //this.height = height;
     this.txtRq = textStatus; // checks for true of false for adding text within palette
     this.imgRq = imageStatus;
+    this.colorReq = randomColorNeeded; //checks if this palette needs a random color assigned to it
     //NOTE: remember this currentHue thing in the future. right now the color for the palette is being decided by whatever is in palette Id palette1. for re-usability this will need to happen differently
     this.currentHue = function () {
         let sample = document.body.querySelector('#palette1') // just for testing purposes.
@@ -26,7 +26,19 @@ function Palette(className, textStatus, imageStatus) {
             "--hsl");
         return hsl
     }
-    this.color = this.currentHue()
+    this.color = function () {
+        if (this.colorReq) {
+            let ranHexColor = getRandomColor();
+            //this is awkward - but only in hsl mode can i check the lightness - so i'm first calling a random hex number, then converting to hsl. investigate a random HSL from the start, later
+            let newhexColor = HEXtoHSL(ranHexColor);
+            return 'hsl(' + newhexColor.h + ', ' + newhexColor.s + ', ' + newhexColor.l + ')';
+        } else {
+            return this.currentHue()
+        }
+
+    }
+
+
     this.createDiv = function () {
         //var paletteContainer = document.querySelector('.paletteContainer');
         var sliderContainer = document.querySelector('.sliderContainer');
@@ -36,13 +48,22 @@ function Palette(className, textStatus, imageStatus) {
         //this.height ? palette.style.height = this.height : console.log('no height specified');
         palette.style.left = 0;
         palette.style.top = 0;
-        palette.style.background = this.color;
+        // palette.style.width = Math.ceil(Math.random() * 20) + 'vw';
+        // console.log(this.color())
+        palette.style.background = this.color();
+        const colorPal = this.color();
+        //console.log(palette, 'apple')
         // palette.style.cursor = 'pointer'; //doesn't seem to have made a difference
-        this.txtRq === true ? this.textContent(palette) : console.log('no text requested');
-        this.imgRq === true ? this.imageContent(palette) : console.log('no image requested');
+        this.txtRq === true ? this.textContent(palette, colorPal) : this.txtRq = this.txtRq;
+        this.imgRq === true ? this.imageContent(palette) : this.imgRq = this.imgRq;
+
+
+
+
+
 
         palette.addEventListener("click", function (event) {
-            palette.classList.contains('paletteClick') ? palette.classList.remove('paletteClick') : palette.classList.add('paletteClick')
+            palette.classList.contains('paletteOpen') ? palette.classList.remove('paletteOpen') : palette.classList.add('paletteOpen')
 
         })
         sliderContainer.appendChild(palette);
@@ -61,37 +82,23 @@ function Palette(className, textStatus, imageStatus) {
 
 
     }
-    //     this.contentType(type){
-    // switch(type){
-    //     case 
-    // }
-    //     }
 
 
-    // this.textContent = function (target) {
-    //     let text = ''
-    //     const currentPalNum = document.body.querySelectorAll('.palette').length
-    //     anarchivingPropositions[currentPalNum] ? text = anarchivingPropositions[currentPalNum] : text = text;
-    //     var textBox = document.createElement('div');
-    //     textBox.className = 'textBox';
-    //     textBox.textContent = text
-    //     target.appendChild(textBox)
-    // }
 
-    //console.log(typeof emailThread[3])
-
-    this.textContent = function (target) {
+    this.textContent = function (target, colorVal) {
         let text = ''
         const currentPalNum = document.body.querySelectorAll('.palette').length
+        //validates that an array number of that index does exist
         emailThread[currentPalNum] ? text = emailThread[currentPalNum] : text = text;
         var textBox = document.createElement('div');
         textBox.className = 'textBox'; //this isn't entirely needed but could be use to specificy text styling
-        // textBox.textContent = text
+        // textBox.textContent = text;
         textBox.innerText = text;
         target.appendChild(textBox)
+
     }
     this.imageContent = function (target) {
-        console.log('images requested')
+        // console.log('images requested')
         var imageBox = document.createElement('div');
         imageBox.className = 'imagethingies';
         // const imageClassOptions = []
@@ -99,12 +106,16 @@ function Palette(className, textStatus, imageStatus) {
         //     imageClassOptions.push(gifVerseObj[key].className)
         // }
         const currentPalNum = document.body.querySelectorAll('.palette').length
-        console.log(currentPalNum)
+        // console.log(currentPalNum)
         imageBox.className = thingyVerse[currentPalNum];
         target.appendChild(imageBox);
     }
 
 }
+
+
+
+
 
 //NOTE: this is working in combination with flexbox. i can't rely on flexbox entirely for the effect i'm after but if it aint broke, don't fix it.
 const resetPaletteWidth = (newWidth) => {
@@ -117,61 +128,14 @@ const resetPaletteWidth = (newWidth) => {
 }
 
 const retreiveColor = (el) => {
-    //console.log(el)
+    // console.log(el)
     let currentColorVal = window.getComputedStyle(el, null).getPropertyValue(
-        "--hsl");
-    //console.log(currentColorVal, 'retrieve color');
+        "background");
+    // console.log(currentColorVal, 'retrieve color');
     return currentColorVal;
 }
 
-//I'm no longer using this
-// const resetColorPixel = (el, target) => {
-//     let updateColor = retreiveColor(el)
-//     target.style.setProperty('background', updateColor);
-//     console.log(target.classList)
-//     //window.getComputedStyle(target, null).getPropertyValue(
-//     //"background-color");
-// }
 
-// const nudgePixels = () => {
-//     const pixelContainer = document.querySelector('.pixelContainer');
-//     const pixelPatches = document.querySelectorAll('.pixelPatch');
-//     console.log(pixelPatches.length)
-//     //have this also be mouseclick for touch devices? 
-//     pixelPatches[0].addEventListener("mouseover", function (event) {
-//         let currentX = window.getComputedStyle(pixelContainer, null).getPropertyValue(
-//             "left");
-//         // let currentY = window.getComputedStyle(pixelContainer, null).getPropertyValue(
-//         //     "top");
-//         const newNum = parseInt(currentX.replace(/[^0-9.]+/, ''));
-//         // to make the test that the position doesn't exceed the window size, i need it to remain and inT - leading to the not as elegant passing of a string concatination in the setProperty
-//         newNum + 5 < window.innerWidth ? pixelContainer.style.setProperty('left', newNum + 5 + 'px') : pixelContainer.style.setProperty('left', 5 + 'px');
-//         // pixelContainer.style.setProperty('top', currentY + 'px');
-//     })
-//     pixelPatches[pixelPatches.length - 1].addEventListener("mouseover", function (event) {
-//         let currentX = window.getComputedStyle(pixelContainer, null).getPropertyValue(
-//             "left");
-//         const newNum = parseInt(currentX.replace(/[^0-9.]+/, ''));
-//         newNum - 5 < 1 ? pixelContainer.style.setProperty('left', window.innerWidth - 15 + 'px') : pixelContainer.style.setProperty('left', newNum - 5 + 'px');
-//     })
-//     ///not convinced this is doing what's necessary on mobile devices
-//     pixelPatches[0].addEventListener("click", function (event) {
-//         let currentX = window.getComputedStyle(pixelContainer, null).getPropertyValue(
-//             "left");
-//         // let currentY = window.getComputedStyle(pixelContainer, null).getPropertyValue(
-//         //     "top");
-//         const newNum = parseInt(currentX.replace(/[^0-9.]+/, ''));
-//         // to make the test that the position doesn't exceed the window size, i need it to remain and inT - leading to the not as elegant passing of a string concatination in the setProperty
-//         newNum + 5 < window.innerWidth ? pixelContainer.style.setProperty('left', newNum + 15 + 'px') : pixelContainer.style.setProperty('left', 5 + 'px');
-//         // pixelContainer.style.setProperty('top', currentY + 'px');
-//     })
-//     pixelPatches[pixelPatches.length - 1].addEventListener("click", function (event) {
-//         let currentX = window.getComputedStyle(pixelContainer, null).getPropertyValue(
-//             "left");
-//         const newNum = parseInt(currentX.replace(/[^0-9.]+/, ''));
-//         newNum - 5 < 1 ? pixelContainer.style.setProperty('left', window.innerWidth - 15 + 'px') : pixelContainer.style.setProperty('left', newNum - 15 + 'px');
-//     })
-// }
 const revealPixelPortal = () => {
     //const pixelContainer = document.querySelector('.pixelContainer');
     const pixelPortal = document.querySelectorAll('.pixelPatch'); // this number should be the same as the number of gifVerse
@@ -189,15 +153,6 @@ const revealPixelPortal = () => {
     }
 }
 
-
-
-//NOTES - i find this visuall distracting from the color shifts. have to figure out how it's genuinely useful
-// const resetPixelLoc = (x, y) => {
-//     console.log(x, y)
-//     const pixelContainer = document.querySelector('.pixelContainer');
-//     pixelContainer.style.setProperty('top', y + 'px');
-//     pixelContainer.style.setProperty('left', x + 'px');
-// }
 
 const getClickPosition = (e) => {
     //var parentPosition = getPosition(e.currentTarget);
@@ -250,9 +205,13 @@ window.onload = () => {
     //     //console.log(gifVerseObj[key].className)
     // }
     //console.log(numVerses.length)
+
+    for (text in emailThread) {
+        creatSliderPalettes(true)
+    }
 }
 
-const creatSliderPalettes = () => {
+const creatSliderPalettes = (colorcheck) => {
 
     const sliderContainer = document.querySelector('.sliderContainer');
     //this checks if the number of palettes being requested exceeds the number needed for text that needs placing within them.
@@ -262,7 +221,7 @@ const creatSliderPalettes = () => {
     // } else {
     //     console.log('all thingies have a slider')
     // }
-    var newPalletes = new Palette('palette', true, true);
+    var newPalletes = new Palette('palette', true, false, colorcheck);
     newPalletes.createDiv();
 }
 
@@ -328,11 +287,12 @@ const setNewColorVal = (target) => {
     target.style.setProperty('--hsl', updatedHSL);
 }
 
+//currently disabled the color shifts on palette1
 const updateColors = () => {
     const palette1 = document.querySelector('#palette1'); //NOTES: need to keep these here, rather then passing a variable through the function
-    const palette2 = document.querySelector('#palette2'); // i need to keep this function anonymous so that it can be used in a callback with setInterval, below
+    //const palette2 = document.querySelector('#palette2'); // i need to keep this function anonymous so that it can be used in a callback with setInterval, below
     setNewColorVal(palette1);
-    setNewColorVal(palette2);
+    //setNewColorVal(palette2);
 }
 
 var intervalChng = window.setInterval(updateColors, 1000); //continually changes color of palette2 element, using callback function 
@@ -345,16 +305,36 @@ const colorPicker = () => {
         const palette2 = document.querySelector('#palette2');
         let pixel = document.querySelectorAll('.pixelPatch');
         let convertedVal = HEXtoHSL(input.value) //NOTES: this now returning a  hsl information in an object with key values for each hsl
+        // let currentH = window.getComputedStyle(target, null).getPropertyValue(
+        //     "--h");
+        // let currentS = window.getComputedStyle(target, null).getPropertyValue(
+        //     "--s");
+        // let currentL = window.getComputedStyle(target, null).getPropertyValue(
+        //     "--l");
+
+
+        const contrastH = window.getComputedStyle(palette1, null).getPropertyValue(
+            "--h");
+        const contrastS = window.getComputedStyle(palette1, null).getPropertyValue(
+            "--s");
+        const contrastL = window.getComputedStyle(palette1, null).getPropertyValue(
+            "--l");
+        //this passes whatever color palette 1 was, before a new color is applied from the picker, to palette 2. 
+        palette2.style.setProperty('--h', contrastH);
+        palette2.style.setProperty('--s', contrastS);
+        palette2.style.setProperty('--l', contrastL);
+
         palette1.style.setProperty('--h', convertedVal.h);
         palette1.style.setProperty('--s', convertedVal.s);
         palette1.style.setProperty('--l', convertedVal.l);
-        palette2.style.setProperty('--h', convertedVal.h);
-        palette2.style.setProperty('--s', convertedVal.s);
+        // palette2.style.setProperty('--h', convertedVal.h);
+        // palette2.style.setProperty('--s', convertedVal.s);
 
-        const pixel2L = convertedVal.l.replace(/[^\w\d]/, '') - 10 + '%'; // this is a little overly complicated but i'm matching the second palette to the first palette, but just 10 degrees less light. becaue the object returned by the HEX conver t function includes the '%' symbol i have to remove it before subtracting. 
-        palette2.style.setProperty('--l', pixel2L);
+        // const pixel2L = convertedVal.l.replace(/[^\w\d]/, '') - 10 + '%'; // this is a little overly complicated but i'm matching the second palette to the first palette, but just 10 degrees less light. becaue the object returned by the HEX conver t function includes the '%' symbol i have to remove it before subtracting. 
+        // palette2.style.setProperty('--l', pixel2L);
         const hslString = 'hsl(' + convertedVal.h + ', ' + convertedVal.s + ', ' + convertedVal.l + ')';
-        const hslString2 = 'hsl(' + convertedVal.h + ', ' + convertedVal.s + ', ' + pixel2L + ')';
+        //const hslString2 = 'hsl(' + convertedVal.h + ', ' + convertedVal.s + ', ' + pixel2L + ')';
+        const hslString2 = 'hsl(' + contrastH + ', ' + contrastS + ', ' + contrastL + ')';
 
         palette1.style.setProperty('--hsl', hslString);
         palette2.style.setProperty('--hsl', hslString2);
@@ -399,6 +379,10 @@ function HEXtoHSL(hex) {
     l = Math.round(l);
     h = Math.round(360 * h);
 
+    //this is so that if a color is picked that is too dark for the black text to be read against, it goes a it lighter
+    l < 60 ? l = 61 : l = l;
+    l > 90 ? l = 89 : l = l;
+
     let colorHSL = {
         h: h,
         s: s + '%',
@@ -415,3 +399,53 @@ const colorShiftDif = (newVal) => {
         "--h");
     //console.log(Math.abs(contrastVal - newVal))
 }
+
+
+
+
+function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+    //console.log(array)
+}
+
+// this runs thorugh the current assembly of text in the palettes and then re-shuffles the array that fills the textcontent of those palettes
+
+const checkList = () => {
+
+    const list = document.querySelector('.sliderContainer')
+    const textList = list.querySelectorAll('.textBox')
+
+    shuffleArray(emailThread)
+
+    for (let i = 0; i < textList.length; i++) {
+        // const paletteColor = retreiveColor(textList[i]) //rbg()
+        //const element = emailThread[i];
+        if (emailThread[i]) {
+            textList[i].textContent = emailThread[i]
+            // textList[i].style.cssText = "--palette-height: " + textList[i].scrollHeight + "px";
+            // textList[i].style.setProperty('height', 'var(--palette-height)')
+            // textList[i].style.setProperty('background', paletteColor);
+        }
+    }
+    paletteAdjust()
+}
+
+const paletteAdjust = () => {
+    const textList = document.body.querySelectorAll('.palette')
+    for (let i = 0; i < textList.length; i++) {
+        const paletteColor = retreiveColor(textList[i])
+        if (emailThread[i]) {
+            textList[i].style.cssText = "--palette-height: " + textList[i].scrollHeight + "px";
+            textList[i].style.setProperty('height', 'var(--palette-height)')
+            textList[i].style.setProperty('background', paletteColor);
+        }
+    }
+}
+
+window.setTimeout(paletteAdjust, 1); // for some reason - i need to delay calling this -- perhaps because if called on first initialization - the dynamically created palettes don't all exist yet. this timer is an imperfect way of getting that list. 
+// a lot of refactoring should be investigated for this stuff.. but i suspect getting the scroll Height - based on prior tests within the palette Constructor, can't be calculated at that moment of initialization.... the element has to already exist in the space. but this is kind of super messy : P 
