@@ -97,7 +97,8 @@
         .palette:hover {
             /* border: 1px inset white; */
             /* margin: 0px 20px 0px 40px;*/
-            padding: 0px 10px 0px 10px;
+            padding: 0px 10px;
+            /* padding: 7px 10px 0px 10px; */
 
         }
 
@@ -111,9 +112,11 @@
             background: white;
             cursor: pointer;
             width: 25vw;
-            padding: 0px 10px 0px 10px;
+            padding: 0px 10px;
+            /* padding: 7px 10px 0px 10px; */
         }
 
+        /* padding set to 7px is to compensate for the border that is no longer present at the top after you open the palette -- due to the dynamic js styling whihch overrides the native css */
 
         @media only screen and (max-width: 609px) {
             .paletteOpen {
@@ -672,6 +675,7 @@
             cursor: pointer;
             color: #333;
             font-family: 'Quicksand', sans-serif;
+            line-height: 30px;
             font-size: 15px;
             padding: 0.3em;
             border-left: 1px solid 'deeppink';

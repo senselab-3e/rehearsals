@@ -60,6 +60,8 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
         palette.addEventListener("click", function (event) {
             palette.classList.contains('paletteOpen') ? palette.classList.remove('paletteOpen') : palette.classList.add('paletteOpen')
             paletteAdjust()
+            palette.firstChild.style.color = '#666';
+            palette.firstChild.style.borderTop = 'solid 7px white';
         })
         sliderContainer.appendChild(palette);
 
