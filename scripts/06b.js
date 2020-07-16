@@ -3,7 +3,7 @@ var notes;
 //on each click i could add a thingy.... 
 
 
-//NOTE --- i'm citing an array of texts for the emails called emailThreads from the cosmic digest js file, that is in another js file called cosmic digest. this is because potentially i want all that file information to be accessible to there sketch spaces. 
+//NOTE --- i'm citing an array of texts for the emails called propThreads from the cosmic digest js file, that is in another js file called cosmic digest. this is because potentially i want all that file information to be accessible to there sketch spaces. 
 const gifVerse = ['gif404', 'gifmeowmix', 'gifpipecleaners', 'gifsponge', 'gifbreeze', 'giffold', 'gifshadows', 'gifsplash', 'gifsquee', 'gifsplat', 'gifumbrella', 'gifpoke', 'gifcompost', 'gifplanttrap', 'gif404', 'gifpinkwave', 'gifwave', 'gifducky'] // for each of these instances, a single pixel element will be created. 
 const thingyVerse = ['staticSponge2', 'staticPingPong', 'staticBlueChair', 'staticPingPong', 'staticCompost', 'staticFishy', 'staticBlueBowl', 'staticSponge'] // for each of these instances, a single pixel element will be created. 
 const linkVerse = ['portal-404s/rrr.html', 'portal-404s/fishy.html', 'portal-404s/sss.html', 'portal-404s/fff.html', 'portal-404s/aeo.html', 'portal-404s/vvv.html', 'portal-404s/kite.html', 'portal-404s/mmm.html', 'portal-404s/llli.html', 'portal-404s/eee.html', 'portal-404s/uuu.html', 'portal-404s/shsh.html', 'portal-404s/zzz.html', 'portal-404s/jardin.html', 'portal-404s/mondayfiles.html', 'portal-404s/bichos.html', 'portal-404s/gggrog.html', 'portal-404s/joy.html'] //creature.html
@@ -13,6 +13,7 @@ const linkVerse = ['portal-404s/rrr.html', 'portal-404s/fishy.html', 'portal-404
 //PALETTE OBJ CONSTRuCTOR
 function Palette(className, textStatus, imageStatus, randomColorNeeded) {
     this.className = className;
+
     //this.width = width;  //NOTE:seeabove. if assigned the css styling heirarchies will cause the :hover transitions in the sizing to not be applied. so it's necesary to leave them blank.
     //this.height = height;
     this.txtRq = textStatus; // checks for true of false for adding text within palette
@@ -39,29 +40,33 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
     }
 
 
-    // this.colorReq ? getRandomColor() : this.currentHue()
-    // this.hslcolor = HEXtoHSL(this.color)
     this.createDiv = function () {
         //var paletteContainer = document.querySelector('.paletteContainer');
         var sliderContainer = document.querySelector('.sliderContainer');
         var palette = document.createElement('div');
         palette.className = this.className;
+        palette.classList.add('paletteOpen');
         //this.width ? palette.style.width = this.width : console.log('no width specified'); //NOTE:seeabove
         //this.height ? palette.style.height = this.height : console.log('no height specified');
         palette.style.left = 0;
         palette.style.top = 0;
         // palette.style.width = Math.ceil(Math.random() * 20) + 'vw';
         // console.log(this.color())
-        palette.style.borderTop = 'solid ' + '7px ' + this.color(); //this disappears after a palette is opened - but its potentially interesting because it allows the user to know which ones they've already opened. you could potentially reverse this effect to, to have the pixel border emerge only when its clicked
+        palette.style.background = this.color();
+        const colorPal = this.color();
+        //console.log(palette, 'apple')
         // palette.style.cursor = 'pointer'; //doesn't seem to have made a difference
-        this.txtRq === true ? this.textContent(palette) : console.log('no text requested');
+        this.txtRq === true ? this.textContent(palette, colorPal) : this.txtRq = this.txtRq;
         this.imgRq === true ? this.imageContent(palette) : this.imgRq = this.imgRq;
+
+
+
+
+
 
         palette.addEventListener("click", function (event) {
             palette.classList.contains('paletteOpen') ? palette.classList.remove('paletteOpen') : palette.classList.add('paletteOpen')
-            paletteAdjust()
-            palette.firstChild.style.color = '#666';
-            palette.firstChild.style.borderTop = 'solid 7px white';
+
         })
         sliderContainer.appendChild(palette);
 
@@ -81,17 +86,18 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
     }
 
 
-    this.textContent = function (target) {
+
+    this.textContent = function (target, colorVal) {
         let text = ''
         const currentPalNum = document.body.querySelectorAll('.palette').length
         //validates that an array number of that index does exist
-        emailThread[currentPalNum] ? text = emailThread[currentPalNum] : text = text;
+        propThread[currentPalNum] ? text = propThread[currentPalNum] : text = text;
         var textBox = document.createElement('div');
         textBox.className = 'textBox'; //this isn't entirely needed but could be use to specificy text styling
-        //textBox.textContent = text;
-        textBox.innerText = text
+        // textBox.textContent = text;
+        textBox.innerText = text;
         target.appendChild(textBox)
-        // target.textContent = text; // if i want to load the text straight into the palette div.... which was an attempt to have its background color and size match overflow text size -- but no.
+
     }
     this.imageContent = function (target) {
         // console.log('images requested')
@@ -110,17 +116,6 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
 }
 
 
-// const grabPaletteText = (target) => {
-//     const list = document.body.querySelectorAll('.textBox');
-//     console.log(list)
-//     list.forEach(element => {
-//         console.log(element.textContent, 'hello')
-//     });
-
-// }
-
-
-// grabPaletteText('.textBox');
 
 
 
@@ -135,10 +130,10 @@ const resetPaletteWidth = (newWidth) => {
 }
 
 const retreiveColor = (el) => {
-    //console.log(el)
+    // console.log(el)
     let currentColorVal = window.getComputedStyle(el, null).getPropertyValue(
-        "--hsl");
-    //console.log(currentColorVal, 'retrieve color');
+        "background");
+    // console.log(currentColorVal, 'retrieve color');
     return currentColorVal;
 }
 
@@ -160,15 +155,6 @@ const revealPixelPortal = () => {
     }
 }
 
-
-
-//NOTES - i find this visuall distracting from the color shifts. have to figure out how it's genuinely useful
-// const resetPixelLoc = (x, y) => {
-//     console.log(x, y)
-//     const pixelContainer = document.querySelector('.pixelContainer');
-//     pixelContainer.style.setProperty('top', y + 'px');
-//     pixelContainer.style.setProperty('left', x + 'px');
-// }
 
 const getClickPosition = (e) => {
     //var parentPosition = getPosition(e.currentTarget);
@@ -214,8 +200,15 @@ window.onload = () => {
     addLinks()
     notes = document.querySelector('.pseudoCode'); // this is a global reference
 
+    // const numVerses = []
 
-    for (text in emailThread) {
+    // for (const key in gifVerseObj) {
+    //     numVerses.push(key)
+    //     //console.log(gifVerseObj[key].className)
+    // }
+    //console.log(numVerses.length)
+
+    for (text in propThread) {
         creatSliderPalettes(true)
     }
 }
@@ -389,7 +382,8 @@ function HEXtoHSL(hex) {
     h = Math.round(360 * h);
 
     //this is so that if a color is picked that is too dark for the black text to be read against, it goes a it lighter
-    l < 50 ? l = 51 : l = l;
+    l < 60 ? l = 61 : l = l;
+    l > 90 ? l = 89 : l = l;
 
     let colorHSL = {
         h: h,
@@ -418,43 +412,42 @@ function shuffleArray(array) {
         array[i] = array[j];
         array[j] = temp;
     }
-    // console.log(array)
+    //console.log(array)
 }
+
+// this runs thorugh the current assembly of text in the palettes and then re-shuffles the array that fills the textcontent of those palettes
 
 const checkList = () => {
 
     const list = document.querySelector('.sliderContainer')
     const textList = list.querySelectorAll('.textBox')
-    console.log(textList.length)
 
-    // textList.forEach(element => {
-    //     console.log(element)
-    // });
-
-    shuffleArray(emailThread)
+    shuffleArray(propThread)
 
     for (let i = 0; i < textList.length; i++) {
-        //const element = emailThread[i];
-        if (emailThread[i]) {
-            textList[i].textContent = emailThread[i]
+        // const paletteColor = retreiveColor(textList[i]) //rbg()
+        //const element = propThread[i];
+        if (propThread[i]) {
+            textList[i].textContent = propThread[i]
+            // textList[i].style.cssText = "--palette-height: " + textList[i].scrollHeight + "px";
+            // textList[i].style.setProperty('height', 'var(--palette-height)')
+            // textList[i].style.setProperty('background', paletteColor);
         }
     }
+    //paletteAdjust()
 }
 
 const paletteAdjust = () => {
-    const textList = document.body.querySelectorAll('.paletteOpen')
-    const paletteList = document.body.querySelectorAll('.palette')
-    // let currentColorVal = window.getComputedStyle(paletteList[i], null).getPropertyValue(
-    //     "border-top");
+    const textList = document.body.querySelectorAll('.palette')
     for (let i = 0; i < textList.length; i++) {
-
-
-        if (emailThread[i]) {
+        const paletteColor = retreiveColor(textList[i])
+        if (propThread[i]) {
             textList[i].style.cssText = "--palette-height: " + textList[i].scrollHeight + "px";
-            textList[i].style.setProperty('height', 'var(--palette-height)');
-            //if i want the top border color to come back, i can use the code below
-            //textList[i].style.setProperty('border-top', 'solid ' + '8px ' + getRandomColor()); 
-            // textList[i].style.setProperty('background', 'white'); // if i ever want a visual trace to be left of which palettes have already been opened, i can bring back this.
+            textList[i].style.setProperty('height', 'var(--palette-height)')
+            textList[i].style.setProperty('background', paletteColor);
         }
     }
 }
+
+//window.setTimeout(paletteAdjust, 1); // for some reason - i need to delay calling this -- perhaps because if called on first initialization - the dynamically created palettes don't all exist yet. this timer is an imperfect way of getting that list. 
+// a lot of refactoring should be investigated for this stuff.. but i suspect getting the scroll Height - based on prior tests within the palette Constructor, can't be calculated at that moment of initialization.... the element has to already exist in the space. but this is kind of super messy : P 
