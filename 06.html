@@ -95,7 +95,10 @@
 
         /* annoying. the javascript assigned styling on this element override any of the other settings i try to add to it via hover*/
         .palette:hover {
-            border: 1px inset white;
+            /* border: 1px inset white; */
+            /* margin: 0px 20px 0px 40px;*/
+            padding: 0px 20px 0px 20px;
+
         }
 
         /* .palette:hover,
@@ -117,6 +120,14 @@
                 cursor: pointer;
                 width: 70vw;
             }
+
+            #palette1 {
+                width: 50vw;
+            }
+
+            #palette2 {
+                width: 50vw;
+            }
         }
 
         @media only screen and (min-width: 610px) {
@@ -124,6 +135,14 @@
                 background: white;
                 cursor: pointer;
                 width: 40vw;
+            }
+
+            #palette1 {
+                width: 40vw;
+            }
+
+            #palette2 {
+                width: 60vw;
             }
         }
 
@@ -134,13 +153,21 @@
                 cursor: pointer;
                 width: 25vw;
             }
+
+            #palette1 {
+                width: 20vw;
+            }
+
+            #palette2 {
+                width: 80vw;
+            }
         }
 
 
 
 
         #palette1 {
-            width: 10vw;
+            /* width: 20vw; */
             height: 100vh;
             --h: 0;
             --s: 0%;
@@ -156,7 +183,7 @@
         }
 
         #palette2 {
-            width: 90vw;
+            width: 80vw;
             height: 100vh;
             /* z-index: 11; */
             /* --h2: 243;
