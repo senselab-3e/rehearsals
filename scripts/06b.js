@@ -8,7 +8,11 @@ const gifVerse = ['gif404', 'gifmeowmix', 'gifpipecleaners', 'gifsponge', 'gifbr
 const thingyVerse = ['staticSponge2', 'staticPingPong', 'staticBlueChair', 'staticPingPong', 'staticCompost', 'staticFishy', 'staticBlueBowl', 'staticSponge'] // for each of these instances, a single pixel element will be created. 
 const linkVerse = ['portal-404s/rrr.html', 'portal-404s/fishy.html', 'portal-404s/sss.html', 'portal-404s/fff.html', 'portal-404s/aeo.html', 'portal-404s/vvv.html', 'portal-404s/kite.html', 'portal-404s/mmm.html', 'portal-404s/llli.html', 'portal-404s/eee.html', 'portal-404s/uuu.html', 'portal-404s/shsh.html', 'portal-404s/zzz.html', 'portal-404s/jardin.html', 'portal-404s/mondayfiles.html', 'portal-404s/bichos.html', 'portal-404s/gggrog.html', 'portal-404s/joy.html'] //creature.html
 
+const vidPalette = document.body.querySelector('.palette')
 
+vidPalette.addEventListener("click", function (event) {
+    vidPalette.classList.contains('paletteOpen') ? vidPalette.classList.remove('paletteOpen') : vidPalette.classList.add('paletteOpen');
+})
 
 //PALETTE OBJ CONSTRuCTOR
 function Palette(className, textStatus, imageStatus, randomColorNeeded) {
@@ -91,7 +95,8 @@ function Palette(className, textStatus, imageStatus, randomColorNeeded) {
         let text = ''
         const currentPalNum = document.body.querySelectorAll('.palette').length
         //validates that an array number of that index does exist
-        propThread[currentPalNum] ? text = propThread[currentPalNum] : text = text;
+        //this has been adjusted to allow for the one palette that's already been created. so the total number of palettes is one larger then the propthread array.
+        propThread[currentPalNum - 1] ? text = propThread[currentPalNum - 1] : text = text;
         var textBox = document.createElement('div');
         textBox.className = 'textBox'; //this isn't entirely needed but could be use to specificy text styling
         // textBox.textContent = text;
