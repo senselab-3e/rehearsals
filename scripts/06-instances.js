@@ -4,23 +4,49 @@ const width = 500;
 const height = 500;
 
 
-function checkMode() {
-    console.log(drawMode)
-    drawMode === 'single' ? drawMode = 'smear' : drawMode = 'single';
-    console.log(drawMode)
-    //drawMode === 'smear' ? drawMode = 'apple' : console.log(drawMode);
-    //drawMode === 'apple' ? drawMode = 'single' : console.log(drawMode);
-}
+
+///FIRST PROMPT
 
 
 let drawMode = 'single';
-///FIRST PROMPT
+
 let prompt1 = function (p) {
     let x = 100;
     let y = 100;
     let words = [];
     const introText = "What is it to move with a proposition? What does that do differently?";
     let arrayIntroText = introText.split(' ');
+
+    function checkMode() {
+        switch (drawMode) {
+            case 'single':
+                drawMode = 'cluster';
+                break;
+            case 'cluster':
+                drawMode = 'smear';
+                break;
+            case 'smear':
+                drawMode = 'cluster';
+                seedWords() // this reseeds the whole sentence so it's not just adding the words on loop. BUT. that is a creative decision only. it could be interesting to have them multiply.
+                break;
+            default:
+                drawMode = 'single';
+                break;
+        }
+
+
+    }
+
+
+    const seedWords = () => {
+        words = [];
+        arrayIntroText.forEach(word => {
+            //because this is grabbing the same mouseX mouseY all at the same moment - when it reseeds, it creates the sentence in a cluster
+            let wordEl = new Sentences(p.mouseX, p.mouseY, 5, 0, word);
+            words.push(wordEl);
+        });
+    }
+
 
     class Sentences {
         constructor(x, y, diam, steps, word) {
@@ -33,8 +59,18 @@ let prompt1 = function (p) {
             this.stroke = 'black'
         }
         display() {
-            var x = p.width * p.noise(this.steps);
-            var y = this.y * p.noise(this.steps + 5);
+            // console.log(this.steps)
+            if (drawMode === 'single') {
+                var x = p.width / 4 * p.noise(0); //if i replace the noise property with noise(0) instead of noise(this.steps) i get a verticality in the movements on the Y
+                var y = p.height * p.noise(this.steps);
+
+            } else if (drawMode === 'cluster') {
+                var x = p.width / 2 * p.noise(this.steps);
+                var y = this.y * p.noise(this.steps + 5);
+            } else {
+                var x = p.width / 2 * p.noise(this.steps);
+                var y = this.y * p.noise(this.steps + 5);
+            }
             p.noStroke()
             p.textSize(27)
             this.word ? p.text(this.word, x, y) : this.word = ''; //this is to cover when 'word is undefined'
@@ -70,9 +106,11 @@ let prompt1 = function (p) {
         } else if (drawMode === 'smear') {
 
             //no background color is being applied so that the words now smear
-        } else if (drawMode === 'apple') {
-            p.background('white')
-            p.fill('deeppink')
+        } else if (drawMode === 'cluster') {
+            p.background('white');
+
+        } else {
+            console.log('unknown mode')
         }
 
         if (words) {
@@ -92,9 +130,15 @@ let prompt1 = function (p) {
             if (arrayIntroText.length > 0) {
                 let introWord = new Sentences(p.mouseX, p.mouseY, 5, 0, arrayIntroText[0]);
                 words.push(introWord);
+                //this is set to switch modes when the word proposition is hit in the text string. it will move things from single mode to cluster
+                if (words.length === 9) {
+                    checkMode()
+                }
+
             } else {
                 console.log('out of words')
                 arrayIntroText = introText.split(' ');
+                //this is set to trigger a switch mode from cluster to smear - once all the words in the text string have been printed
                 checkMode()
                 let introWord = new Sentences(p.mouseX, p.mouseY, 5, 0, arrayIntroText[0]);
                 words.push(introWord);
@@ -262,7 +306,7 @@ let prompt2 = function (p) {
 
 
     class Sentences {
-        constructor(x, y, diam, steps, word) {
+        constructor(x, y, diam, steps, word, incr) {
             this.x = x;
             this.y = y;
             this.diam = diam;
@@ -271,24 +315,20 @@ let prompt2 = function (p) {
             this.word = word
             this.speed = p.random(1, 5);
             this.direc = 1;
-            this.inc = p.TWO_PI / 25.0
+            this.inc = p.TWO_PI / 25.0; //p.TWO_PI / 10.0
 
         }
         display() {
-
             // this.y += this.speed * this.direc
-
             // var x = p.sin(p.width) * p.width / 4;
             p.mouseX += this.inc; //p.width / 2 * p.noise(this.steps) + this.x;
             //var y = p.height / 2 * p.noise(this.steps - 5) + this.y;
-
             p.noStroke()
             // to expedite testing i repaced the ellipses to texts but it should get it's own object
             // ellipse(x, y, this.diam, this.diam);
-
             p.textSize(this.diam)
             this.word ? p.text(this.word, this.x, this.y) : console.log('nothing'); //this is to cover when 'word is undefined'
-            // text(this.word, x, y)
+
         }
         update() {
             this.steps += p.random(0.0025, 0.01);
@@ -308,9 +348,7 @@ let prompt2 = function (p) {
             //     this.speed /= 1.2
             // }
         }
-        whiteOut() {
-            p.fill('white')
-        }
+
     }
 
     p.setup = function () {
