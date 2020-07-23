@@ -174,8 +174,8 @@ let prompt2 = function (p) {
                     p.line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
                     break;
                 case 'White Flies': // white lines
-                    p.colorMode(p.RGB, 255, 255, 255, 100);
-                    p.stroke(255, 255, 255, 100);
+                    p.colorMode(p.RGB, 255, 255, 255, 50);
+                    p.stroke(255, 255, 255, 50);
                     p.strokeWeight(1);
                     p.line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
                     break;
@@ -391,19 +391,14 @@ let prompt2 = function (p) {
     };
 
     p.mousePressed = function () {
-        drawMode = 'White Flies';
-        //seedParticles(500) // key to place this here so it's not continually redrawing the seeding
-        //it's possible to target a specific canvas by calculating the x/y position relative to the distance of the two canvas instances combined. so if mouseY > 500, for example
-        //(mouseY > 500) ? console.log('second canvas', mouseY): console.log('first canvas', mouseY)
-        if (p.mouseY > 0 && p.mouseY < 500) {
 
-            // if (arrayIntroText.length > 0) {
-            //     let introWord = new Sentences(p.mouseX, p.mouseY, 25, 0, arrayIntroText[0]);
-            //     words.push(introWord);
-            // }
-            // arrayIntroText.splice(0, 1);
+        drawMode === 'White Flies' ? drawMode = 'ColorSize Variety' : drawMode = 'White Flies'
+        //seedParticles(500)
+        //seedParticles(500) // key if i want to reseed and add more particles to place this here so it's not continually redrawing the seeding
+        //below allows me to target only clicks within the canvas
+        if (p.mouseY > 0 && p.mouseY < 500) {
             if (pageTwo[0]) {
-                let newWord2 = new Sentences(p.mouseX, p.mouseY, 15, 0, pageTwo[0]);
+                let newWord2 = new Sentences(10, p.mouseY, 12, 0, pageTwo[0]);
                 words.push(newWord2)
                 pageTwo.splice(0, 1);
             }
