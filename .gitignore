@@ -1,2 +1,7 @@
 testing123/js/.DS_Store
 testing123/style/.DS_Store
+
+scripts/06-p5.js
+scripts/06-2-p5.js
+.vscode/
+.DS_Store
