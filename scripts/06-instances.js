@@ -7,13 +7,16 @@ const height = 500;
 
 ///FIRST PROMPT
 
-
-let drawMode = 'single';
+//this is the mode of movement for the text string clustsers. originally this was set to 'single' but decided it wasn't as effective as having a tight cluster with a then more divergetn single word cluster around it. 
+let drawMode = 'cluster';
 
 let prompt1 = function (p) {
     let x = 100;
     let y = 100;
     let words = [];
+    let introWords = [];
+
+    //NOTE. added a weird '.' because i wanted there to be a pause before the next sentence's What is printed
     const introText = "What is it to move with a proposition? What does that do differently?";
     let arrayIntroText = introText.split(' ');
 
@@ -42,7 +45,7 @@ let prompt1 = function (p) {
         words = [];
         arrayIntroText.forEach(word => {
             //because this is grabbing the same mouseX mouseY all at the same moment - when it reseeds, it creates the sentence in a cluster
-            let wordEl = new Sentences(p.mouseX, p.mouseY, 5, 0, word);
+            let wordEl = new Sentences(p.width / 2, p.height / 2, 5, 0, word);
             words.push(wordEl);
         });
     }
@@ -89,6 +92,7 @@ let prompt1 = function (p) {
     p.setup = function () {
         p.createCanvas(500, 500);
         p.background('white')
+        seedWords()
         // p.textSize(17)
         // p.fill('#333')
         // p.text('THIS IS A MOVEMENT PRACTICE \n PROPOSITION \n (It should take between 1 hour to 2 hours)', width / 4, height / 2)
@@ -96,6 +100,7 @@ let prompt1 = function (p) {
     };
 
     p.draw = function () {
+
         if (drawMode === 'single') {
             p.background('white')
             // p.push()
@@ -119,22 +124,30 @@ let prompt1 = function (p) {
                 words[m].update();
             }
         }
+        //gives the canvas and outline
+        p.push()
+        p.noFill()
+        p.stroke('#333')
+        p.rect(0, 0, p.width, p.height)
+
+        p.pop()
     };
 
     p.mousePressed = function () {
         //it's possible to target a specific canvas by calculating the x/y position relative to the distance of the two canvas instances combined. so if mouseY > 500, for example
         //(mouseY > 500) ? console.log('second canvas', mouseY): console.log('first canvas', mouseY)
 
-        if (p.mouseY > 0 && p.mouseY < 500) {
+        if (p.mouseY > 0 && p.mouseY < p.height && p.mouseX < p.width) {
             console.log(true)
             if (arrayIntroText.length > 0) {
                 let introWord = new Sentences(p.mouseX, p.mouseY, 5, 0, arrayIntroText[0]);
                 words.push(introWord);
                 //this is set to switch modes when the word proposition is hit in the text string. it will move things from single mode to cluster
-                if (words.length === 9) {
-                    checkMode()
-                }
-
+                //relying on a number is not the best....
+                //I originally introduced a mode shift between single to cluster, between sentence one and two of the string. but then decided it was more effective to start from the cluster
+                // if (words.length === 9) {
+                //     checkMode()
+                // }
             } else {
                 console.log('out of words')
                 arrayIntroText = introText.split(' ');
@@ -144,10 +157,9 @@ let prompt1 = function (p) {
                 words.push(introWord);
 
             }
+            //each time the mouse is clicked, it empties out the first element in the array of text. this lets me print the 'next' word in the string source. the array is reset and refilled with the whole string, once it hits a length of zero.
             arrayIntroText.splice(0, 1);
-        } else {
-            // console.log(false)
-        }
+        } else {}
 
     };
 };
@@ -160,7 +172,7 @@ let prompt2 = function (p) {
     let x = 100;
     let y = 100;
     let words = [];
-    const pageTwo = ["It is a STUDY time, so it will require TENDING time.", "As a proposition it also carries the quality\n of being a GIFT. \nAs a gift it also carries the appetite\n to generate gestures of FEED-back to the process and FEEDING-forward.\n But we don't know in advance what feeding forward\n and feeding back is. we generate it in and with\n the practice!\n FIGURE: the cell as process\n TOOLS: \n \t- [ ] a colour patch to create a zone of intensity of colorality\n to hold and suspend a region of contrast as a way\n to modulate the field for engagement into an acossioning\n of experience moving this way this time.\n \t- [ ] a bag to fill with water. preferably warm and cold water to experiment with different temperature as contrasts.\n \t- [ ] one or two pieces of fabric with interesting colour and texture or that carry sparks for an affinity of tonality with the capacity to lure a RELATION DIAGRAM: every movement proposition should take around 15-20 minutes but feel free to shorten and//or expand but keep it time limited so that it finds itself in THIS way, THIS time."];
+    const pageTwo = ["It is a STUDY time, so it will require TENDING time.", "As a proposition it also carries the quality\n of being a GIFT. \n \nAs a gift it also carries the appetite\n to generate gestures of FEED-back to the process \n and FEEDING-forward.\n\n But we don't know in advance what feeding forward\n and feeding back is. we generate it in and with\n the practice!\n", "FIGURE: the cell as process\n TOOLS: \n \t- [ ] a colour patch to create a zone of intensity of colorality\n to hold and suspend a region of contrast as a way\n to modulate the field for engagement into an acossioning\n of experience moving this way this time.\n \t- [ ] a bag to fill with water. preferably warm and cold water to experiment with different temperature as contrasts.\n \t- [ ] one or two pieces of fabric with interesting colour and texture or that carry sparks for an affinity of tonality with the capacity to lure a RELATION DIAGRAM: every movement proposition should take around 15-20 minutes but feel free to shorten and//or expand but keep it time limited so that it finds itself in THIS way, THIS time."];
 
     const introText = "What is it to move with a proposition? What does that do differently?";
     let arrayIntroText = introText.split(' ');
@@ -326,7 +338,10 @@ let prompt2 = function (p) {
             p.noStroke()
             // to expedite testing i repaced the ellipses to texts but it should get it's own object
             // ellipse(x, y, this.diam, this.diam);
+
             p.textSize(this.diam)
+            //p.translate(width / 2, 0);
+            p.textAlign(p.CENTER)
             this.word ? p.text(this.word, this.x, this.y) : console.log('nothing'); //this is to cover when 'word is undefined'
 
         }
@@ -363,6 +378,8 @@ let prompt2 = function (p) {
         numParticles = 500;
         seedParticles(numParticles);
         flowfield = new Array(cols * rows);
+        let newWord2 = new Sentences(p.width / 2, p.height / 6, 20, 0, pageTwo[1]);
+        words.push(newWord2)
     };
 
     function seedParticles(num) {
@@ -374,6 +391,8 @@ let prompt2 = function (p) {
 
 
     p.draw = function () {
+
+
         if (drawMode === "ColorSize Variety") {
             p.background(0); // draw solid background
         } else if (drawMode === "White Flies") {
@@ -435,16 +454,99 @@ let prompt2 = function (p) {
         //seedParticles(500) // key if i want to reseed and add more particles to place this here so it's not continually redrawing the seeding
         //below allows me to target only clicks within the canvas
         if (p.mouseY > 0 && p.mouseY < 500) {
-            if (pageTwo[0]) {
-                let newWord2 = new Sentences(10, p.mouseY, 12, 0, pageTwo[0]);
-                words.push(newWord2)
-                pageTwo.splice(0, 1);
-            }
+            // if (pageTwo[0]) {
+            //     let newWord2 = new Sentences(10, p.mouseY, 12, 0, pageTwo[0]);
+            //     words.push(newWord2)
+            //     pageTwo.splice(0, 1);
+            // }
         }
 
     };
 };
 
+
+
+//
+let prompt3 = function (p) {
+    let circles = []
+
+    class Circle {
+        constructor(x, y, diam, steps) {
+            this.x = x;
+            this.y = y;
+            this.diam = diam;
+            this.steps = steps;
+            this.opacity = 102;
+        }
+        display() {
+            let c = p.color(15, 26, 102, this.opacity);
+            //the fourth value is the alpha /// it can be extracted by passing c in to p.alph(c)
+            p.fill(c)
+            p.ellipse(this.x, this.y + this.steps, this.diam, this.diam);
+        }
+        update() {
+
+            if (this.diam < 250) {
+                this.diam += 1 //this.steps;
+                //p.filter(p.BLUR, 1);  
+                //this.steps += 1
+            }
+            if (this.opacity >= 0) {
+                this.opacity -= 1;
+            }
+        }
+        check4removal(i) {
+            //console.log(circles.length)
+            // if (this.diam === 1) {
+            //     circles.splice(i, 1)
+            // }
+            if (this.opacity === 0) {
+                circles.splice(i, 1)
+            }
+        }
+        // checkNumItems() {
+        //     // if (circles.length > 50) {
+        //     //     circles.splice(0, 1);
+
+        //     // }
+        //     // console.log(circles.length)
+        // }
+    }
+    p.setup = function () {
+        p.createCanvas(500, 500);
+        p.background('purple')
+        // p.pop()
+        // p.rect(0, 0, 500, 500)
+        // p.noFill()
+        // // p.background('purple')
+        // p.push()
+        p.push()
+        p.fill('white')
+        p.textSize(18)
+        // p.textStyle(BOLD);
+        p.text('THIS IS A MOVEMENT PRACTICE \nPROPOSITION \n\n', p.width / 6, p.height / 3)
+        p.pop()
+
+        p.push()
+        p.fill('#999')
+        p.textSize(14)
+        p.text('It should take between 1 hour to 2 hours \n\n\nIt is a STUDY time, so it will require TENDING time.', p.width / 6, p.height / 2)
+        p.pop()
+    }
+
+    p.draw = function () {
+        // p.background('purple')
+
+        if (p.mouseX !== p.pmouseX && p.mouseY !== p.pmouseY) {
+            let newCirc = new Circle(p.mouseX + p.random(1, 5), p.mouseY + p.random(1, 5), 5, 1);
+            //let newCirc2 = new Circle(p.mouseX, p.mouseY, 20, 30);
+            circles.push(newCirc);
+            //circles.push(newCirc2);
+        }
+    }
+}
+
+let sketch3 = new p5(prompt3);
 let sketch2 = new p5(prompt2);
 
 // Compare to "global mode"
