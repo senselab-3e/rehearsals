@@ -129,7 +129,6 @@ let prompt1 = function (p) {
         p.noFill()
         p.stroke('#333')
         p.rect(0, 0, p.width, p.height)
-
         p.pop()
     };
 
@@ -341,7 +340,7 @@ let prompt2 = function (p) {
 
             p.textSize(this.diam)
             //p.translate(width / 2, 0);
-            p.textAlign(p.CENTER)
+            // p.textAlign(p.CENTER)
             this.word ? p.text(this.word, this.x, this.y) : console.log('nothing'); //this is to cover when 'word is undefined'
 
         }
@@ -378,7 +377,7 @@ let prompt2 = function (p) {
         numParticles = 500;
         seedParticles(numParticles);
         flowfield = new Array(cols * rows);
-        let newWord2 = new Sentences(p.width / 2, p.height / 6, 20, 0, pageTwo[1]);
+        let newWord2 = new Sentences(p.width / 9, p.height / 6, 17, 0, pageTwo[1]);
         words.push(newWord2)
     };
 
@@ -400,13 +399,20 @@ let prompt2 = function (p) {
 
         }
         //p.background('white');
-        if (words) {
-            for (let m = 0; m < words.length; m++) {
-                words[m].display();
-                words[m].update();
-                // words[1].whiteOut()
-            }
-        }
+        // if (words) {
+        //     for (let m = 0; m < words.length; m++) {
+        //         words[m].display();
+        //         words[m].update();
+        //         // words[1].whiteOut()
+        //     }
+        // }
+
+        p.push()
+        p.fill('white')
+        p.noStroke()
+        p.textSize(19)
+        p.text(pageTwo[1], p.width / 10, p.height / 6)
+        p.pop()
 
         let yoff = 0;
         for (let y = 0; y < rows; y++) {
@@ -481,11 +487,11 @@ let prompt3 = function (p) {
         display() {
             let c = p.color(15, 26, 102, this.opacity);
             //the fourth value is the alpha /// it can be extracted by passing c in to p.alph(c)
+            p.noStroke()
             p.fill(c)
             p.ellipse(this.x, this.y + this.steps, this.diam, this.diam);
         }
         update() {
-
             if (this.diam < 250) {
                 this.diam += 1 //this.steps;
                 //p.filter(p.BLUR, 1);  
@@ -520,35 +526,169 @@ let prompt3 = function (p) {
         // p.noFill()
         // // p.background('purple')
         // p.push()
+
+    }
+
+
+    let steps = 0
+    p.draw = function () {
+
+        //center circle
+        steps += p.random(0.00025, 0.0005);
+        var r = 255 * p.noise(steps + 1);
+        var g = 255 * p.noise(steps + 1);
+        var b = 255 * p.noise(steps + 1);
+
+        p.background('purple')
+        p.push()
+        p.fill(r, g, b, 200)
+        p.ellipse(p.width / 2, p.height / 2, 400)
+        p.pop()
+
+        for (let m = 0; m < circles.length; m++) {
+            // much cleaner!
+            circles[m].display();
+            circles[m].update();
+            circles[m].check4removal(m);
+            //checkNumItems();
+        }
+
         p.push()
         p.fill('white')
         p.textSize(18)
         // p.textStyle(BOLD);
-        p.text('THIS IS A MOVEMENT PRACTICE \nPROPOSITION \n\n', p.width / 6, p.height / 3)
+        p.textAlign(p.CENTER);
+        p.text('THIS IS A MOVEMENT PRACTICE \nPROPOSITION \n\n', p.width / 2, p.height / 3)
         p.pop()
 
         p.push()
-        p.fill('#999')
+        p.fill('#eee')
         p.textSize(14)
         p.text('It should take between 1 hour to 2 hours \n\n\nIt is a STUDY time, so it will require TENDING time.', p.width / 6, p.height / 2)
         p.pop()
-    }
+        // if (p.mouseX !== p.pmouseX && p.mouseY !== p.pmouseY) {
+        let newCirc = new Circle(p.mouseX + p.random(1, 5), p.mouseY + p.random(1, 5), 5, 1);
+        //let newCirc2 = new Circle(p.mouseX, p.mouseY, 20, 30);
+        circles.push(newCirc);
+        //circles.push(newCirc2);
+        //}
 
-    p.draw = function () {
-        // p.background('purple')
 
-        if (p.mouseX !== p.pmouseX && p.mouseY !== p.pmouseY) {
-            let newCirc = new Circle(p.mouseX + p.random(1, 5), p.mouseY + p.random(1, 5), 5, 1);
-            //let newCirc2 = new Circle(p.mouseX, p.mouseY, 20, 30);
-            circles.push(newCirc);
-            //circles.push(newCirc2);
-        }
+
     }
 }
 
 let sketch3 = new p5(prompt3);
 let sketch2 = new p5(prompt2);
 
+
+const prompt4 = function (p) {
+
+    let patches = [];
+
+    const colorArrays = [
+        [68, 173, 228, 100],
+        [43, 86, 185, 100],
+        [255, 69, 30, 100],
+        [247, 163, 59, 100]
+    ]
+
+
+    class Pinwheel {
+        constructor(mousePos) {
+            this.v = p5.Vector.random2D()
+            this.prevV = this.v.copy()
+            this.color = p.random(colorArrays);
+            // this.blurAmt = incr
+            this.prevV = this.v.copy()
+            this.mouseX = mousePos
+
+        }
+
+        update() {
+
+
+            // this.prevV.set(this.v)
+            // this.prevV.mult(width + 100);
+
+            // if i don't want thing to be over the edge all the time, then set either don't apply a mult to the prevV and or apply a p.random(500) to each of the mult()
+            //EXAMPLE
+            //this.prevV.mult(p.floor(p.random(500)));
+            this.v.mult(width / 4);
+            this.prevV.set(this.v)
+            this.prevV.mult(100);
+
+        }
+        show() {
+            p.push()
+
+            p.fill(this.color)
+
+            //original origina translation to the center of the canvas
+            //bringit back beginning here
+            //p.translate(width / 2, height / 2)
+            //very different effect if i shift around where tehe origin point is.
+            p.translate(p.width / p.random(1, 6), p.height / p.random(1, 6));
+            p.rotate(p.random(20))
+            //p.line(0, 0, this.v.x, this.v.y)
+            //p.stroke(255)
+            p.noStroke()
+
+            p.rect(this.v.x, this.v.y, 300)
+            p.rect(this.prevV.x, this.prevV.x, p.random(100, 300))
+            // p.beginShape()
+
+            // p.vertex(0, 0)
+            // p.vertex(this.v.x, this.v.y)
+            // p.vertex(this.prevV.x, this.prevV.x) /// SPECIAL NOTE ABOUT SECOND PREVV VERTex
+            // // all i know is that is more interesting when the x value is passed for both, rather then the intended y value
+            // // i accidentally wrote prevV.x twice, in the above, and it gave me what i wanted. once 'corrected' to prevV.y, it's more staggered...
+            // p.vertex(0, 0)
+            // p.endShape();
+            ///bring it back, ending here
+
+            //BEZIER CURVE XPERIment
+            // p.beginShape()
+            // p.noStroke()
+            // p.vertex(this.v.x, this.v.y)
+            // p.bezierVertex(this.v.x, this.v.y, p.mouseX, p.mouseY, this.prevV.x, this.prevV.x)
+            // p.bezierVertex(this.prevV.x, this.prevV.x, p.mouseX, p.mouseY, 0, 0)
+            // //p.vertex(this.prevV.x, this.prevV.x) 
+            // p.vertex(0, 0)
+            // p.endShape();
+            // p.noStroke()
+            // p.rect(this.v.x, this.v.y, this.prevV.x, this.prevV.y)
+            p.pop()
+
+        }
+
+
+
+
+    }
+
+    p.setup = function () {
+
+        p.createCanvas(500, 500);
+        p.background('yellow');
+    }
+
+    p.draw = function () {
+
+        patches.forEach((patch) => {
+            patch.update()
+            patch.show();
+        })
+    }
+
+
+    p.mousePressed = function () {
+        let patch = new Pinwheel()
+        patches.push(patch)
+    }
+}
+
+let sketch4 = new p5(prompt4);
 // Compare to "global mode"
 // let x = 100;
 // let y = 100;
