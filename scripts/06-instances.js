@@ -493,30 +493,17 @@ let prompt3 = function (p) {
         }
         update() {
             if (this.diam < 250) {
-                this.diam += 1 //this.steps;
-                //p.filter(p.BLUR, 1);  
-                //this.steps += 1
+                this.diam += 1;
             }
             if (this.opacity >= 0) {
                 this.opacity -= 1;
             }
         }
         check4removal(i) {
-            //console.log(circles.length)
-            // if (this.diam === 1) {
-            //     circles.splice(i, 1)
-            // }
             if (this.opacity === 0) {
                 circles.splice(i, 1)
             }
         }
-        // checkNumItems() {
-        //     // if (circles.length > 50) {
-        //     //     circles.splice(0, 1);
-
-        //     // }
-        //     // console.log(circles.length)
-        // }
     }
     p.setup = function () {
         p.createCanvas(500, 500);
@@ -530,14 +517,25 @@ let prompt3 = function (p) {
     }
 
 
+
+
+
     let steps = 0
     p.draw = function () {
+        // const c = {
+        //     r: p.random(p.random(255)),
+        //     g: p.random(p.random(255)),
+        //     b: p.random(p.random(255)),
+        // }
 
         //center circle
         steps += p.random(0.00025, 0.0005);
-        var r = 255 * p.noise(steps + 1);
-        var g = 255 * p.noise(steps + 1);
-        var b = 255 * p.noise(steps + 1);
+        // var r = 255 * p.noise(steps + 1);
+        // var g = 255 * p.noise(steps + 1);
+        // var b = 255 * p.noise(steps + 1);
+        var r = 255 * p.noise(steps);
+        var g = 255 * p.noise(steps + 2);
+        var b = 255 * p.noise(steps + 3);
 
         p.background('purple')
         p.push()
@@ -575,6 +573,11 @@ let prompt3 = function (p) {
 
 
 
+    }
+    p.mousePressed = function () {
+        r = 255 * p.noise(steps);
+        g = 255 * p.noise(steps + 2);
+        b = 255 * p.noise(steps + 3);
     }
 }
 
