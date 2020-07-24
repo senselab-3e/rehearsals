@@ -586,23 +586,79 @@ const prompt4 = function (p) {
 
     let patches = [];
 
+    let text = ["TOOLS: \n \t- [ ] a colour patch to create a zone of intensity of colorality\n to hold and suspend a region of contrast as a way\n to modulate the field for engagement into an acossioning\n of experience moving this way this time.\n \t- ,", "[ ] a bag to fill with water. preferably warm and cold water to experiment with different temperature as contrasts.\n \t- [ ] one or two pieces of fabric with interesting colour and texture or that carry sparks for an affinity of tonality with the capacity to lure a RELATION DIAGRAM: every movement proposition should take around 15-20 minutes but feel free to shorten and//or expand but keep it time limited so that it finds itself in THIS way, THIS time."]
+
     const colorArrays = [
-        [68, 173, 228, 100],
-        [43, 86, 185, 100],
-        [255, 69, 30, 100],
-        [247, 163, 59, 100]
+        [68, 173, 228, 200],
+        [43, 86, 185, 200],
+
+        // [255, 69, 30, 200],
+        [255, 193, 43, 200]
     ]
 
 
-    class Pinwheel {
-        constructor(mousePos) {
-            this.v = p5.Vector.random2D()
-            this.prevV = this.v.copy()
-            this.color = p.random(colorArrays);
-            // this.blurAmt = incr
-            this.prevV = this.v.copy()
-            this.mouseX = mousePos
+    class Modulator {
+        constructor(x, y, diam, steps) {
+            this.x = x;
+            this.y = y;
+            this.diam = diam;
+            this.steps = steps;
+            this.opacity = 102;
+            this.r = p.random(255)
+            this.g = p.random(255)
+            this.b = p.random(255)
+            this.color = p.random(colorArrays)
+        }
+        display() {
+            //console.log(p.mouseX, 'origin')
+            //console.log(p.mouseX * p.noise(this.steps + p.random(1, 15)), 'noise');
+            // var x = p.mouseX + p.mouseX * p.noise(this.steps + p.random(0, 10));
+            // var y = p.mouseY + p.mouseY * p.noise(this.steps + p.random(0, 10));
+            // var x = p.mouseX * p.noise(this.steps + p.random(1, 5)) * 2;
+            // var y = p.mouseY * p.noise(this.steps + p.random(1, 5)) * 2;
+            // var x = p.mouseX * p.noise(this.steps + 1) * 2; /// multiplied it by 2 to get it back to closer to the 
+            // var y = p.mouseY * p.noise(this.steps + 3) * 2;
+            var x = p.mouseX * p.noise(this.steps + 1) * 2; /// multiplied it by 2 to get it back to closer to the 
+            var y = p.mouseY * p.noise(this.steps + 3) * 2;
+            // var r = p.random(255) //255 * p.noise(this.steps);
+            // var g = p.random(255) //255 * p.noise(this.steps);
+            // var b = p.random(255) //255 * p.noise(this.steps);
+            //console.log(x, 'noise')
 
+            p.noStroke();
+            //p.fill(this.r, this.g, this.b);
+            p.fill(this.color)
+            //p.ellipse(x, y, this.diam, this.diam);
+            p.rect(x, y, 5, 500);
+        }
+        update() {
+            this.steps += 0.001;
+
+        }
+    }
+
+    // const coor = (x) => {
+
+    //     x ? x = x : x = p.random(p.width);
+
+
+    // }
+
+
+    class Pinwheel {
+        constructor(x, y) {
+            // this.v = p5.Vector.random2D()
+            this.v = p.createVector(x, y, 0.0)
+            //this.prevV = this.v.copy()
+            this.color = [255, 120, 43] //[255, 69, 30, 200]; //p.random(colorArrays);
+            // this.blurAmt = incr
+            // this.prevV = this.v.copy()
+            this.size = p.random(50, 200)
+            // x ? this.v.x = x : this.v = p5.Vector.random2D()
+            // y ? this.y = y : this.y = p.random(p.height);
+            this.steps = 0
+            this.x = this.v.x //x - x / 2 // I'm doing this because i want the square drawn from the middle of where the cursor clicks, not the top right.
+            this.y = this.v.y //y - y / 2
         }
 
         update() {
@@ -614,29 +670,33 @@ const prompt4 = function (p) {
             // if i don't want thing to be over the edge all the time, then set either don't apply a mult to the prevV and or apply a p.random(500) to each of the mult()
             //EXAMPLE
             //this.prevV.mult(p.floor(p.random(500)));
-            this.v.mult(width / 4);
-            this.prevV.set(this.v)
-            this.prevV.mult(100);
+            // this.v.mult(width / 4);
+            // this.prevV.set(this.v)
+            // this.prevV.mult(100);
 
         }
         show() {
             p.push()
 
             p.fill(this.color)
+            // var x = p.width * p.noise();
+            // var y = p.height * p.noise(5);
 
             //original origina translation to the center of the canvas
             //bringit back beginning here
             //p.translate(width / 2, height / 2)
             //very different effect if i shift around where tehe origin point is.
-            p.translate(p.width / p.random(1, 6), p.height / p.random(1, 6));
-            p.rotate(p.random(20))
+            //p.translate(p.width / p.random(1, 4), p.height / p.random(1, 4));
+            //p.rotate(p.random(20))
             //p.line(0, 0, this.v.x, this.v.y)
             //p.stroke(255)
             p.noStroke()
+            // console.log(this.v.x)
+            // p.rect(this.v.x, this.v.y, p.random(30, 300))
+            //p.rect(this.prevV.x, this.prevV.x, p.random(30, 300))
+            //console.log(this.x)
 
-            p.rect(this.v.x, this.v.y, 300)
-            p.rect(this.prevV.x, this.prevV.x, p.random(100, 300))
-            // p.beginShape()
+            p.rect(this.x, this.y, this.size) //p.beginShape()
 
             // p.vertex(0, 0)
             // p.vertex(this.v.x, this.v.y)
@@ -660,6 +720,12 @@ const prompt4 = function (p) {
             // p.rect(this.v.x, this.v.y, this.prevV.x, this.prevV.y)
             p.pop()
 
+            // p.translate(p.width / p.random(1, 6), p.height / p.random(1, 6));
+            // p.textSize(14)
+            // p.text(text[0], 10, p.height / 6)
+
+
+
         }
 
 
@@ -667,24 +733,68 @@ const prompt4 = function (p) {
 
     }
 
+    let mods = []
+    let numMods = 5
     p.setup = function () {
 
         p.createCanvas(500, 500);
-        p.background('yellow');
+        p.background('white');
+        // for (let i = 0; i < 10; i++) {
+        //     let patch = new Pinwheel(p.random(p.width), p.random(p.height))
+        //     patches.push(patch)
+
+        // }
+        p.textSize(17)
+        //p.text(text[0], 10, p.height / 6)
+        for (let o = 0; o < numMods; o++) {
+
+            let newMod = new Modulator(p.mouseX, p.mouseY, 15, p.random(0, 5));
+            mods.push(newMod)
+
+        }
     }
 
     p.draw = function () {
+
+
+
 
         patches.forEach((patch) => {
             patch.update()
             patch.show();
         })
+
+        for (let m = 0; m < mods.length; m++) {
+            mods[m].display();
+            mods[m].update();
+        }
+
+
+
+
+        p.push()
+        p.fill('white')
+        p.noStroke()
+        p.textSize(17)
+        p.text(text[0], 30, p.height / 6)
+        p.pop()
     }
 
 
     p.mousePressed = function () {
-        let patch = new Pinwheel()
-        patches.push(patch)
+
+        if (p.mouseX > 0 && p.mouseX < p.width && p.mouseY < p.height) {
+            let patch = new Pinwheel(p.mouseX, p.mouseY)
+            patches.push(patch)
+            // p.translate(p.width / 2, p.height / 2)
+            // p.rotate(p.random(20))
+            // p.textSize(14)
+            // p.text(text[0], 10, p.height / 6)
+
+            //if the values going into the constructor are always the same, it's drawing 5 instances of the ellipse on top of each other, while spinning around. //that's why i have a p.random value going in for the steps
+            // for however many iterations i'm moving through, i need to have that many instances in the p.random - unlleesss i want some of the particles to share the same pathways as others. 
+
+        }
     }
 }
 
