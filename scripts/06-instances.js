@@ -589,12 +589,11 @@ const prompt4 = function (p) {
 
     let patches = [];
 
-    let text = ["TOOLS: \n \t- [ ] a colour patch to create a zone of intensity of colorality\n to hold and suspend a region of contrast as a way\n to modulate the field for engagement into an acossioning\n of experience moving this way this time.\n \t- ,", "[ ] a bag to fill with water. preferably warm and cold water to experiment with different temperature as contrasts.\n \t- [ ] one or two pieces of fabric with interesting colour and texture or that carry sparks for an affinity of tonality with the capacity to lure a RELATION DIAGRAM: every movement proposition should take around 15-20 minutes but feel free to shorten and//or expand but keep it time limited so that it finds itself in THIS way, THIS time."]
+    let text = ["TOOLS: \n\n - [ ] a colour patch to create a zone of intensity of colorality\n to hold and suspend a region of contrast as a way\n to modulate the field for engagement into an acossioning\n of experience moving this way this time.\n \t- ,", "[ ] a bag to fill with water. preferably warm and cold water to experiment with different temperature as contrasts.\n \t- [ ] one or two pieces of fabric with interesting colour and texture or that carry sparks for an affinity of tonality with the capacity to lure a RELATION DIAGRAM: every movement proposition should take around 15-20 minutes but feel free to shorten and//or expand but keep it time limited so that it finds itself in THIS way, THIS time."]
 
     const colorArrays = [
         [68, 173, 228, 200],
         [43, 86, 185, 200],
-
         // [255, 69, 30, 200],
         [255, 193, 43, 200]
     ]
@@ -802,6 +801,73 @@ const prompt4 = function (p) {
 }
 
 let sketch4 = new p5(prompt4);
+
+const prompt5 = function (p) {
+
+    class Metaball {
+        constructor() {
+            const size = Math.pow(Math.random(), 2);
+            //originally this was a much faster velocity 
+            //this.vel = p5.Vector.random2D().mult(8 * (1 - size) + 2);
+            this.vel = p5.Vector.random2D().mult(1 * (1 - size) + 1);
+            this.radius = 30 * size + 20;
+
+            this.pos = new p5.Vector(width / 2, height / 2);
+        }
+
+        update() {
+            this.pos.add(this.vel);
+
+            if (this.pos.x < this.radius || this.pos.x > width - this.radius) this.vel.x *= -1;
+            if (this.pos.y < this.radius || this.pos.y > height - this.radius) this.vel.y *= -1;
+        }
+    }
+
+
+    let metaballShader;
+
+    let N_balls = 20;
+    metaballs = [];
+
+    p.preload = function () {
+        metaballShader = getShader(this._renderer);
+    }
+
+
+    p.setup = function () {
+
+        p.createCanvas(500, 500, p.WEBGL);
+
+        p.shader(metaballShader);
+
+        for (let i = 0; i < N_balls; i++) metaballs.push(new Metaball());
+    }
+
+    p.draw = function () {
+        var data = [];
+
+        for (const ball of metaballs) {
+            ball.update();
+            data.push(ball.pos.x, ball.pos.y, ball.radius);
+        }
+
+        metaballShader.setUniform("metaballs", data);
+        p.rect(0, 0, width, height);
+        p.pop()
+        p.fill('white')
+        p.text('a bag to fill with water. preferably warm and cold water to experiment with different temperature as contrasts.', p.width / 2, p.height / 2)
+        p.push()
+
+    }
+
+    p.mouseWheel = function () { // This stops the canvas from scrolling by a few pixels.
+        return false;
+    }
+
+}
+
+let sketch5 = new p5(prompt5);
+
 // Compare to "global mode"
 // let x = 100;
 // let y = 100;
