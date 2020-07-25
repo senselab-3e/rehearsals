@@ -171,7 +171,7 @@ let prompt2 = function (p) {
     let x = 100;
     let y = 100;
     let words = [];
-    const pageTwo = ["It is a STUDY time, so it will require TENDING time.", "As a proposition it also carries the quality\n of being a GIFT. \n \nAs a gift it also carries the appetite\n to generate gestures of FEED-back to the process \n and FEEDING-forward.\n\n But we don't know in advance what feeding forward\n and feeding back is. we generate it in and with\n the practice!\n", "FIGURE: the cell as process\n TOOLS: \n \t- [ ] a colour patch to create a zone of intensity of colorality\n to hold and suspend a region of contrast as a way\n to modulate the field for engagement into an acossioning\n of experience moving this way this time.\n \t- [ ] a bag to fill with water. preferably warm and cold water to experiment with different temperature as contrasts.\n \t- [ ] one or two pieces of fabric with interesting colour and texture or that carry sparks for an affinity of tonality with the capacity to lure a RELATION DIAGRAM: every movement proposition should take around 15-20 minutes but feel free to shorten and//or expand but keep it time limited so that it finds itself in THIS way, THIS time."];
+    const pageTwo = ["It is a STUDY time, so it will require TENDING time.", "As a proposition it also carries the quality\n of being a GIFT. \n \nAs a gift it also carries the appetite\n to generate gestures of FEED-back to the process \n and FEEDING-forward.\n\n But we don't know in advance what feeding forward\n and feeding back is. we generate it in and with\n the practice!\n", "FIGURE: the cell as process\n TOOLS: \n \t- [ ] a colour patch to create a zone of intensity of colorality\n to hold and suspend a region of contrast as a way\n to modulate the field for engagement into an occassioning\n of experience moving this way this time.\n \t- [ ] a bag to fill with water. preferably warm and cold water to experiment with different temperature as contrasts.\n \t- [ ] one or two pieces of fabric with interesting colour and texture or that carry sparks for an affinity of tonality with the capacity to lure a RELATION DIAGRAM: every movement proposition should take around 15-20 minutes but feel free to shorten and//or expand but keep it time limited so that it finds itself in THIS way, THIS time."];
 
     const introText = "What is it to move with a proposition? What does that do differently?";
     let arrayIntroText = introText.split(' ');
@@ -589,7 +589,7 @@ const prompt4 = function (p) {
 
     let patches = [];
 
-    let text = ["TOOLS: \n\n - [ ] a colour patch to create a zone of intensity of colorality\n to hold and suspend a region of contrast as a way\n to modulate the field for engagement into an acossioning\n of experience moving this way this time.\n \t- ,", "[ ] a bag to fill with water. preferably warm and cold water to experiment with different temperature as contrasts.\n \t- [ ] one or two pieces of fabric with interesting colour and texture or that carry sparks for an affinity of tonality with the capacity to lure a RELATION DIAGRAM: every movement proposition should take around 15-20 minutes but feel free to shorten and//or expand but keep it time limited so that it finds itself in THIS way, THIS time."]
+    let text = ["TOOLS: \n\n - [ ] a colour patch to create a zone of intensity of colorality\n to hold and suspend a region of contrast as a way\n to modulate the field for engagement into an occassioning\n of experience moving this way this time.\n \t- ,", "[ ] a bag to fill with water. preferably warm and cold water to experiment with different temperature as contrasts.\n \t- [ ] one or two pieces of fabric with interesting colour and texture or that carry sparks for an affinity of tonality with the capacity to lure a RELATION DIAGRAM: every movement proposition should take around 15-20 minutes but feel free to shorten and//or expand but keep it time limited so that it finds itself in THIS way, THIS time."]
 
     const colorArrays = [
         [68, 173, 228, 200],
@@ -655,7 +655,7 @@ const prompt4 = function (p) {
             this.color = [255, 120, 43] //[255, 69, 30, 200]; //p.random(colorArrays);
             // this.blurAmt = incr
             // this.prevV = this.v.copy()
-            this.size = p.random(50, 200)
+            this.size = p.random(100, 250)
             // x ? this.v.x = x : this.v = p5.Vector.random2D()
             // y ? this.y = y : this.y = p.random(p.height);
             this.steps = 0
@@ -810,9 +810,9 @@ const prompt5 = function (p) {
             //originally this was a much faster velocity 
             //this.vel = p5.Vector.random2D().mult(8 * (1 - size) + 2);
             this.vel = p5.Vector.random2D().mult(1 * (1 - size) + 1);
-            this.radius = 30 * size + 20;
+            this.radius = 30 * size + 40; // this allows for a minimum size. so no matter what it won't go less then 20. 
 
-            this.pos = new p5.Vector(width / 2, height / 2);
+            this.pos = new p5.Vector(p.mouseX, p.height / 2);
         }
 
         update() {
@@ -823,14 +823,38 @@ const prompt5 = function (p) {
         }
     }
 
+    // class FollowBall {
+    //     constructor() {
+    //         const size = Math.pow(Math.random(), 2);
+    //         //originally this was a much faster velocity 
+    //         //this.vel = p5.Vector.random2D().mult(8 * (1 - size) + 2);
+    //         //this.ellipse = (p.mouseX, p.mouseY,size) 
+    //         //this.vel = p5.Vector.random2D().mult(1 * (1 - size) + 1);
+    //         this.radius = 30 * size + 20;
+
+    //         this.pos = new p5.Vector(p.mouseX, p.mouseY);
+    //     }
+
+    //     update() {
+    //         // this.pos.add(this.vel);
+    //         this.pos.x = p.mouseX;
+    //         this.pos.y = p.mouseY;
+    //         // if (this.pos.x < this.radius || this.pos.x > width - this.radius) this.vel.x *= -1;
+    //         // if (this.pos.y < this.radius || this.pos.y > height - this.radius) this.vel.y *= -1;
+    //     }
+    // }
+
 
     let metaballShader;
 
-    let N_balls = 20;
+    //the num of balls needs to be updated in the shader.js as well 
+    let N_balls = 1;
     metaballs = [];
+    // followBalls = []
 
     p.preload = function () {
         metaballShader = getShader(this._renderer);
+        myFont = p.loadFont('scripts/OpenSans-B9K8.ttf');
     }
 
 
@@ -839,12 +863,34 @@ const prompt5 = function (p) {
         p.createCanvas(500, 500, p.WEBGL);
 
         p.shader(metaballShader);
+        //metaballs.push(new Metaball())
+        // for (let i = 0; i < N_balls; i++) metaballs.push(new Metaball());
+        // followBalls.push(new FollowBall())
 
-        for (let i = 0; i < N_balls; i++) metaballs.push(new Metaball());
     }
 
+
     p.draw = function () {
+
+
+        // pg.background(255);
+        // pg.text('hello world!', 50, 50);
+        // //pass graphics as texture
+        // //p.texture(pg);
+        // p.plane(100);
+
+        // p.textFont(myFont)
+        // p.textSize(18)
+        // p.text('a bag to fill with water. preferably warm and cold water to experiment with different temperature as contrasts.', p.width / 2, p.height / 2)
+
+
         var data = [];
+        // for (const follow of followBalls) {
+        //     follow.update();
+        //     //data.push(p.mouseX, p.mouseY, follow.pos.y, follow.radius);
+        // }
+
+        metaballShader.setUniform("followballs", data);
 
         for (const ball of metaballs) {
             ball.update();
@@ -852,11 +898,11 @@ const prompt5 = function (p) {
         }
 
         metaballShader.setUniform("metaballs", data);
-        p.rect(0, 0, width, height);
-        p.pop()
-        p.fill('white')
-        p.text('a bag to fill with water. preferably warm and cold water to experiment with different temperature as contrasts.', p.width / 2, p.height / 2)
-        p.push()
+        p.rect(0, 0, p.width, p.height);
+        //p.stroke('orange')
+        //p.ellipse(0, 0, 10)
+        // need to load font in WEBGL mode
+
 
     }
 
@@ -864,9 +910,171 @@ const prompt5 = function (p) {
         return false;
     }
 
+
+    p.mousePressed = function () {
+
+        // console.log(metaballs.length)
+        //let newBall = new Metaball()
+        metaballs.push(new Metaball())
+    }
 }
 
+
+
+const prompt6 = function (p) {
+
+    //The Wizard Bear CC-BY-SA 2019 https://www.openprocessing.org/sketch/713379
+
+    var string = "MOVEMENT PROPOSITION #1: FLUIDS"; //words to be displayed intially
+    //var string2 = ["MOVEMENT", "PROPOSITION", "#1: FLUIDS"];
+
+    const size = 20; //font size
+    const fontFile = 'scripts/OpenSans-B9K8.ttf';
+    const showText = true; //whether or not to have an overlay of the original text (in the background color)
+    const textAlpha = 0.1; //the alpha of the text if displayed (low value will make it slowly fade in)
+    const backgroundColor = 8; //kinda self-explanatory
+    const strokeAlpha = 200; //the alpha of the lines (lower numbers are more transparent)
+    const strokeColor = 155; //the line color
+
+
+    const fontSampleFactor = 0.5; //How many points there are: the higher the number, the closer together they are (more detail)
+
+    const noiseZoom = 0.006; //how zoomed in the perlin noise is
+    const noiseOctaves = 4; //The number of octaves for the noise
+    const noiseFalloff = 0.5; //The falloff for the noise layers
+
+    const zOffsetChange = 0; //How much the noise field changes in the z direction each frame
+    const individualZOffset = 0; //how far away the points/lines are from each other in the z noise axies (the bigger the number, the more chaotic)
+
+    const lineSpeed = 1; //the maximum amount each point can move each frame
+
+    const newPointsCount = 9; //the number of new points added when the mouse is dragged
+
+    var seed;
+    var font;
+    var points = [];
+    var startingPoints;
+
+    p.preload = function () {
+        font = p.loadFont(fontFile);
+
+    }
+
+    p.setup = function () {
+        p.createCanvas(500, 500)
+        // p.background('black')
+        p.textFont(font);
+        p.fill(backgroundColor, textAlpha);
+        p.strokeWeight(0.6)
+        p.stroke(83, 155, 20, strokeAlpha);
+        p.noiseDetail(noiseOctaves, noiseFalloff);
+        seed = p.floor(p.random(1000));
+
+        p.start();
+        //console.log(p.random())
+    }
+
+
+    p.start = function () {
+        p.background(backgroundColor);
+        p.textSize(size);
+
+        p.randomSeed(seed);
+        p.noiseSeed(seed);
+        frameCount = 0;
+
+        // startingPoints = font.textToPoints(string, p.width / 2 - p.textWidth(string) / 2, p.height / 2, size, {
+        //     "sampleFactor": fontSampleFactor
+        // });
+
+
+        //for (let a = 0; a < string2.length; a++) {
+        startingPoints = font.textToPoints(string, p.width / 2 - p.textWidth(string) / 2, p.height / 2, size, {
+            "sampleFactor": fontSampleFactor
+        });
+
+        //}
+
+        points = [];
+        for (let n = 0; n < startingPoints.length; n++) {
+            // let ran = p.random(0, 1);
+            points[n] = startingPoints[n];
+            points[n].zOffset = p.random(0, 1)
+            //console.log(retrRan())
+        }
+    }
+
+    const currentColor = {
+        r: 163,
+        g: 55,
+        b: 30,
+        alpha: strokeAlpha
+    }
+
+    p.draw = function () {
+        p.stroke(currentColor.r, currentColor.g, currentColor.b, currentColor.alpha)
+        if (showText) {
+            //p.stroke(currentColor.r, currentColor.g, currentColor.b, currentColor.alpha)
+            // p.push() // introduce this if you don't want the text outline the whole time
+            // p.noStroke();
+            //p.stroke(33, 155, 200, strokeAlpha);
+            p.text(string, p.width / 2 - p.textWidth(string) / 2, p.height / 2);
+
+
+
+            //p.pop()
+            //p.stroke(p.random(255), p.random(255), p.random(255))
+        }
+        for (let pt = 0; pt < points.length; pt++) {
+            let b = points[pt];
+            let noiseX = b.x * noiseZoom;
+            let noiseY = b.y * noiseZoom;
+            let noiseZ = frameCount * zOffsetChange + b.zOffset * individualZOffset;
+            //console.log(noiseRan(noiseX, noiseY, noiseZ))
+            let newPX = b.x + p.map(p.noise(noiseX, noiseY, noiseZ), 0, 1, -lineSpeed, lineSpeed);
+            let newPY = b.y + p.map(p.noise(noiseX, noiseY, noiseZ + 214), 0, 1, -lineSpeed, lineSpeed);
+            //console.log(b.x, b.y, newPX, newPY)
+
+
+
+            p.line(b.x, b.y, newPX, newPY);
+
+            b.x = newPX;
+            b.y = newPY;
+        }
+    }
+
+
+    p.mouseDragged = function () {
+
+        for (let i = 0; i < newPointsCount; i++) {
+            let angle = p.random(p.TAU);
+            let magnitude = p.randomGaussian() * ((newPointsCount - 1) ** 0.5 * 3);
+            let newPoint = {
+                "x": p.mouseX + magnitude * p.cos(angle),
+                "y": p.mouseY + magnitude * p.sin(angle),
+                "zOffset": p.random()
+            };
+            points[points.length] = newPoint;
+            startingPoints[startingPoints.length] = newPoint;
+        }
+    }
+
+    p.mousePressed = function () {
+        console.log('clicking')
+        currentColor.r = p.random(100, 200)
+        currentColor.g = p.random(10, 50)
+        currentColor.b = p.random(50, 255)
+    }
+}
+
+
+
+let sketch6 = new p5(prompt6);
 let sketch5 = new p5(prompt5);
+
+
+
 
 // Compare to "global mode"
 // let x = 100;
