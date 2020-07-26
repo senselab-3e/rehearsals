@@ -239,7 +239,7 @@ var prompt4 = function (p) {
 
             if (this.g < 68) {
                 this.dir = 1
-            } else if (this.g > 200) {
+            } else if (this.g > 150) {
                 this.dir = -1
                 console.log('limit')
             } else {
@@ -247,7 +247,7 @@ var prompt4 = function (p) {
             }
             this.g += this.steps * this.dir
             //console.log(this.g)
-            this.steps += 0.0005;
+            this.steps += 0.00005;
 
         }
         show() {
@@ -284,6 +284,8 @@ var prompt4 = function (p) {
             mods[m].display();
             mods[m].update();
         }
+
+        // TEXT PROMPT
         p.push();
         p.fill("white");
         p.noStroke();
@@ -294,6 +296,7 @@ var prompt4 = function (p) {
 
     p.mousePressed = function () {
         if (p.mouseX > 0 && p.mouseX < p.width && p.mouseY < p.height) {
+
             let patch = new Pinwheel(p.mouseX, p.mouseY);
             patches.push(patch);
             // p.translate(p.width / 2, p.height / 2)
@@ -694,9 +697,9 @@ var prompt3 = function (p) {
     let zoff = 0;
     let particles = [];
     let flowfield;
-    let numParticles;
+    let numParticles = 100;
     let modeSelectMenu;
-    let drawMode = "ColorSize Variety";
+    let drawMode = "White Flies";
     let reseedMode;
     let reseedModeCurrent = true;
     let displayFieldMode;
@@ -742,7 +745,8 @@ var prompt3 = function (p) {
                     break;
                 case "White Flies": // white lines
                     p.colorMode(p.RGB, 255, 255, 255, 50);
-                    p.stroke(255, 255, 255, 50);
+                    p.stroke('teal')
+                    //p.stroke(255, 255, 255, 50);
                     p.strokeWeight(1);
                     p.line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
                     p.fill("black");
@@ -853,7 +857,7 @@ var prompt3 = function (p) {
         ff = p.createGraphics(p.width, p.height);
         cols = p.floor(p.width / scl);
         rows = p.floor(p.height / scl);
-        numParticles = 500;
+
         seedParticles(numParticles);
         flowfield = new Array(cols * rows);
 
@@ -919,6 +923,18 @@ var prompt3 = function (p) {
         p.pop()
     };
 
+
+    p.mouseDragged = function () {
+        console.log(particles.length)
+        // particles.splice(0, 1);
+        if (particles.length < 1000) {
+            for (let a = 0; a < 5; a++) {
+                particles.push(new Particle())
+            }
+        }
+
+    }
+
     p.mousePressed = function () {
         //condition check for mouse Clicks within the canvas area only - not a click just anywhere.
         //if i ever want to reseed  //
@@ -929,21 +945,26 @@ var prompt3 = function (p) {
             p.mouseY < p.height &&
             p.mouseY > 0
         ) {
+
+
+
             switch (drawMode) {
+
                 case "ColorSize Variety":
 
-                    drawMode = "White Flies";
-                    break;
-                case "White Flies":
                     drawMode = "Coloured Web";
                     break;
-                case "Coloured Web":
-                    seedParticles(500)
+                case "White Flies":
                     drawMode = "ColorSize Variety";
+                    break;
+                case "Coloured Web":
+                    particles.length < 1000 ? numParticles = particles.length : numParticles = 100;
+                    seedParticles(numParticles)
+                    drawMode = "White Flies";
                     //seedParticles(numParticles);
                     break;
                 default:
-                    drawMode = "ColorSize Variety";
+                    drawMode = "White Flies";
                     break;
             }
         }
