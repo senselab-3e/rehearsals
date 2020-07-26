@@ -154,7 +154,7 @@ var prompt1 = function (p) {
     };
 };
 
-var prompt3 = function (p) {
+var prompt4 = function (p) {
     // p could be any variable name
     let patches = [];
 
@@ -164,23 +164,27 @@ var prompt3 = function (p) {
     ];
 
     const colorArrays = [
-        [68, 173, 228, 200],
-        [43, 86, 185, 200],
-        // [255, 69, 30, 200],
+        [68, 173, 228, 50],
+        [43, 86, 185, 50],
+        [255, 69, 30, 100],
         [255, 193, 43, 200],
+        [68, 173, 228, 80],
+        [43, 86, 185, 100],
+        [255, 193, 43, 70]
     ];
 
     class Modulator {
-        constructor(x, y, diam, steps) {
+        constructor(x, y, diam, steps, color) {
             this.x = x;
             this.y = y;
             this.diam = diam;
             this.steps = steps;
             this.opacity = 102;
-            this.r = p.random(255);
-            this.g = p.random(255);
-            this.b = p.random(255);
-            this.color = p.random(colorArrays);
+            // this.r = p.random(255);
+            // this.g = p.random(255);
+            // this.b = p.random(255);
+            //this.color = p.random(colorArrays);
+            this.color = color
         }
         display() {
             //console.log(p.mouseX, 'origin')
@@ -191,8 +195,8 @@ var prompt3 = function (p) {
             // var y = p.mouseY * p.noise(this.steps + p.random(1, 5)) * 2;
             // var x = p.mouseX * p.noise(this.steps + 1) * 2; /// multiplied it by 2 to get it back to closer to the
             // var y = p.mouseY * p.noise(this.steps + 3) * 2;
-            var x = p.mouseX * p.noise(this.steps + 1) * 2; /// multiplied it by 2 to get it back to closer to the
-            var y = p.mouseY * p.noise(this.steps + 3) * 2;
+            var x = this.x * p.noise(this.steps + 1) * 2; /// multiplied it by 2 to get it back to closer to the
+            var y = this.y * p.noise(this.steps + 3) * 2;
             // var r = p.random(255) //255 * p.noise(this.steps);
             // var g = p.random(255) //255 * p.noise(this.steps);
             // var b = p.random(255) //255 * p.noise(this.steps);
@@ -214,25 +218,47 @@ var prompt3 = function (p) {
             // this.v = p5.Vector.random2D()
             this.v = p.createVector(x, y, 0.0);
             //this.prevV = this.v.copy()
-            this.color = [255, 120, 43]; //[255, 69, 30, 200]; //p.random(colorArrays);
+            this.color = [255, 69, 30, 50] // because it's continually redrawing the square the alpha level disappears//[255, 120, 43]; //[255, 69, 30, 200]; //p.random(colorArrays);
+            this.r = 255;
+            this.g = 69;
+            this.b = 30;
+            this.alpha = 50;
+
             // this.blurAmt = incr
             // this.prevV = this.v.copy()
             this.size = p.random(100, 250);
             // x ? this.v.x = x : this.v = p5.Vector.random2D()
             // y ? this.y = y : this.y = p.random(p.height);
             this.steps = 0;
+            this.dir = 1
             this.x = this.v.x; //x - x / 2 // I'm doing this because i want the square drawn from the middle of where the cursor clicks, not the top right.
             this.y = this.v.y; //y - y / 2
         }
 
-        update() {}
+        update() {
+
+            if (this.g < 68) {
+                this.dir = 1
+            } else if (this.g > 200) {
+                this.dir = -1
+                console.log('limit')
+            } else {
+
+            }
+            this.g += this.steps * this.dir
+            //console.log(this.g)
+            this.steps += 0.0005;
+
+        }
         show() {
             p.push();
-            p.fill(this.color);
+            p.fill(this.r, this.g, this.b, this.alpha);
             p.noStroke();
             p.rect(this.x, this.y, this.size); //p.
             p.pop();
+
         }
+
     }
 
     let mods = [];
@@ -242,8 +268,9 @@ var prompt3 = function (p) {
         p.background("white");
         p.textSize(17);
         //p.text(text[0], 10, p.height / 6)
-        for (let o = 0; o < numMods; o++) {
-            let newMod = new Modulator(p.mouseX, p.mouseY, 15, p.random(0, 5));
+        for (let o = 0; o < colorArrays.length; o++) {
+            // let newMod = new Modulator(p.mouseX, p.height / 2, 15, p.random(0, 5));
+            let newMod = new Modulator(p.random(p.width), p.height / 2, 15, p.random(0, 5), colorArrays[o]);
             mods.push(newMod);
         }
     };
@@ -261,7 +288,7 @@ var prompt3 = function (p) {
         p.fill("white");
         p.noStroke();
         p.textSize(17);
-        p.text(text[0], 30, p.height / 6);
+        p.text(text[0], 30, p.height / 2);
         p.pop();
     };
 
@@ -649,7 +676,7 @@ var prompt6 = function (p) {
     };
 };
 
-var promptflies = function (p) {
+var prompt3 = function (p) {
     let x = 100;
     let y = 100;
     let words = [];
@@ -658,10 +685,6 @@ var promptflies = function (p) {
         "As a proposition it also carries the quality\n of being a GIFT. \n \nAs a gift it also carries the appetite\n to generate gestures of FEED-back to the process \n and FEEDING-forward.\n\n But we don't know in advance what feeding forward\n and feeding back is. we generate it in and with\n the practice!\n",
         "FIGURE: the cell as process\n TOOLS: \n \t- [ ] a colour patch to create a zone of intensity of colorality\n to hold and suspend a region of contrast as a way\n to modulate the field for engagement into an occassioning\n of experience moving this way this time.\n \t- [ ] a bag to fill with water. preferably warm and cold water to experiment with different temperature as contrasts.\n \t- [ ] one or two pieces of fabric with interesting colour and texture or that carry sparks for an affinity of tonality with the capacity to lure a RELATION DIAGRAM: every movement proposition should take around 15-20 minutes but feel free to shorten and//or expand but keep it time limited so that it finds itself in THIS way, THIS time.",
     ];
-
-    const introText =
-        "What is it to move with a proposition? What does that do differently?";
-    let arrayIntroText = introText.split(" ");
 
     let scl = 10;
     let cols;
@@ -822,66 +845,18 @@ var promptflies = function (p) {
         };
     }
 
-    class Sentences {
-        constructor(x, y, diam, steps, word, incr) {
-            this.x = x;
-            this.y = y;
-            this.diam = diam;
-            this.steps = steps;
-            this.opacity = 200;
-            this.word = word;
-            this.speed = p.random(1, 5);
-            this.direc = 1;
-            this.inc = p.TWO_PI / 25.0; //p.TWO_PI / 10.0
-        }
-        display() {
-            // this.y += this.speed * this.direc
-            // var x = p.sin(p.width) * p.width / 4;
-            p.mouseX += this.inc; //p.width / 2 * p.noise(this.steps) + this.x;
-            //var y = p.height / 2 * p.noise(this.steps - 5) + this.y;
-            p.noStroke();
-            // to expedite testing i repaced the ellipses to texts but it should get it's own object
-            // ellipse(x, y, this.diam, this.diam);
 
-            p.textSize(this.diam);
-            //p.translate(width / 2, 0);
-            // p.textAlign(p.CENTER)
-            this.word ? p.text(this.word, this.x, this.y) : console.log("nothing"); //this is to cover when 'word is undefined'
-        }
-        update() {
-            this.steps += p.random(0.0025, 0.01);
-            var r = 255 * p.noise(this.steps);
-            var g = 255 * p.noise(this.steps);
-            var b = 255 * p.noise(this.steps);
-            p.fill(r, g, b, this.opacity);
-            // console.log('hello')
-            // if (this.y > p.height) {
-            //     this.direc = -1
-            //     // this.diam -= 1
-            //     this.speed /= 1.2
-            // }
-            // if (this.y < 0) {
-            //     this.direc = 1
-            //     // this.diam -= 1
-            //     this.speed /= 1.2
-            // }
-        }
-    }
 
     p.setup = function () {
         p.createCanvas(500, 500);
         p.background("white");
         ff = p.createGraphics(p.width, p.height);
-        // p.textSize(this.diam)
-        // p.fill('#333')
-        // p.text('THIS IS A MOVEMENT PRACTICE \n PROPOSITION \n (It should take between 1 hour to 2 hours)', width / 4, height / 2)
         cols = p.floor(p.width / scl);
         rows = p.floor(p.height / scl);
         numParticles = 500;
         seedParticles(numParticles);
         flowfield = new Array(cols * rows);
-        let newWord2 = new Sentences(p.width / 9, p.height / 6, 17, 0, pageTwo[1]);
-        words.push(newWord2);
+
     };
 
     function seedParticles(num) {
@@ -900,11 +875,6 @@ var promptflies = function (p) {
             //no background drawn so the smearing drawing can happen
         }
 
-        //text prompts
-        // p.push();
-        // p.fill("white");
-
-        // p.pop();
 
         let yoff = 0;
         for (let y = 0; y < rows; y++) {
@@ -938,34 +908,37 @@ var promptflies = function (p) {
             particles[i].show();
         }
 
-        // if (frameCount % 30 == 0) {
-        //     fr.html("FPS: " + floor(frameRate()));
-        // }
         p.noStroke();
+
+        //Text instructions
+        p.push()
+        p.translate(p.width / 2, p.height / 6)
         p.textSize(19);
-        p.text(pageTwo[1], p.width / 10, p.height / 6);
+        p.textAlign(p.CENTER)
+        p.text(pageTwo[1], 0, 0);
+        p.pop()
     };
 
     p.mousePressed = function () {
         //condition check for mouse Clicks within the canvas area only - not a click just anywhere.
+        //if i ever want to reseed  //
+
         if (
             p.mouseX > 0 &&
             p.mouseX < p.width &&
             p.mouseY < p.height &&
             p.mouseY > 0
         ) {
-            // drawMode === "White Flies"
-            //   ? (drawMode = "ColorSize Variety")
-            //   : (drawMode = "White Flies");
-
             switch (drawMode) {
                 case "ColorSize Variety":
+
                     drawMode = "White Flies";
                     break;
                 case "White Flies":
                     drawMode = "Coloured Web";
                     break;
                 case "Coloured Web":
+                    seedParticles(500)
                     drawMode = "ColorSize Variety";
                     //seedParticles(numParticles);
                     break;
@@ -990,7 +963,9 @@ var promptflies = function (p) {
 // var myp4 = new p5(prompt5, 'c4');
 var myp1 = new p5(prompt1, "c1");
 var myp2 = new p5(prompt2, "c2");
-var myp3 = new p5(prompt3, "c3");
-var my6 = new p5(prompt6, "c6");
+var myp5 = new p5(prompt3, "c3");
+var myp3 = new p5(prompt4, "c4");
+
 //var myp5 = new p5(prompt5, "c5"); // something buggy with this one - when it's loaded scrolling the window disappears///
-var myp5 = new p5(promptflies, "c5");
+
+var my6 = new p5(prompt6, "c6");
