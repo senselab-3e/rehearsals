@@ -2,10 +2,10 @@
 
 function getShader(_renderer) {
 
-    let N_balls = 20;
-    let windowWidth = 500;
-    let windowHeight = 500;
-    const vert = `
+	let N_balls = 20;
+	let windowWidth = 500;
+	let windowHeight = 420;
+	const vert = `
 		attribute vec3 aPosition;
 		attribute vec2 aTexCoord;
 
@@ -21,7 +21,7 @@ function getShader(_renderer) {
 		}
 	`;
 
-    const frag = `
+	const frag = `
 		precision highp float;
 
 		varying vec2 vTexCoord;
@@ -58,7 +58,7 @@ function getShader(_renderer) {
 		}
 	`;
 
-    return new p5.Shader(_renderer, vert, frag);
+	return new p5.Shader(_renderer, vert, frag);
 }
 
 //changed the background color by boosting the 0.0 values for r g b to each being 1.

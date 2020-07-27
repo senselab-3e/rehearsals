@@ -471,7 +471,7 @@ var prompt5 = function (p) {
     };
 
     p.setup = function () {
-        p.createCanvas(500, 500, p.WEBGL);
+        p.createCanvas(500, 400, p.WEBGL);
         metaballs.push(new Metaball(p.width / 2, p.height / 2));
         p.shader(metaballShader);
         //metaballs.push(new Metaball())
@@ -512,7 +512,7 @@ var prompt5 = function (p) {
 
 
 var prompt6 = function (p) {
-    //The Wizard Bear CC-BY-SA 2019 https://www.openprocessing.org/sketch/713379
+    //core logic  for movements via The Wizard Bear CC-BY-SA 2019 https://www.openprocessing.org/sketch/713379
 
     var string = "MOVEMENT PROPOSITION #1: FLUIDS"; //words to be displayed intially
     //var string2 = ["MOVEMENT", "PROPOSITION", "#1: FLUIDS"];
@@ -596,9 +596,9 @@ var prompt6 = function (p) {
     };
 
     const currentColor = {
-        r: 163,
-        g: 55,
-        b: 30,
+        r: 60,
+        g: 155,
+        b: 130,
         alpha: strokeAlpha,
     };
 
@@ -662,7 +662,7 @@ var prompt6 = function (p) {
 
     p.mousePressed = function () {
         console.log("clicking");
-        currentColor.r = p.random(50, 100);
+        currentColor.r = p.random(0, 100);
         currentColor.g = p.random(68, 200);
         currentColor.b = p.random(50, 250);
     };
@@ -696,7 +696,7 @@ var prompt3 = function (p) {
     let modalButton;
     // let displayFieldModeCurrent = false;
 
-    function Particle() {
+    function Particle(diam) {
         this.pos = p.createVector(
             p.floor(p.random(p.width)),
             p.floor(p.random(p.height))
@@ -736,7 +736,7 @@ var prompt3 = function (p) {
                     p.colorMode(p.RGB, 255, 255, 255, 50);
                     p.stroke('teal')
                     //p.stroke(255, 255, 255, 50);
-                    p.strokeWeight(1);
+                    p.strokeWeight(2);
                     p.line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
                     p.fill("black");
                     break;
@@ -864,6 +864,7 @@ var prompt3 = function (p) {
             p.background(0); // draw solid background
         } else if (drawMode === "White Flies") {
             p.background(0); // draw solid background
+
         } else if (drawMode == "Coloured Web") {
             //no background drawn so the smearing drawing can happen
         }
@@ -944,6 +945,7 @@ var prompt3 = function (p) {
                     drawMode = "Coloured Web";
                     break;
                 case "White Flies":
+                    // seedParticles(numParticles)
                     drawMode = "ColorSize Variety";
                     break;
                 case "Coloured Web":
@@ -970,10 +972,45 @@ var prompt3 = function (p) {
     };
 };
 
+var prompt7 = function (p) {
+
+    p.setup = function () {
+        p.createCanvas(500, 500);
+        p.background('#4985e0');
+        p.textSize(16)
+        p.text('*note: consider study as movement and movement\n as study already yet practice modalities and try to catch\n the transversal! \n\n*note: stop at any time and go for water or wander around,\n then come back. practice an immersion that does not detach\nitself from surroundings. \n\n STUDY \nTo build a relation with environment as fluid. environment not necessarily an external. not necessarily internal either. \n-Watch a small part of this video: https://youtu.be/URUJD5NEXC8 \n-Try to build a relation with the fluid consistency that the video makes come forth. \n-See what else sparks from there, it can be resistances too.', 10, p.height / 4)
+    }
+
+
+}
+
+
+var prompt8 = function (p) {
+
+    p.setup = function () {
+        p.createCanvas(500, 500);
+        p.background('#6c49e0');
+    }
+
+}
+
+
+var prompt9 = function (p) {
+
+    p.setup = function () {
+        p.createCanvas(500, 500);
+        p.background('#93b61f');
+    }
+
+}
+
 // var myp4 = new p5(prompt5, 'c4');
-var myp1 = new p5(prompt1, "c1");
-var myp2 = new p5(prompt2, "c2");
-var myp5 = new p5(prompt3, "c3");
-var myp3 = new p5(prompt4, "c4");
-var myp5 = new p5(prompt5, "c5"); // something buggy with this one - when it's loaded scrolling the window disappears///
-var my6 = new p5(prompt6, "c6");
+var canvas1 = new p5(prompt1, "c1");
+var canvas2 = new p5(prompt2, "c2");
+var canvas3 = new p5(prompt3, "c3");
+var canvas4 = new p5(prompt4, "c4");
+var canvas5 = new p5(prompt5, "c5"); // something buggy with this one - when it's loaded scrolling the window disappears///
+var canvas6 = new p5(prompt6, "c6");
+var canvas7 = new p5(prompt7, "c7");
+var canvas8 = new p5(prompt8, "c8");
+var canvas9 = new p5(prompt9, "c9");
