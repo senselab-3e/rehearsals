@@ -206,42 +206,33 @@ var prompt4 = function (p) {
             //p.fill(this.r, this.g, this.b);
             p.fill(this.color);
             //p.ellipse(x, y, this.diam, this.diam);
-            p.rect(x, y, 5, 500);
+            p.rect(x, y, 8, 500);
         }
         update() {
             this.steps += 0.001;
         }
     }
 
-    class Pinwheel {
+    class Square {
         constructor(x, y) {
-            // this.v = p5.Vector.random2D()
-            this.v = p.createVector(x, y, 0.0);
-            //this.prevV = this.v.copy()
             this.color = [255, 69, 30, 50] // because it's continually redrawing the square the alpha level disappears//[255, 120, 43]; //[255, 69, 30, 200]; //p.random(colorArrays);
             this.r = 255;
-            this.g = 69;
+            this.g = p.random(69, 200);
             this.b = 30;
             this.alpha = 50;
-
-            // this.blurAmt = incr
-            // this.prevV = this.v.copy()
             this.size = p.random(100, 250);
-            // x ? this.v.x = x : this.v = p5.Vector.random2D()
-            // y ? this.y = y : this.y = p.random(p.height);
             this.steps = 0;
             this.dir = 1
-            this.x = this.v.x; //x - x / 2 // I'm doing this because i want the square drawn from the middle of where the cursor clicks, not the top right.
-            this.y = this.v.y; //y - y / 2
+            this.x = x;
+            this.y = y;
         }
 
         update() {
-
+            //green value (which creates and variant organge/yellow patch) -- if the incremental steps exceed or go below a certain value, the step value witll go negative or positive - so that i'm scanning up from a red to a light orange
             if (this.g < 68) {
                 this.dir = 1
-            } else if (this.g > 150) {
+            } else if (this.g > 180) {
                 this.dir = -1
-                console.log('limit')
             } else {
 
             }
@@ -256,7 +247,6 @@ var prompt4 = function (p) {
             p.noStroke();
             p.rect(this.x, this.y, this.size); //p.
             p.pop();
-
         }
 
     }
@@ -269,8 +259,7 @@ var prompt4 = function (p) {
         p.textSize(17);
         //p.text(text[0], 10, p.height / 6)
         for (let o = 0; o < colorArrays.length; o++) {
-            // let newMod = new Modulator(p.mouseX, p.height / 2, 15, p.random(0, 5));
-            let newMod = new Modulator(p.random(p.width), p.height / 2, 15, p.random(0, 5), colorArrays[o]);
+            let newMod = new Modulator(p.random(p.width), p.random(p.height / 2, p.height / 8), 15, p.random(0, 5), colorArrays[o]);
             mods.push(newMod);
         }
     };
@@ -290,22 +279,16 @@ var prompt4 = function (p) {
         p.fill("white");
         p.noStroke();
         p.textSize(17);
-        p.text(text[0], 30, p.height / 2);
+
+        p.text(text[0], 30, p.height / 3);
         p.pop();
     };
 
     p.mousePressed = function () {
         if (p.mouseX > 0 && p.mouseX < p.width && p.mouseY < p.height) {
 
-            let patch = new Pinwheel(p.mouseX, p.mouseY);
+            let patch = new Square(p.mouseX, p.mouseY);
             patches.push(patch);
-            // p.translate(p.width / 2, p.height / 2)
-            // p.rotate(p.random(20))
-            // p.textSize(14)
-            // p.text(text[0], 10, p.height / 6)
-
-            //if the values going into the constructor are always the same, it's drawing 5 instances of the ellipse on top of each other, while spinning around. //that's why i have a p.random value going in for the steps
-            // for however many iterations i'm moving through, i need to have that many instances in the p.random - unlleesss i want some of the particles to share the same pathways as others.
         }
     };
 };
@@ -454,73 +437,78 @@ var h = function (p) {
     };
 };
 
-// var prompt5 = function (p) {
-//   class Metaball {
-//     constructor() {
-//       const size = Math.pow(Math.random(), 2);
-//       //originally this was a much faster velocity
-//       //this.vel = p5.Vector.random2D().mult(8 * (1 - size) + 2);
-//       this.vel = p5.Vector.random2D().mult(1 * (1 - size) + 1);
-//       this.radius = 30 * size + 40; // this allows for a minimum size. so no matter what it won't go less then 20.
+var prompt5 = function (p) {
+    class Metaball {
+        constructor(x, y) {
+            const size = Math.pow(Math.random(), 2);
+            //originally this was a much faster velocity
+            //this.vel = p5.Vector.random2D().mult(8 * (1 - size) + 2);
+            this.vel = p5.Vector.random2D().mult(1 * (1 - size) + 1);
+            this.radius = 30 * size + 40; // this allows for a minimum size. so no matter what it won't go less then 20.
+            this.dampen = p5.Vector(0.1, 0.0001);
+            this.pos = new p5.Vector(x, y);
+        }
 
-//       this.pos = new p5.Vector(p.mouseX, p.height / 2);
-//     }
+        update() {
+            this.pos.add(this.vel.sub(this.dampen));
+            if (this.pos.x < this.radius || this.pos.x > p.width - this.radius)
+                this.vel.x *= -1;
+            if (this.pos.y < this.radius || this.pos.y > p.height - this.radius)
+                this.vel.y *= -1;
+        }
+    }
 
-//     update() {
-//       this.pos.add(this.vel);
+    let metaballShader;
 
-//       if (this.pos.x < this.radius || this.pos.x > p.width - this.radius)
-//         this.vel.x *= -1;
-//       if (this.pos.y < this.radius || this.pos.y > p.height - this.radius)
-//         this.vel.y *= -1;
-//     }
-//   }
+    //the num of balls needs to be updated in the shader.js as well
+    let N_balls = 1;
+    metaballs = [];
+    // followBalls = []
 
-//   let metaballShader;
+    p.preload = function () {
+        metaballShader = getShader(this._renderer);
+        myFont = p.loadFont("scripts/OpenSans-B9K8.ttf");
+    };
 
-//   //the num of balls needs to be updated in the shader.js as well
-//   let N_balls = 1;
-//   metaballs = [];
-//   // followBalls = []
+    p.setup = function () {
+        p.createCanvas(500, 500, p.WEBGL);
+        metaballs.push(new Metaball(p.width / 2, p.height / 2));
+        p.shader(metaballShader);
+        //metaballs.push(new Metaball())
+        // for (let i = 0; i < N_balls; i++) metaballs.push(new Metaball());
+        // followBalls.push(new FollowBall())
+    };
 
-//   p.preload = function () {
-//     metaballShader = getShader(this._renderer);
-//     myFont = p.loadFont("scripts/OpenSans-B9K8.ttf");
-//   };
+    p.draw = function () {
+        var data = [];
+        metaballShader.setUniform("followballs", data);
 
-//   p.setup = function () {
-//     p.createCanvas(500, 500, p.WEBGL);
+        for (const ball of metaballs) {
+            ball.update();
+            data.push(ball.pos.x, ball.pos.y, ball.radius);
+        }
+        metaballShader.setUniform("metaballs", data);
+        p.rect(0, 0, p.width, p.height);
+        // need to load font in WEBGL mode
+    };
 
-//     p.shader(metaballShader);
-//     //metaballs.push(new Metaball())
-//     // for (let i = 0; i < N_balls; i++) metaballs.push(new Metaball());
-//     // followBalls.push(new FollowBall())
-//   };
+    //   p.mouseWheel = function () {
+    //     // This stops the canvas from scrolling by a few pixels.
+    //     return false;
+    //   };
 
-//   p.draw = function () {
-//     var data = [];
-//     metaballShader.setUniform("followballs", data);
-
-//     for (const ball of metaballs) {
-//       ball.update();
-//       data.push(ball.pos.x, ball.pos.y, ball.radius);
-//     }
-//     metaballShader.setUniform("metaballs", data);
-//     p.rect(0, 0, p.width, p.height);
-//     // need to load font in WEBGL mode
-//   };
-
-//   p.mouseWheel = function () {
-//     // This stops the canvas from scrolling by a few pixels.
-//     return false;
-//   };
-
-//   p.mousePressed = function () {
-//     // console.log(metaballs.length)
-//     //let newBall = new Metaball()
-//     metaballs.push(new Metaball());
-//   };
-// };
+    p.mousePressed = function () {
+        //condition check for clicks being within the canvas area
+        if (p.mouseX > 0 &&
+            p.mouseX < p.width &&
+            p.mouseY < p.height &&
+            p.mouseY > 0) {
+            // console.log(metaballs.length)
+            //let newBall = new Metaball()
+            metaballs.push(new Metaball(p.mouseX, p.mouseY + 10));
+        }
+    };
+};
 
 
 var prompt6 = function (p) {
@@ -537,13 +525,14 @@ var prompt6 = function (p) {
     const strokeAlpha = 200; //the alpha of the lines (lower numbers are more transparent)
     const strokeColor = 155; //the line color
 
-    const fontSampleFactor = 0.5; //How many points there are: the higher the number, the closer together they are (more detail)
-
+    const fontSampleFactor = 0.05; //How many points there are: the higher the number, the closer together they are (more detail)
+    //originally 0.5 -- but i actually prefer a lesser number
     const noiseZoom = 0.006; //how zoomed in the perlin noise is
-    const noiseOctaves = 4; //The number of octaves for the noise
+    const noiseOctaves = 14; //The number of octaves for the noise
     const noiseFalloff = 0.5; //The falloff for the noise layers
 
     const zOffsetChange = 0; //How much the noise field changes in the z direction each frame
+    // if I want things more crisscrossy or hairy looking, increase this value 
     const individualZOffset = 0; //how far away the points/lines are from each other in the z noise axies (the bigger the number, the more chaotic)
 
     const lineSpeed = 1; //the maximum amount each point can move each frame
@@ -673,9 +662,9 @@ var prompt6 = function (p) {
 
     p.mousePressed = function () {
         console.log("clicking");
-        currentColor.r = p.random(100, 200);
-        currentColor.g = p.random(10, 50);
-        currentColor.b = p.random(50, 255);
+        currentColor.r = p.random(50, 100);
+        currentColor.g = p.random(68, 200);
+        currentColor.b = p.random(50, 250);
     };
 };
 
@@ -986,7 +975,5 @@ var myp1 = new p5(prompt1, "c1");
 var myp2 = new p5(prompt2, "c2");
 var myp5 = new p5(prompt3, "c3");
 var myp3 = new p5(prompt4, "c4");
-
-//var myp5 = new p5(prompt5, "c5"); // something buggy with this one - when it's loaded scrolling the window disappears///
-
+var myp5 = new p5(prompt5, "c5"); // something buggy with this one - when it's loaded scrolling the window disappears///
 var my6 = new p5(prompt6, "c6");
