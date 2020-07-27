@@ -661,10 +661,22 @@ var prompt6 = function (p) {
     };
 
     p.mousePressed = function () {
-        console.log("clicking");
+        // console.log("clicking");
         currentColor.r = p.random(0, 100);
         currentColor.g = p.random(68, 200);
         currentColor.b = p.random(50, 250);
+
+        for (let i = 0; i < newPointsCount; i++) {
+            let angle = p.random(p.TAU);
+            let magnitude = p.randomGaussian() * ((newPointsCount - 1) ** 0.5 * 3);
+            let newPoint = {
+                x: p.mouseX + magnitude * p.cos(angle),
+                y: p.mouseY + magnitude * p.sin(angle),
+                zOffset: p.random(),
+            };
+            points[points.length] = newPoint;
+            startingPoints[startingPoints.length] = newPoint;
+        }
     };
 };
 
@@ -915,7 +927,7 @@ var prompt3 = function (p) {
 
 
     p.mouseDragged = function () {
-        console.log(particles.length)
+
         // particles.splice(0, 1);
         if (particles.length < 1000) {
             for (let a = 0; a < 5; a++) {
@@ -978,7 +990,7 @@ var prompt7 = function (p) {
         p.createCanvas(500, 500);
         p.background('#4985e0');
         p.textSize(16)
-        p.text('*note: consider study as movement and movement\n as study already yet practice modalities and try to catch\n the transversal! \n\n*note: stop at any time and go for water or wander around,\n then come back. practice an immersion that does not detach\nitself from surroundings. \n\n STUDY \nTo build a relation with environment as fluid. environment not necessarily an external. not necessarily internal either. \n-Watch a small part of this video: https://youtu.be/URUJD5NEXC8 \n-Try to build a relation with the fluid consistency that the video makes come forth. \n-See what else sparks from there, it can be resistances too.', 10, p.height / 4)
+        p.text('*note: consider study as movement and movement\n as study already yet practice modalities and try to catch\n the transversal! \n\n*note: stop at any time and go for water or wander around,\n then come back. practice an immersion that does not detach\nitself from surroundings.', 10, p.height / 4)
     }
 
 
