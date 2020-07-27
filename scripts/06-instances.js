@@ -647,16 +647,21 @@ var prompt6 = function (p) {
     };
 
     p.mouseDragged = function () {
-        for (let i = 0; i < newPointsCount; i++) {
-            let angle = p.random(p.TAU);
-            let magnitude = p.randomGaussian() * ((newPointsCount - 1) ** 0.5 * 3);
-            let newPoint = {
-                x: p.mouseX + magnitude * p.cos(angle),
-                y: p.mouseY + magnitude * p.sin(angle),
-                zOffset: p.random(),
-            };
-            points[points.length] = newPoint;
-            startingPoints[startingPoints.length] = newPoint;
+        if (p.mouseX > 0 &&
+            p.mouseX < p.width &&
+            p.mouseY < p.height &&
+            p.mouseY > 0) {
+            for (let i = 0; i < newPointsCount; i++) {
+                let angle = p.random(p.TAU);
+                let magnitude = p.randomGaussian() * ((newPointsCount - 1) ** 0.5 * 3);
+                let newPoint = {
+                    x: p.mouseX + magnitude * p.cos(angle),
+                    y: p.mouseY + magnitude * p.sin(angle),
+                    zOffset: p.random(),
+                };
+                points[points.length] = newPoint;
+                startingPoints[startingPoints.length] = newPoint;
+            }
         }
     };
 
@@ -666,16 +671,22 @@ var prompt6 = function (p) {
         currentColor.g = p.random(68, 200);
         currentColor.b = p.random(50, 250);
 
-        for (let i = 0; i < newPointsCount; i++) {
-            let angle = p.random(p.TAU);
-            let magnitude = p.randomGaussian() * ((newPointsCount - 1) ** 0.5 * 3);
-            let newPoint = {
-                x: p.mouseX + magnitude * p.cos(angle),
-                y: p.mouseY + magnitude * p.sin(angle),
-                zOffset: p.random(),
-            };
-            points[points.length] = newPoint;
-            startingPoints[startingPoints.length] = newPoint;
+        if (p.mouseX > 0 &&
+            p.mouseX < p.width &&
+            p.mouseY < p.height &&
+            p.mouseY > 0) {
+
+            for (let i = 0; i < newPointsCount; i++) {
+                let angle = p.random(p.TAU);
+                let magnitude = p.randomGaussian() * ((newPointsCount - 1) ** 0.5 * 3);
+                let newPoint = {
+                    x: p.mouseX + magnitude * p.cos(angle),
+                    y: p.mouseY + magnitude * p.sin(angle),
+                    zOffset: p.random(),
+                };
+                points[points.length] = newPoint;
+                startingPoints[startingPoints.length] = newPoint;
+            }
         }
     };
 };

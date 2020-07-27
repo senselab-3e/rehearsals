@@ -2,7 +2,7 @@ let canvas, ctx;
 let render, init;
 let blob;
 
-console.log(document.getElementById('world'))
+const targetDiv = document.querySelector('.target');
 
 class Blob {
     constructor() {
@@ -233,11 +233,11 @@ init = function () {
     canvas = document.createElement('canvas');
     canvas.setAttribute('touch-action', 'none');
 
-    document.body.appendChild(canvas);
+    targetDiv.appendChild(canvas);
 
     let resize = function () {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = 500 //window.innerWidth;
+        canvas.height = 500 //window.innerHeight;
     };
     window.addEventListener('resize', resize);
     resize();
