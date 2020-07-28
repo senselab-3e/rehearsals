@@ -93,6 +93,7 @@ class Blob {
         if (value instanceof HTMLElement && value.tagName.toLowerCase() === 'canvas') {
             this._canvas = canvas;
             this.ctx = this._canvas.getContext('2d');
+
         }
     }
     get canvas() {
@@ -233,6 +234,8 @@ init = function () {
     canvas = document.createElement('canvas');
     canvas.setAttribute('touch-action', 'none');
 
+
+
     targetDiv.appendChild(canvas);
 
     let resize = function () {
@@ -309,7 +312,7 @@ init = function () {
         oldMousePoint.y = e.clientY;
     };
     // window.addEventListener('mousemove', mouseMove);
-    window.addEventListener('pointermove', mouseMove);
+    targetDiv.addEventListener('pointermove', mouseMove);
 
     blob.canvas = canvas;
     blob.init();
